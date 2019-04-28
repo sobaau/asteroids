@@ -12,7 +12,7 @@
 Ship player;
 Asteroid asteroid;
 Shot shot;
-int asteroNums = 2;
+int asteroNums = 20;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 int score = 0;
