@@ -10,6 +10,8 @@
 * ...
 **************************************************************/
 
+//Daniel Test
+
 PShape ship; // don't have to use pshape - can use image
 int astroNums=20;
 PVector[] astroids = new PVector[astroNums];
