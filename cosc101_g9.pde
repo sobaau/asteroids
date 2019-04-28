@@ -3,42 +3,44 @@
 * Group: Daniel Harraka, David Preston, Reece Temple, group number
 * Date: 26/05/2019
 * Course: COSC101 - Software Development Studio 1
-* Desc: Astroids is a ...
+* Desc: Asteroids is a ...
 * ...
 * Usage: Make sure to run in the processing environment and press play etc...
 * Notes: If any third party items are use they need to be credited (don't use anything with copyright - unless you have permission)
 * ...
 **************************************************************/
+Ship player;
+Asteroid asteroid;
+Shot shot;
+int asteroNums = 2;
+ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
+ArrayList<Shot> shots = new ArrayList<Shot>();
+int score = 0;
 
-//Daniel Test
-
-PShape ship; // don't have to use pshape - can use image
-int astroNums=20;
-PVector[] astroids = new PVector[astroNums];
-PVector[] astroDirect = new PVector[astroNums];
-float speed = 0;
-float maxSpeed = 4;
-float radians=radians(270); //if your ship is facing up (like in atari game)
-PVector shipCoord;
-PVector direction;
-ArrayList shots= new ArrayList();
-ArrayList sDirections= new ArrayList();
-boolean sUP=false,sDOWN=false,sRIGHT=false,sLEFT=false;
-int score=0;
-boolean alive=true;
 void setup(){
   size(800,800);
-  //initialise pvtecotrs 
-  //random astroid initial positions and directions;
-  //initialise shapes if needed
+  player = new Ship();
+  for(int i = 0 ; i < asteroNums; i++){
+    asteroid = new Asteroid();
+    asteroids.add(asteroid);
+  }
+}
+
+void draw(){
+  background(0);
+  collisionDetection();
+  drawShots();
+  player.update();
+  drawAsteroids();
+  // draw score
 }
 
 /**************************************************************
-* Function: myFunction()
+* Function: drawShots()
 
-* Parameters: None ( could be integer(x), integer(y) or String(myStr))
+* Parameters: None
 
-* Returns: Void ( again this could return a String or integer/float type )
+* Returns: Void
 
 * Desc: Each funciton should have appropriate documentation. 
         This is designed to benefit both the marker and your team mates.
@@ -46,85 +48,111 @@ void setup(){
 
 ***************************************************************/
 
-void moveShip(){
-  
-  //this function should update if keys are pressed down 
-     // - this creates smooth movement
-  //update rotation,speed and update current location
-  //you should also check to make sure your ship is not outside of the window
-  if(sUP){
+void drawShots(){ 
+  for (int i = 0 ; i < shots.size() ; i++){
+    shots.get(i).update();
+    if (shots.get(i).location.x > width || shots.get(i).location.y > height
+    || shots.get(i).location.x < 0 || shots.get(i).location.y < 0){
+      shots.remove(i);
+    }
   }
-  if(sDOWN){
-  
-  }
-  if(sRIGHT){
-  }
-  if(sLEFT){
-  }
-}
-void drawShots(){
-   //draw points for each shot from spacecraft 
-   //at location and updated to new location
 }
 
-void drawAstroids(){
-  //check to see if astroid is not already destroyed
-  //otherwise draw at location 
-  //initial direction and location should be randomised
-  //also make sure the astroid has not moved outside of the window
-    
+/**************************************************************
+* Function: drawAsteroids()
+
+* Parameters: None 
+
+* Returns: Void
+
+* Desc: 
+***************************************************************/
+void drawAsteroids(){
+  for(Asteroid a : asteroids){
+    a.update();
+  }
 }
 
+/**************************************************************
+* Function: collisionDetection()
+
+* Parameters: None
+
+* Returns: Void
+
+* Desc: 
+***************************************************************/
 void collisionDetection(){
-  //check if shots have collided with astroids
-  //check if ship as collided wiht astroids
-}
-
-void draw(){
-  background(0);
-  //might be worth checking to see if you are still alive first
-  moveShip();
-  collisionDetection();
-  drawShots();
-  // draw ship - call shap(..) if Pshape
-  // report if game over or won
-  drawAstroids();
-  // draw score
-}
-
-void keyPressed() {
-  if (key == CODED) {
-    if (keyCode == UP) {
-      sUP=true;
-    }
-    if (keyCode == DOWN) {
-      sDOWN=true;
-    } 
-    if (keyCode == RIGHT) {
-      sRIGHT=true;
-    }
-    if (keyCode == LEFT) {
-      sLEFT=true;
+  for (int i = 0 ; i < shots.size() ; i++){
+    for (int j = 0 ; j < asteroids.size() ; j++){
+      if (shots.get(i).collide(asteroids.get(j))){
+        if (asteroids.get(j).r > 10){
+          asteroids.add(new Asteroid(asteroids.get(j).location, asteroids.get(j).r)); // TODO Over 80, Will reduce later.
+          asteroids.add(new Asteroid(asteroids.get(j).location, asteroids.get(j).r)); // TODO Over 80, Will reduce later.
+        }
+        asteroids.remove(j);
+        shots.remove(i);
+        break;
+      }
     }
   }
-  if (key == ' ') {
-    //fire a shot
+  for (Asteroid a : asteroids){
+    if (player.collide(a)){
+      println("Ship Hit");
+    }
   }
 }
 
-void keyReleased() {
+/**************************************************************
+* Function: keyPressed()
+
+* Parameters: None
+
+* Returns: Void
+
+* Desc: 
+***************************************************************/
+void keyPressed(){
   if (key == CODED) {
-    if (keyCode == UP) {
-      sUP=false;
+    if (keyCode == UP){
+      player.thrusting(true);
     }
-    if (keyCode == DOWN) {
-      sDOWN=false;
+    if (keyCode == DOWN){
     } 
-    if (keyCode == RIGHT) {
-      sRIGHT=false;
+    if (keyCode == RIGHT){
+      player.setRotation(0.1);
     }
-    if (keyCode == LEFT) {
-      sLEFT=false;
+    if (keyCode == LEFT){
+      player.setRotation(-0.1);
+    }
+  }
+  if (key == ' '){
+    shot = new Shot(player.location, player.heading);
+    shots.add(shot);
+  }
+}
+
+/**************************************************************
+* Function: keyReleased()
+
+* Parameters: None
+
+* Returns: Void
+
+* Desc: 
+***************************************************************/
+void keyReleased(){
+  if (key == CODED){
+    if (keyCode == UP){
+      player.thrusting(false);
+    }
+    if (keyCode == DOWN){
+    } 
+    if (keyCode == RIGHT){
+      player.setRotation(0);
+    }
+    if (keyCode == LEFT){
+      player.setRotation(0);
     }
   }
 }
