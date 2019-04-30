@@ -144,6 +144,7 @@ void collisionDetection(){
     }
   }
   //TODO If alien and player hit each other do something
+  //TODO If playershot hits alien do something
 }
 
 /**************************************************************
