@@ -143,6 +143,7 @@ void collisionDetection(){
       println("Ship Hit");
     }
   }
+  //TODO If alien and player hit each other do something
 }
 
 /**************************************************************
