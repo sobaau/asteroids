@@ -12,18 +12,18 @@
 Ship player;
 Asteroid asteroid;
 Shot shot;
-int asteroNums = 20;
+Alien alien;
+int startingAste = 20;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
+ArrayList<Shot> eShots = new ArrayList<Shot>();
 int score = 0;
 
 void setup(){
   size(800,800);
   player = new Ship();
-  for(int i = 0 ; i < asteroNums; i++){
-    asteroid = new Asteroid();
-    asteroids.add(asteroid);
-  }
+  spawnAsteroids(startingAste);
+  alien = new Alien();
 }
 
 void draw(){
@@ -31,8 +31,34 @@ void draw(){
   collisionDetection();
   drawShots();
   player.update();
+  if (eShots.size() < 3){
+    eShots.add(new Shot(alien.location, player.location));
+  }
+  alien.update();
   drawAsteroids();
   // draw score
+}
+
+/**************************************************************
+* Function: spawnAsteroids()
+
+* Parameters: None 
+
+* Returns: Void
+
+* Desc: Spawns asteroids and makes sure they aren't within a certain distance of
+        the player.
+***************************************************************/
+void spawnAsteroids(int asteroNums){
+    int minDistance = 150; // Change this to spawn them closer to the player.
+    for (int i = 0 ; i < asteroNums; i++){
+      PVector spawn = new PVector(random(width), random(height));
+      while (spawn.dist(player.location) < minDistance){
+        spawn = new PVector(random(width), random(height));
+      }
+    asteroid = new Asteroid(spawn);
+    asteroids.add(asteroid);
+  }
 }
 
 /**************************************************************
@@ -51,12 +77,18 @@ void draw(){
 void drawShots(){ 
   for (int i = 0 ; i < shots.size() ; i++){
     shots.get(i).update();
-    if (shots.get(i).location.x > width || shots.get(i).location.y > height
-    || shots.get(i).location.x < 0 || shots.get(i).location.y < 0){
+    if (shots.get(i).checkBounds()){
       shots.remove(i);
     }
   }
+  for (int i = 0 ; i < eShots.size() ; i++){
+    eShots.get(i).update();
+    if (eShots.get(i).checkBounds()){
+      eShots.remove(i);
+    }
+  }
 }
+
 
 /**************************************************************
 * Function: drawAsteroids()
@@ -94,6 +126,12 @@ void collisionDetection(){
         shots.remove(i);
         break;
       }
+    }
+  }
+  for ( int i = 0 ; i < eShots.size() ; i++){
+    if (eShots.get(i).collide(player)){
+      println("Alien hit ship");
+      eShots.remove(i);
     }
   }
   for (Asteroid a : asteroids){

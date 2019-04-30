@@ -14,8 +14,8 @@ class Asteroid{
 
   * Desc: 
   ***************************************************************/
-  Asteroid(){
-    location = new PVector(random(width), random(height));
+  Asteroid(PVector loc){
+    location = new PVector(loc.x, loc.y);
     velocity = PVector.random2D();
     r = random(15, 50);
     for (int i = 0; i < total; i++){

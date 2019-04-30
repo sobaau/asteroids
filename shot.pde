@@ -11,6 +11,21 @@ class Shot{
 
   * Desc: 
   ***************************************************************/
+    Shot(PVector spawnLoc, PVector player){
+    location = new PVector(spawnLoc.x, spawnLoc.y);	
+    PVector target = PVector.sub(player, spawnLoc);
+    velocity = PVector.fromAngle(target.heading());
+    velocity.mult(9);
+  }
+  /**************************************************************
+  * Function: Shot()
+
+  * Parameters: None ( could be integer(x), integer(y) or String(myStr))
+
+  * Returns: None
+
+  * Desc: 
+  ***************************************************************/
   Shot(PVector spawnLoc, float heading){
     location = new PVector(spawnLoc.x, spawnLoc.y);
     velocity = PVector.fromAngle(heading);
@@ -64,4 +79,20 @@ class Shot{
     }
     return false;
   }
+    boolean collide(Ship a){
+    float d = dist(location.x, location.y, a.location.x, a.location.y);
+    if (d < a.r){
+      return true;
+    }
+    return false;
+  }
+
+  boolean checkBounds(){
+    if (location.x > width || location.y > height || location.x < 0 
+    || location.y < 0){
+      return true;
+    }
+    return false;
+  }
+
 }
