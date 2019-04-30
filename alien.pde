@@ -13,7 +13,6 @@ class Alien{
   }
 
   void update(){
-    checkEdges();
     move();
     draw();
   }
@@ -49,18 +48,5 @@ class Alien{
     velocity.add(acceleration);
     velocity.limit(topspeed);
     location.add(velocity);
-  }
-
-  void checkEdges(){
-    if (location.x > width + r){
-      location.x = -r;
-    } else if (location.x < -r){
-      location.x = width + r;
-    }
-    if (location.y > height + r){
-      location.y = -r;
-    } else if (location.y < -r){
-      location.y = height + r;
-    }
   }
 }

@@ -31,12 +31,16 @@ void draw(){
   collisionDetection();
   drawShots();
   player.update();
+  alien.update();
   if (eShots.size() < 3){
     eShots.add(new Shot(alien.location, player.location));
   }
-  alien.update();
   drawAsteroids();
   // draw score
+}
+
+void alienShoot(){
+
 }
 
 /**************************************************************
