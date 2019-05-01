@@ -1,4 +1,4 @@
-class Asteroid {
+class Asteroid{
   PVector location;
   PVector velocity;
   float r;
@@ -15,11 +15,11 @@ class Asteroid {
    * Desc: Spawns an asteroid at the given Vector location and generates its 
            size and shape to be used when drawing.
    ***************************************************************/
-  Asteroid(PVector loc) {
+  Asteroid(PVector loc){
     location = new PVector(loc.x, loc.y);
     velocity = PVector.random2D();
     r = random(15, 50);
-    for (int i = 0; i < total; i++) {
+    for (int i = 0; i < total; i++){
       offset[i] = random(-15, 15);
     }
   }
@@ -36,12 +36,12 @@ class Asteroid {
            new asteroid at the given location and also reduce its size based 
            on the size of the old asteroid.
    ***************************************************************/
-  Asteroid(PVector loc, float size) {
+  Asteroid(PVector loc, float size){
     location = new PVector(loc.x, loc.y);
     velocity = PVector.random2D();
     float scale = 0.5;
     r = size * scale;
-    for (int i = 0; i < total; i++) {
+    for (int i = 0; i < total; i++){
       offset[i] = random(-r * scale, r * scale);
     }
   }
@@ -55,7 +55,7 @@ class Asteroid {
    
    * Desc: Updates the location of the asteroid.
    ***************************************************************/
-  void update() {
+  void update(){
     checkEdges();
     location.add(velocity);
   }
@@ -70,13 +70,13 @@ class Asteroid {
    * Desc: Draws the asteroid at a given location and also random generates
            the asteroid.
    ***************************************************************/
-  void draw() {
+  void draw(){
     push();
     stroke(255);
     noFill();
     translate(location.x, location.y);
     beginShape();
-    for (int i = 0; i < total; i++) {
+    for (int i = 0; i < total; i++){
       float angle = map(i, 0, total, 0, TWO_PI);
       float t = r + offset[i];
       float x = t * cos(angle);
@@ -97,15 +97,15 @@ class Asteroid {
    * Desc: Checks to see if an Asteroid is off the screen and if so wraps it 
            to the other side of the screen if it is.
    ***************************************************************/
-  void checkEdges() {
-    if (location.x > width + r) {
+  void checkEdges(){
+    if (location.x > width + r){
       location.x = -r;
-    } else if (location.x < -r) {
+    } else if (location.x < -r){
       location.x = width + r;
     }
-    if (location.y > height + r) {
+    if (location.y > height + r){
       location.y = -r;
-    } else if (location.y < -r) {
+    } else if (location.y < -r){
       location.y = height + r;
     }
   }

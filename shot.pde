@@ -1,4 +1,4 @@
-class Shot {
+class Shot{
   PVector location;
   PVector velocity;
 
@@ -15,7 +15,7 @@ class Shot {
            given location, Doesn't track the target. The shot will spawn at 
            the provided location and be fired toward the provided target.
    ***************************************************************/
-  Shot(PVector spawnLoc, PVector targetLoc) {
+  Shot(PVector spawnLoc, PVector targetLoc){
     location = new PVector(spawnLoc.x, spawnLoc.y);	
     PVector target = PVector.sub(targetLoc, spawnLoc);
     velocity = PVector.fromAngle(target.heading());
@@ -33,7 +33,7 @@ class Shot {
    * Desc: Constructor for the Shot class, The shot is created at the given 
            location and fired in the direction that the ship firing it is facing
    ***************************************************************/
-  Shot(PVector spawnLoc, float heading) {
+  Shot(PVector spawnLoc, float heading){
     location = new PVector(spawnLoc.x, spawnLoc.y);
     velocity = PVector.fromAngle(heading);
     velocity.mult(9);
@@ -48,7 +48,7 @@ class Shot {
    
    * Desc: Updates the location of the shot.
    ***************************************************************/
-  void update() {
+  void update(){
     location = location.add(velocity);
   }
 
@@ -61,7 +61,7 @@ class Shot {
    
    * Desc: draws the shot using a processing point function.
    ***************************************************************/
-  void draw() {
+  void draw(){
     push();
     stroke(255);
     strokeWeight(4);
@@ -79,9 +79,9 @@ class Shot {
    * Desc: Checks if the shot has collided with an asteroid and returns true if 
            it has.
    ***************************************************************/
-  boolean collide(Asteroid a) {
+  boolean collide(Asteroid a){
     float d = dist(location.x, location.y, a.location.x, a.location.y);
-    if (d < a.r) {
+    if (d < a.r){
       return true;
     }
     return false;
@@ -97,9 +97,9 @@ class Shot {
    * Desc: Checks if the shot has collided with a ship and returns 
            true if it has
    ***************************************************************/
-  boolean collide(Ship s) {
+  boolean collide(Ship s){
     float d = dist(location.x, location.y, s.location.x, s.location.y);
-    if (d < s.r) {
+    if (d < s.r){
       return true;
     }
     return false;
@@ -114,10 +114,10 @@ class Shot {
    
    * Desc: Checks if the shot is off the screen and returns true if it is.
    ***************************************************************/
-  boolean checkBounds() {
+  boolean checkBounds(){
     int screenEdge = 0;
     if (location.x > width || location.y > height || location.x < screenEdge 
-      || location.y < screenEdge) {
+      || location.y < screenEdge){
       return true;
     }
     return false;

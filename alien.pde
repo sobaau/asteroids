@@ -1,4 +1,4 @@
-class Alien {
+class Alien{
   PVector location;
   PVector target;
   PVector direction;
@@ -16,7 +16,7 @@ class Alien {
    * Desc: Constructor for the Alien, The alien spawns at a random location
            and flies to another one and repeats. 
    ***************************************************************/
-  Alien() {
+  Alien(){
     location = new PVector(random(height), random(width));
     target = new PVector(random(height), random(width));
   }
@@ -31,10 +31,10 @@ class Alien {
    * Desc: Updates the aliens location using Vectors and also picks a new
            location to fly to when it reaches its target.
    ***************************************************************/
-  void update() {
+  void update(){
     float deadzone = 15;
     float d = dist(location.x, location.y, target.x, target.y);
-    if (d < deadzone) {
+    if (d < deadzone){
       target = new PVector(random(width), random(height));
     }
     direction = PVector.sub(target, location);
@@ -55,7 +55,7 @@ class Alien {
    
    * Desc: Draws the alien at its location using arcs and vertex's
    ***************************************************************/
-  void draw() {
+  void draw(){
     push();
     noFill();
     translate(location.x, location.y);
