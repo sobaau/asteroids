@@ -19,6 +19,8 @@ int maxAlienShots = 3;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Shot> eShots = new ArrayList<Shot>();
+ArrayList<Star> stars = new ArrayList<Star>();
+
 int score = 0;
 
 void setup(){
@@ -26,10 +28,14 @@ void setup(){
   player = new Ship();
   spawnAsteroids(startingAste);
   alien = new Alien();
+  while(stars.size() < 100){
+    stars.add(new Star());
+  }
 }
 
 void draw(){
   background(0);
+  drawStars();
   collisionDetection();
   drawShots();
   drawPlayer();
@@ -39,6 +45,12 @@ void draw(){
   }
   drawAsteroids();
   // draw score
+}
+
+void drawStars(){
+  for (Star s: stars){
+    s.draw();
+  }
 }
 
 /**************************************************************
@@ -203,7 +215,7 @@ void keyPressed(){
       player.setRotation(-0.1);
     }
   }
-  if (key == ' '){
+  if (keyCode == ' '){
     shot = new Shot(player.location, player.heading);
     shots.add(shot);
   }
