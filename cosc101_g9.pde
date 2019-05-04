@@ -10,10 +10,17 @@
           (don't use anything with copyright - unless you have permission)
  * ...
  **************************************************************/
+
+//Import required libraries
+import processing.sound.*;
+
+//Define global variables
 Ship player;
 Asteroid asteroid;
 Shot shot;
 Alien alien;
+SoundFile shipShot;
+SoundFile explosion;
 int startingAste = 20;
 int maxAlienShots = 3;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
@@ -23,9 +30,14 @@ int score = 0;
 
 void setup(){
   fullScreen();
+  
   player = new Ship();
   spawnAsteroids(startingAste);
   alien = new Alien();
+
+  //Load audio
+  shipShot = new SoundFile(this, "audio/shotGun.wav");
+  explosion = new SoundFile(this, "audio/explosion.wav");
 }
 
 void draw(){
@@ -167,7 +179,7 @@ void collisionDetection(){
   }
   for ( int i = 0; i < eShots.size(); i++){
     if (eShots.get(i).collide(player)){
-      println("Alien hit ship");
+      println("Ship Hit");
       eShots.remove(i);
     }
   }

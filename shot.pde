@@ -20,6 +20,7 @@ class Shot{
     PVector target = PVector.sub(targetLoc, spawnLoc);
     velocity = PVector.fromAngle(target.heading());
     velocity.mult(9);
+    playAudio();
   }
 
   /**************************************************************
@@ -37,6 +38,7 @@ class Shot{
     location = new PVector(spawnLoc.x, spawnLoc.y);
     velocity = PVector.fromAngle(heading);
     velocity.mult(9);
+    playAudio();
   }
 
   /**************************************************************
@@ -123,3 +125,18 @@ class Shot{
     return false;
   }
 }
+
+/**************************************************************
+   * Function: playAudio()
+   
+   * Parameters: None
+   
+   * Returns: void
+   
+   * Desc: Plays the shot audio file.
+   ***************************************************************/
+void playAudio() {
+  shipShot.amp(0.1);
+  shipShot.play();
+}
+

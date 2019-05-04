@@ -196,4 +196,17 @@ class Ship{
     }
     return false;
   }
+
+  /**************************************************************
+   * Function: playAudio()
+   
+   * Parameters: None
+   
+   * Returns: void
+   
+   * Desc: Plays the ship explosion audio file.
+   ***************************************************************/
+  void playAudio() {
+    explosion.play();
+  }
 }
