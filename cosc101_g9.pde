@@ -172,6 +172,16 @@ void drawShots(){
       eShots.remove(i);
     }
   }
+  for (int i = 0; i < eShots.size(); i++){
+    eShots.get(i).update();
+    eShots.get(i).draw();
+    for (int j = 0; j < asteroids.size(); j++){
+      if (eShots.get(i).collide(asteroids.get(j))){
+        eShots.remove(i);
+        break;
+      }
+    }
+  }
 }
 
 /**************************************************************
@@ -209,6 +219,7 @@ void collisionDetection(){
   for (int i = 0; i < shots.size(); i++){
     for (int j = 0; j < asteroids.size(); j++){
       if (shots.get(i).collide(asteroids.get(j))){
+        score++;
         if (asteroids.get(j).r > 10){
           println("Asteroid Hit");
           asteroid.playAudio();

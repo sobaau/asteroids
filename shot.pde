@@ -116,10 +116,10 @@ class Shot{
    
    * Desc: Checks if the shot is off the screen and returns true if it is.
    ***************************************************************/
-  boolean checkBounds(){
+  boolean checkBounds() {
     int screenEdge = 0;
-    if (location.x > width || location.y > height || location.x < screenEdge 
-      || location.y < screenEdge){
+    if (location.x > width || location.y > height 
+        || location.x < screenEdge || location.y < screenEdge) {
       return true;
     }
     return false;
