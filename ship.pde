@@ -3,23 +3,25 @@ class Ship{
   PVector velocity = new PVector(0, 0);
   PVector force;
   boolean isThrusting = false;
+  boolean isTurning = false;
   boolean alive;
+  int lifes = 3;
   int r = 15; // Size of the ship 
   float heading = 0;
   float rotation;
 
   /**************************************************************
-   * Function: Ship()
+   * Function:  Ship()
    
-   * Parameters: None
+   * Parameters:  None
    
    * Returns: None
    
-   * Desc: Constructor for the Ship class, Spawns the ship in the middle of the
-           screen and sets its status to alive.
+   * Desc:  Constructor for the Ship class, Spawns the ship in the 
+            middle of the screen and sets its status to alive.
    ***************************************************************/
   Ship(){
-    location = new PVector(height/2, width/2);
+    location = new PVector(width/2, height/2);
     boolean alive = true;
   }
 
@@ -58,6 +60,25 @@ class Ship{
     push();
     translate(location.x, location.y);
     rotate(heading + offset);
+    
+    if (isThrusting) {
+      fill(255, 0, 0);
+      stroke(255, 0, 0);
+      triangle(-r, r, -r/3, r, -2*r/3, 1.5*r);
+      triangle(-r/3, r, r/3, r, 0, 1.5*r);
+      triangle(r/3, r, r, r, 2*r/3, 1.5*r);
+    }
+
+    if (isTurning) {
+      fill(255, 0, 0);
+      stroke(255, 0, 0);
+      if (rotation > 0) {
+        triangle(-r, r, -r/3, r, -2*r/3, 2*r);
+      } else {
+        triangle(r/3, r, r, r, 2*r/3, 2*r);
+      }
+    }
+
     fill(0);
     stroke(255);
     triangle(-r, r, r, r, 0, -r);
@@ -75,12 +96,12 @@ class Ship{
            the other side of the screen if it is.
    ***************************************************************/
   void checkEdges(){
-    if (location.x > width + r){
+    if (location.x > (width + r)){
       location.x = -r;
     } else if (location.x < -r){
       location.x = width + r;
     }
-    if (location.y > height + r){
+    if (location.y > (height + r)){
       location.y = -r;
     } else if (location.y < -r){
       location.y = height + r;
@@ -101,16 +122,34 @@ class Ship{
   }
 
   /**************************************************************
+   * Function: turning()
+   
+   * Parameters: boolean(b): The status to set the isTurning boolean to
+   
+   * Returns: Void
+   
+   * Desc: Sets isTurning to the provided boolean.
+   ***************************************************************/
+  void turning(boolean b) {
+    isTurning = b;
+  }
+
+  /**************************************************************
    * Function: turn()
    
    * Parameters: None
    
    * Returns: Void
    
-   * Desc: Updates the heading using the rotation variable.
+   * Desc:  Updates the heading using the rotation variable.
+            Heading is limited to between -2 * PI and 2 * PI.
    ***************************************************************/
-  void turn(){
+  void turn() {
     heading += rotation;
+
+    if ((heading > (2 * PI)) || (heading < (-2 * PI))) {
+      heading = 0;
+    }
   }
 
   /**************************************************************

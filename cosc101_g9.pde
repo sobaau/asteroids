@@ -22,7 +22,7 @@ ArrayList<Shot> eShots = new ArrayList<Shot>();
 int score = 0;
 
 void setup(){
-  size(800, 800);
+  fullScreen();
   player = new Ship();
   spawnAsteroids(startingAste);
   alien = new Alien();
@@ -197,9 +197,11 @@ void keyPressed(){
     if (keyCode == DOWN){
     } 
     if (keyCode == RIGHT){
+      player.turning(true);
       player.setRotation(0.1);
     }
     if (keyCode == LEFT){
+      player.turning(true);
       player.setRotation(-0.1);
     }
   }
@@ -226,9 +228,11 @@ void keyReleased(){
     if (keyCode == DOWN){
     } 
     if (keyCode == RIGHT){
+      player.turning(false);
       player.setRotation(0);
     }
     if (keyCode == LEFT){
+      player.turning(false);
       player.setRotation(0);
     }
   }
