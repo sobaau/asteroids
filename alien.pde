@@ -44,6 +44,7 @@ class Alien{
     velocity.add(acceleration);
     velocity.limit(topSpeed);
     location.add(velocity);
+    checkEdges();
   }
 
   /**************************************************************
@@ -68,5 +69,28 @@ class Alien{
     vertex(-20, 25);
     endShape(CLOSE);
     pop();
+  }
+
+  /**************************************************************
+   * Function: checkEdges()
+   
+   * Parameters: None
+   
+   * Returns: Void
+   
+   * Desc: Checks if the ship is off the screen and changes its location to
+           the other side of the screen if it is.
+   ***************************************************************/
+  void checkEdges(){
+    if (location.x > width){
+      location.x = 0;
+    } else if (location.x < 0){
+      location.x = width;
+    }
+    if (location.y > height){
+      location.y = 0;
+    } else if (location.y < 0){
+      location.y = height;
+    }
   }
 }
