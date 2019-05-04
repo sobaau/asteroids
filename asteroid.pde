@@ -109,4 +109,17 @@ class Asteroid{
       location.y = height + r;
     }
   }
+
+  /**************************************************************
+   * Function: playAudio()
+   
+   * Parameters: None
+   
+   * Returns: void
+   
+   * Desc: Plays the astertoid explosion audio file.
+   ***************************************************************/
+  void playAudio() {
+    asteroidHit.play();
+  }
 }

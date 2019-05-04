@@ -4,9 +4,11 @@ class Ship{
   PVector force;
   boolean isThrusting = false;
   boolean isTurning = false;
+  boolean gunOvertemp = false;
   boolean alive;
   int lifes = 3;
   int r = 15; // Size of the ship 
+  int gunTemperature = 0;
   float heading = 0;
   float rotation;
 
@@ -195,6 +197,14 @@ class Ship{
       return true;
     }
     return false;
+  }
+
+  void gunTemperature() {
+
+  }
+
+  int getLifes() {
+    return lifes;
   }
 
   /**************************************************************
