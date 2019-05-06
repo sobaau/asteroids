@@ -17,7 +17,7 @@ void drawOpenScn() {
   String PlayGm = "| Play Game (P) |";
   String LdrBd = "| Leaderboard (L) |";
   String Instr = "| Instructions (I) |";
-  String Ctls = "| Controls (C) |";
+  String ex = "| Exit (Esc) |";
  
   
   fill(255);
@@ -30,6 +30,6 @@ void drawOpenScn() {
   text(PlayGm, width/2,height/2);
   text(LdrBd, width/2,(height/2)+40);
   text(Instr, width/2,(height/2)+80);
-  text(Ctls,  width/2,(height/2)+120);
+  text(ex,  width/2,(height/2)+120);
 
 }
