@@ -1,4 +1,3 @@
-/* Testing Push Reece */
 class Asteroid{
   PVector location;
   PVector velocity;
