@@ -1,4 +1,4 @@
-void drawOpenLdr() {
+void OpenLdr() {
   /* 1. Create starts in the background the fade in and out for effect
   2. Menu to have "Play Game, "Leaderboard", "Instructions" & "Controls" as options
   */
@@ -14,16 +14,19 @@ void drawOpenLdr() {
 
   String AstMn = "ASTEROIDS";
   String LdrBd = "Leaderboard";
-  String backB = "| Press M for Main Menu |";
+  String backB = "M for Main Menu";
  
+   
   fill(255);
+  textFont(font1);
   textAlign(CENTER);
   textSize(80);
-  text(AstMn,width/2,(height/2)-300);
+  text(AstMn,width/2,height*.10);
   textSize(25);
   stroke(5);
   
   
-  text(LdrBd, width/2,(height/2)-220);
+  text(LdrBd, width/2,height*.15);
+  fill(250,240,0);
   text(backB, width/2,height*.95);
 }
