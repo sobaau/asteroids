@@ -2,6 +2,7 @@ class Star{
   float locX;
   float locY;
   int starBright;
+
   /**************************************************************
    * Function: Star()
    
@@ -17,6 +18,7 @@ class Star{
     locY = random(0, height);
     starBright = 1;
   }
+  
   /**************************************************************
    * Function: draw()
    

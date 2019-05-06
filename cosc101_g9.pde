@@ -23,24 +23,20 @@ SoundFile shipShot;
 SoundFile explosion;
 SoundFile asteroidHit;
 int startingAste = 5;
-int maxAlienShots = 3;
 int score = 0;
 int level = 1;
+int starAmount = 200;
+Starfield stars;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Shot> eShots = new ArrayList<Shot>();
-ArrayList<Star> stars = new ArrayList<Star>();
 
 void setup(){
   fullScreen();
-  
   player = new Ship();
   spawnAsteroids(startingAste);
   alien = new Alien();
-  while(stars.size() < 200){
-    stars.add(new Star());
-  }
-
+  stars = new Starfield(starAmount);
   //Load audio
   shipShot = new SoundFile(this, "audio/shotGun.wav");
   explosion = new SoundFile(this, "audio/explosion.wav");
@@ -49,7 +45,7 @@ void setup(){
 
 void draw(){
   background(0);
-  drawStars();
+  stars.draw();
   collisionDetection();
   drawShots();
   drawPlayer();
@@ -57,12 +53,6 @@ void draw(){
   drawAsteroids();
   drawStats();
   checkLevelProgress();
-}
-
-void drawStars(){
-  for (Star s: stars){
-    s.draw();
-  }
 }
 
 /**************************************************************
