@@ -31,6 +31,9 @@ ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Shot> eShots = new ArrayList<Shot>();
 
+//Font Change
+PFont font1;
+
 void setup(){
   fullScreen();
   player = new Ship();
@@ -41,11 +44,16 @@ void setup(){
   shipShot = new SoundFile(this, "audio/shotGun.wav");
   explosion = new SoundFile(this, "audio/explosion.wav");
   asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
+  
+  font1 = loadFont("OCRAExtended-48.vlw");
 }
 
 void draw(){
+  
   background(0);
   stars.draw();
+  //OpenLdr(); //Leaderboard
+  //OpenScn(); Open Screen
   collisionDetection();
   drawShots();
   drawPlayer();
@@ -105,6 +113,7 @@ void drawStats() {
   int milSecPerMin = secPerMin * milSecPerSec;
   int milSecPerHr = minPerHr * secPerMin * milSecPerSec;
   
+  textFont(font1);
   textSize(14);
   fill(255);
   text("TIME: " + floor(millis()/milSecPerHr) + ":" + 
@@ -112,7 +121,7 @@ void drawStats() {
         (millis()/milSecPerSec)%secPerMin, indent, yTextPos);
   text("SCORE: " + score, indent, yTextPos*2);
   text("LEVEL: " + level, indent, yTextPos*3);
-  text("LIFES: " + player.getLifes(), indent, yTextPos*4);  
+  text("LIVES: " + player.getLifes(), indent, yTextPos*4);  
 }
 
 /**************************************************************
