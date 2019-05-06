@@ -5,6 +5,7 @@ class Alien{
   PVector acceleration;
   PVector velocity = new PVector(0, 0);
   float topSpeed = 2;
+  int energy = 100;
 
   /**************************************************************
    * Function: Alien()
@@ -45,6 +46,9 @@ class Alien{
     velocity.limit(topSpeed);
     location.add(velocity);
     checkEdges();
+    if(frameCount % 1 == 0){
+      energy++;
+    }
   }
 
   /**************************************************************
