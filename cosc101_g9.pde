@@ -54,9 +54,6 @@ void draw(){
   drawShots();
   drawPlayer();
   drawAlien();
-  if (eShots.size() < maxAlienShots){
-    eShots.add(new Shot(alien.location, player.location));
-  }
   drawAsteroids();
   drawStats();
   checkLevelProgress();
@@ -94,6 +91,10 @@ void drawPlayer(){
 void drawAlien(){
   alien.update();
   alien.draw();
+  if (alien.energy > 50){
+    eShots.add(new Shot(alien.location, player.location));
+    alien.energy = 0;
+  }
 }
 
 /**************************************************************

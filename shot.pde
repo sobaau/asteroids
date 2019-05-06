@@ -6,8 +6,8 @@ class Shot{
    * Function: Shot()
    
    * Parameters: PVector(spawnLoc): The location to spawn the shot, 
-   PVector(targetLoc): The location of the target that the shot 
-   will be fired towards
+                PVector(targetLoc): The location of the target that the shot 
+                will be fired towards
    
    * Returns: None
    
