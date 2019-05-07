@@ -13,7 +13,6 @@
 
 //Import required libraries
 import processing.sound.*;
-
 //Define global variables
 Ship player;
 Asteroid asteroid;
@@ -26,11 +25,11 @@ int startingAste = 5;
 int score = 0;
 int level = 1;
 int starAmount = 200;
+boolean start;
 Starfield stars;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Shot> eShots = new ArrayList<Shot>();
-
 //Font Change
 PFont font1;
 
@@ -44,23 +43,27 @@ void setup(){
   shipShot = new SoundFile(this, "audio/shotGun.wav");
   explosion = new SoundFile(this, "audio/explosion.wav");
   asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
-  
   font1 = loadFont("OCRAExtended-48.vlw");
+  start = true; // Change this to false to get the start open.
 }
 
 void draw(){
-  
   background(0);
   stars.draw();
-  //OpenLdr(); //Leaderboard
-  //OpenScn(); Open Screen
-  collisionDetection();
-  drawShots();
-  drawPlayer();
-  drawAlien();
-  drawAsteroids();
-  drawStats();
-  checkLevelProgress();
+  if (!start){
+    OpenScn(); //Open Screen
+    //OpenLdr(); //Leaderboard
+  }else{
+    collisionDetection();
+    if(player.getLives() > 0){
+      drawPlayer();
+      drawAlien();
+      drawShots();
+    }
+    drawAsteroids();
+    drawStats();
+    checkLevelProgress();
+  }
 }
 
 /**************************************************************
@@ -121,7 +124,7 @@ void drawStats() {
         (millis()/milSecPerSec)%secPerMin, indent, yTextPos);
   text("SCORE: " + score, indent, yTextPos*2);
   text("LEVEL: " + level, indent, yTextPos*3);
-  text("LIVES: " + player.getLifes(), indent, yTextPos*4);  
+  text("LIVES: " + player.getLives(), indent, yTextPos*4);  
 }
 
 /**************************************************************
@@ -156,7 +159,6 @@ void spawnAsteroids(int asteroNums){
  * Desc: Draws both player and alien shots and also removes them from their 
          arrays if they go off the screen.
  ***************************************************************/
-
 void drawShots(){ 
   for (int i = 0; i < shots.size(); i++){
     shots.get(i).update();
@@ -222,11 +224,11 @@ void collisionDetection(){
         score++;
         if (asteroids.get(j).r > 10){
           println("Asteroid Hit");
-          asteroid.playAudio();
           asteroids.add(new Asteroid(asteroids.get(j).location, asteroids.get(j).r)); // TODO Over 80, Will reduce later.
           asteroids.add(new Asteroid(asteroids.get(j).location, asteroids.get(j).r)); // TODO Over 80, Will reduce later.
         }
         asteroids.remove(j);
+        asteroid.playAudio();
         shots.remove(i);
         break;
       }
@@ -241,6 +243,7 @@ void collisionDetection(){
   for (Asteroid a : asteroids){
     if (player.collide(a)){
       println("Ship Hit");
+      player.hit();
     }
   }
   //TODO If alien and player hit each other do something

@@ -6,7 +6,7 @@ class Ship{
   boolean isTurning = false;
   boolean gunOvertemp = false;
   boolean alive;
-  int lifes = 3;
+  int lives = 3;
   int r = 15; // Size of the ship 
   int gunTemperature = 0;
   float heading = 0;
@@ -203,8 +203,14 @@ class Ship{
 
   }
 
-  int getLifes() {
-    return lifes;
+  int getLives() {
+    return lives;
+  }
+
+  void hit(){
+    if(lives > 0 && frameCount % 15 == 0){
+      lives--;
+    }
   }
 
   /**************************************************************
