@@ -43,7 +43,7 @@ void setup(){
   shipShot = new SoundFile(this, "audio/shotGun.wav");
   explosion = new SoundFile(this, "audio/explosion.wav");
   asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
-  font1 = loadFont("OCRAExtended-48.vlw");
+  font1 = loadFont("font/OCRAExtended-48.vlw");
   start = true; // Change this to false to get the start open.
 }
 
@@ -266,6 +266,8 @@ void checkLevelProgress() {
     println("Level completed");
     level++;
     spawnAsteroids(startingAste*level);
+    stars = new Starfield(starAmount);
+    alien = new Alien();
   }
 }
 
