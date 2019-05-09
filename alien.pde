@@ -18,8 +18,8 @@ class Alien{
            and flies to another one and repeats. 
    ***************************************************************/
   Alien(){
-    location = new PVector(random(height), random(width));
-    target = new PVector(random(height), random(width));
+    location = new PVector(random(10, height), random(10, width));
+    target = new PVector(random(10, height), random(10, width));
   }
 
   /**************************************************************
@@ -36,7 +36,7 @@ class Alien{
     float deadzone = 15;
     float d = dist(location.x, location.y, target.x, target.y);
     if (d < deadzone){
-      target = new PVector(random(width), random(height));
+      target = new PVector(random(10, width), random(10, height));
     }
     direction = PVector.sub(target, location);
     direction.normalize();
