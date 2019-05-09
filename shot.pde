@@ -83,7 +83,7 @@ class Shot{
    ***************************************************************/
   boolean collide(Asteroid a){
     float d = dist(location.x, location.y, a.location.x, a.location.y);
-    if (d < a.r){
+    if (d < a.maxSize){
       return true;
     }
     return false;

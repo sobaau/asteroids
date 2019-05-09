@@ -1,9 +1,9 @@
 class Asteroid{
   PVector location;
   PVector velocity;
-  float r;
-  int total = floor(random(5, 15));
-  float[] offset = new float[total];
+  float minSize;
+  float maxSize;
+  ArrayList<PVector> vertices = new ArrayList<PVector>();
 
   /**************************************************************
    * Function: Asteroid()
@@ -18,9 +18,14 @@ class Asteroid{
   Asteroid(PVector loc){
     location = new PVector(loc.x, loc.y);
     velocity = PVector.random2D();
-    r = random(15, 50);
-    for (int i = 0; i < total; i++){
-      offset[i] = random(-15, 15);
+    minSize = 30;
+    maxSize = 50;
+    float a = 0;
+    while (a < 360) {
+      float x = cos(radians(a)) * random(minSize,maxSize);
+      float y = sin(radians(a)) * random(minSize,maxSize);
+      vertices.add(new PVector(x,y));
+      a += random(15, 40);
     }
   }
 
@@ -36,13 +41,17 @@ class Asteroid{
            new asteroid at the given location and also reduce its size based 
            on the size of the old asteroid.
    ***************************************************************/
-  Asteroid(PVector loc, float size){
+  Asteroid(PVector loc, float minS, float maxS){
     location = new PVector(loc.x, loc.y);
     velocity = PVector.random2D();
-    float scale = 0.5;
-    r = size * scale;
-    for (int i = 0; i < total; i++){
-      offset[i] = random(-r * scale, r * scale);
+    minSize = minS - 10;
+    maxSize = maxS - 10;
+    float a = 0;
+    while (a < 360) {
+      float x = cos(radians(a)) * random(minSize,maxSize);
+      float y = sin(radians(a)) * random(minSize,maxSize);
+      vertices.add(new PVector(x,y));
+      a += random(15, 40);
     }
   }
 
@@ -76,12 +85,8 @@ class Asteroid{
     noFill();
     translate(location.x, location.y);
     beginShape();
-    for (int i = 0; i < total; i++){
-      float angle = map(i, 0, total, 0, TWO_PI);
-      float t = r + offset[i];
-      float x = t * cos(angle);
-      float y = t * sin(angle);
-      vertex(x, y);
+    for (PVector v : vertices) {
+      vertex(v.x, v.y);
     }
     endShape(CLOSE);
     pop();
@@ -98,15 +103,15 @@ class Asteroid{
            to the other side of the screen if it is.
    ***************************************************************/
   void checkEdges(){
-    if (location.x > width + r){
-      location.x = -r;
-    } else if (location.x < -r){
-      location.x = width + r;
+    if (location.x > width + maxSize){
+      location.x = -maxSize;
+    } else if (location.x < -maxSize){
+      location.x = width + maxSize;
     }
-    if (location.y > height + r){
-      location.y = -r;
-    } else if (location.y < -r){
-      location.y = height + r;
+    if (location.y > height + maxSize){
+      location.y = -maxSize;
+    } else if (location.y < -maxSize){
+      location.y = height + maxSize;
     }
   }
 

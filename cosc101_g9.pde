@@ -218,14 +218,21 @@ void drawAsteroids(){
          and a smaller one is spawned in its place.
  ***************************************************************/
 void collisionDetection(){
+  float maxSize;
+  float minSize;
+  PVector newLoc;
+
   for (int i = 0; i < shots.size(); i++){
     for (int j = 0; j < asteroids.size(); j++){
       if (shots.get(i).collide(asteroids.get(j))){
         score++;
-        if (asteroids.get(j).r > 10){
+        if (asteroids.get(j).minSize > 10){
           println("Asteroid Hit");
-          asteroids.add(new Asteroid(asteroids.get(j).location, asteroids.get(j).r)); // TODO Over 80, Will reduce later.
-          asteroids.add(new Asteroid(asteroids.get(j).location, asteroids.get(j).r)); // TODO Over 80, Will reduce later.
+          minSize = asteroids.get(j).minSize;
+          maxSize = asteroids.get(j).maxSize;
+          newLoc = asteroids.get(j).location;
+          asteroids.add(new Asteroid(newLoc, minSize, maxSize)); 
+          asteroids.add(new Asteroid(newLoc, minSize, maxSize));
         }
         asteroids.remove(j);
         asteroid.playAudio();
