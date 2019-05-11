@@ -26,8 +26,11 @@ int score = 0;
 int level = 1;
 int starAmount = 200;
 boolean startGame;
+boolean loadLdr;
+boolean helpMenu;
 Starfield stars;
 OpenScn openScreen;
+leaderBoard openLdr;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Shot> eShots = new ArrayList<Shot>();
@@ -42,12 +45,15 @@ void setup(){
   alien = new Alien();
   stars = new Starfield(starAmount);
   openScreen = new OpenScn();
+  openLdr = new leaderBoard();
+  //openHelp = new helpMenu();
   //Load audio
   shipShot = new SoundFile(this, "audio/shotGun.wav");
   explosion = new SoundFile(this, "audio/explosion.wav");
   asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
   font1 = loadFont("font/OCRAExtended-48.vlw");
   startGame = false; // Change this to false to get the start open.
+  loadLdr = false; // Change this to false to get the start open.
 }
 
 void draw(){
@@ -55,8 +61,15 @@ void draw(){
   stars.draw();
   if (!startGame){
     openScreen.draw();
-    //OpenLdr(); //Leaderboard
-  }else{
+    }else{
+    //leaderboard
+    if (!loadLdr){
+    openLdr.draw(); 
+    }else{ 
+    //help menu
+    //if (!helpMenu){
+    //helpMenu.draw(); 
+    //}
     collisionDetection();
     if(player.getLives() > 0){
       drawPlayer();
@@ -66,6 +79,7 @@ void draw(){
     drawAsteroids();
     drawStats();
     checkLevelProgress();
+    }
   }
 }
 
@@ -300,9 +314,13 @@ void keyPressed(){
     startGame = true;
   }
   //Show Leaderboard
-
+if (keyCode == 'l' || keyCode == 'L') {
+    loadLdr = true;
+  }
   //Show Help Menu
-
+if (keyCode == 'h' || keyCode == 'H') {
+    //helpMn = true;
+  }
 
   //This section is for the Game related key presses.
   if (key == CODED){
