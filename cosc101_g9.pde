@@ -27,6 +27,7 @@ int level = 1;
 int starAmount = 200;
 boolean start;
 Starfield stars;
+OpenScn openScreen;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Shot> eShots = new ArrayList<Shot>();
@@ -39,19 +40,21 @@ void setup(){
   spawnAsteroids(startingAste);
   alien = new Alien();
   stars = new Starfield(starAmount);
+  openScreen = new OpenScn();
   //Load audio
   shipShot = new SoundFile(this, "audio/shotGun.wav");
   explosion = new SoundFile(this, "audio/explosion.wav");
   asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
   font1 = loadFont("font/OCRAExtended-48.vlw");
-  start = true; // Change this to false to get the start open.
+  start = false; // Change this to false to get the start open.
 }
 
 void draw(){
   background(0);
   stars.draw();
   if (!start){
-    OpenScn(); //Open Screen
+    openScreen.draw();
+    //; //Open Screen
     //OpenLdr(); //Leaderboard
   }else{
     collisionDetection();
