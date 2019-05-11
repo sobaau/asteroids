@@ -22,6 +22,7 @@ Ship player;
 Asteroid asteroid;
 Shot shot;
 Alien alien;
+//HishScores[] highscores;
 SoundFile shipShot;
 SoundFile explosion;
 SoundFile asteroidHit;
@@ -29,6 +30,7 @@ int startingAste = 5;
 int score = 0;
 int level = 1;
 int starAmount = 200;
+int highScr = 11;
 boolean runGame;
 boolean loadLdr;
 boolean helpMn;
@@ -39,12 +41,13 @@ leaderBoard openLdr;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Shot> eShots = new ArrayList<Shot>();
+
 //Font Change
 PFont font1;
 
 void setup(){
   fullScreen();
-  json = loadJSONObject("json/ldr.json");
+  //loadData();
   player = new Ship();
   spawnAsteroids(startingAste);
   alien = new Alien();
@@ -83,6 +86,36 @@ void draw(){
     checkLevelProgress();
   }
 }
+
+/**************************************************************
+ * Function: loadData()
+ 
+ * Parameters: None.
+ 
+ * Returns: Void
+ 
+ * Desc: Loads the Highscore Data from json file
+ ***************************************************************/
+/*void loadData(){
+  //load JSON file from folder
+  json = loadJSONObject("json/ldr.json");
+  //
+  JSONArray highscoreData = json.getJSONArray("higschores");
+  //Check the size of the highscores array in JSON file
+  highscores = new Highscores[highscoreData.size()];
+
+  for (int i = 0; i < highscoresData.Size() || i < highScr; i++) {
+    // Get top 10 rank in the array
+    JSONObject rank = highscoreData.getJSONObject(i); 
+    // Get highscore objects
+    JSONObject name = Highscores.getJSONObject("name");
+    JSONObject jsonScr = Highscores.getJSONObject("jsonScr");
+    JSONObject jsonTime = Highscores.getJSONObject("jsonTime");
+
+    //Put object in array form
+    highscores[i] = new Highscores(rank," || ",name," | ",jsonScr," | ",jsonTime);
+}
+}*/
 
 /**************************************************************
  * Function: drawPlayer()
@@ -127,13 +160,15 @@ void drawAlien(){
  ***************************************************************/
 void drawStats() {
   int indent = 15;
+  float oppindent = width -15;
   int yTextPos = 20;
   int secPerMin = 60;
   int minPerHr = 60;
   int milSecPerSec = 1000;
   int milSecPerMin = secPerMin * milSecPerSec;
   int milSecPerHr = minPerHr * secPerMin * milSecPerSec;
-  
+  String backB = "ESC or M for main menu";
+
   textFont(font1);
   textSize(14);
   fill(255);
@@ -143,7 +178,10 @@ void drawStats() {
         (millis()/milSecPerSec)%secPerMin, indent, yTextPos);
   text("SCORE: " + score, indent, yTextPos*2);
   text("LEVEL: " + level, indent, yTextPos*3);
-  text("LIVES: " + player.getLives(), indent, yTextPos*4);  
+  text("LIVES: " + player.getLives(), indent, yTextPos*4);
+  fill(250,240,0);
+   textAlign(RIGHT);
+  text(backB,oppindent,yTextPos*1);
 }
 
 /**************************************************************
