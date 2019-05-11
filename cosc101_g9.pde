@@ -25,7 +25,7 @@ int startingAste = 5;
 int score = 0;
 int level = 1;
 int starAmount = 200;
-boolean start;
+boolean startGame;
 Starfield stars;
 OpenScn openScreen;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
@@ -36,6 +36,7 @@ PFont font1;
 
 void setup(){
   fullScreen();
+  //size(1000,1000);
   player = new Ship();
   spawnAsteroids(startingAste);
   alien = new Alien();
@@ -46,15 +47,14 @@ void setup(){
   explosion = new SoundFile(this, "audio/explosion.wav");
   asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
   font1 = loadFont("font/OCRAExtended-48.vlw");
-  start = false; // Change this to false to get the start open.
+  startGame = false; // Change this to false to get the start open.
 }
 
 void draw(){
   background(0);
   stars.draw();
-  if (!start){
+  if (!startGame){
     openScreen.draw();
-    //; //Open Screen
     //OpenLdr(); //Leaderboard
   }else{
     collisionDetection();
@@ -122,6 +122,7 @@ void drawStats() {
   textFont(font1);
   textSize(14);
   fill(255);
+  textAlign(LEFT);
   text("TIME: " + floor(millis()/milSecPerHr) + ":" + 
         floor(millis()/milSecPerMin) + ":" + 
         (millis()/milSecPerSec)%secPerMin, indent, yTextPos);
@@ -291,7 +292,19 @@ void checkLevelProgress() {
  * Desc: 
  ***************************************************************/
 void keyPressed(){
-  println("Key Pressed: " + keyCode);
+
+  //This section is for the Menu related key presses.
+  
+  //Play Game
+  if (keyCode == 'p' || keyCode == 'P') {
+    startGame = true;
+  }
+  //Show Leaderboard
+
+  //Show Help Menu
+
+
+  //This section is for the Game related key presses.
   if (key == CODED){
     if (keyCode == UP){
       player.thrusting(true);

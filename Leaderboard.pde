@@ -1,4 +1,9 @@
-void OpenLdr() {
+class leaderBoard{
+
+  leaderBoard() {
+    
+  }
+
   /* 1. Create starts in the background the fade in and out for effect
   2. Menu to have "Play Game, "Leaderboard", "Instructions" & "Controls" as options
   */
@@ -11,12 +16,12 @@ void OpenLdr() {
  
  * Desc: Shows the high score board for the game. Scores saved in JSON.
  ***************************************************************/
-
+  
   String AstMn = "ASTEROIDS";
   String LdrBd = "Leaderboard";
   String backB = "M for Main Menu";
  
-   
+  /* 
   fill(255);
   textFont(font1);
   textAlign(CENTER);
@@ -28,5 +33,5 @@ void OpenLdr() {
   
   text(LdrBd, width/2,height*.15);
   fill(250,240,0);
-  text(backB, width/2,height*.95);
+  text(backB, width/2,height*.95);*/
 }

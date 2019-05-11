@@ -3,7 +3,7 @@ class OpenScn{
   //Define Strings
   StringList menu;
   String gameTitle = "ASTEROIDS";
-  String tip = "Choose using the shortcut keys or the return key";
+  String tip = "Select using the shortcut keys";
   String devTeam = "Created by Daniel Harraka, David Preston & Reece Temple";
 
   /**************************************************************
