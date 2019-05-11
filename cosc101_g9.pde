@@ -11,6 +11,10 @@
  * ...
  **************************************************************/
 
+	
+
+JSONObject json;
+
 //Import required libraries
 import processing.sound.*;
 //Define global variables
@@ -25,9 +29,10 @@ int startingAste = 5;
 int score = 0;
 int level = 1;
 int starAmount = 200;
-boolean startGame;
+boolean runGame;
 boolean loadLdr;
-boolean helpMenu;
+boolean helpMn;
+boolean opScrn;
 Starfield stars;
 OpenScn openScreen;
 leaderBoard openLdr;
@@ -39,7 +44,7 @@ PFont font1;
 
 void setup(){
   fullScreen();
-  //size(1000,1000);
+  json = loadJSONObject("json/ldr.json");
   player = new Ship();
   spawnAsteroids(startingAste);
   alien = new Alien();
@@ -52,34 +57,30 @@ void setup(){
   explosion = new SoundFile(this, "audio/explosion.wav");
   asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
   font1 = loadFont("font/OCRAExtended-48.vlw");
-  startGame = false; // Change this to false to get the start open.
+  opScrn = false; 
+  runGame = false; // Change this to false to get the start open.
   loadLdr = false; // Change this to false to get the start open.
 }
 
 void draw(){
   background(0);
   stars.draw();
-  if (!startGame){
-    openScreen.draw();
-    }else{
-    //leaderboard
-    if (!loadLdr){
-    openLdr.draw(); 
-    }else{ 
-    //help menu
-    //if (!helpMenu){
-    //helpMenu.draw(); 
-    //}
-    collisionDetection();
-    if(player.getLives() > 0){
-      drawPlayer();
-      drawAlien();
-      drawShots();
+  if (!runGame) {
+    if (loadLdr) {
+      openLdr.draw();
+    } else {
+      openScreen.draw();
     }
+  } else {
+      collisionDetection();
+      if(player.getLives() > 0) {
+        drawPlayer();
+        drawAlien();
+        drawShots();
+      }
     drawAsteroids();
     drawStats();
     checkLevelProgress();
-    }
   }
 }
 
@@ -311,7 +312,7 @@ void keyPressed(){
   
   //Play Game
   if (keyCode == 'p' || keyCode == 'P') {
-    startGame = true;
+    runGame = true;
   }
   //Show Leaderboard
 if (keyCode == 'l' || keyCode == 'L') {
@@ -320,6 +321,25 @@ if (keyCode == 'l' || keyCode == 'L') {
   //Show Help Menu
 if (keyCode == 'h' || keyCode == 'H') {
     //helpMn = true;
+  }
+  //Back to Main
+if (keyCode == 'm' || keyCode == 'M') {
+    runGame = false;
+    loadLdr = false;
+    helpMn = false;
+  }
+  //Exit
+  if (keyCode == 'e' || keyCode == 'E' && 
+  runGame == false && loadLdr == false  && helpMn == false) {
+    exit();
+  }
+
+    //Remove ESC key current and change to Main Menu
+  if (keyCode == ESC) {
+    key =0;
+    runGame = false;
+    loadLdr = false;
+    helpMn = false;
   }
 
   //This section is for the Game related key presses.

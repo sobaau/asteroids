@@ -1,12 +1,12 @@
-class leaderBoard{
+class helpMenu{
   //Define Strings
   StringList menu;
   String AstMn = "ASTEROIDS";
-  String LdrBd = "Leaderboard";
+  String helpMn = "Help";
   String backB = "M for Main Menu";
 
 
-  leaderBoard() {
+  helpMenu() {
     menu = new StringList();
     menu.append(backB);
   }
@@ -36,17 +36,17 @@ class leaderBoard{
   //Leaderboard Text
   textSize(25);
   stroke(5);
-  text(LdrBd, width/2,height*.15);
+  text(helpMn, width/2,height*.15);
 
   //Menu Option
   
   fill(250,240,0);
-  text(backB, width/2,height*.95);}}
+  text(backB, width/2,height*.95);
 
-  /*
-  json.setInt("id", 0);
-  json.setString("species", "Panthera leo");
-  json.setString("name", "Lion");
+ }
+ 
+ 
+}
 
-  saveJSONObject(json, "json/ldr.json");
-*/
+
+
