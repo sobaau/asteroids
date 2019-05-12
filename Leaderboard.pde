@@ -6,16 +6,6 @@ class leaderBoard{
   String LdrBd = "Leaderboard";
   String backB = "M for main menu";
   String headr = "Rank | Name |   Time   | Score";
-  String rank1 = "{}";
-  String rank2 = "";
-  String rank3 = "";
-  String rank4 = "";
-  String rank5 = "";
-  String rank6 = "";
-  String rank7 = "";
-  String rank8 = "";
-  String rank9 = "";
-  String rank10 = "";
 
   //Define Variables
   float rctX = width*.50;
@@ -30,17 +20,6 @@ class leaderBoard{
 
   leaderBoard() {
 
-    ldrInfo =new StringList();
-    ldrInfo.append(rank1);
-    ldrInfo.append(rank2);
-    ldrInfo.append(rank3);
-    ldrInfo.append(rank4);
-    ldrInfo.append(rank5);
-    ldrInfo.append(rank6);
-    ldrInfo.append(rank7);
-    ldrInfo.append(rank8);
-    ldrInfo.append(rank9);
-    ldrInfo.append(rank10);
   }
 
   /* 1. Create starts in the background the fade in and out for effect
@@ -80,9 +59,9 @@ class leaderBoard{
   text(LdrBd, width/2,height*.15);
   text(headr, width/2,height*.25);
 
-  for (int i = 0; i < ldrInfo.size()  ||  i > topTen; i++) {
+ /* for (int i = 0; i < ldrInfo.size()  ||  i > topTen; i++) {
       text(ldrInfo.get(i), width/2, (height*.30) + (40 * i));
-    }
+    }*/
   //Menu Option
   textSize(25);
   fill(250,240,0);

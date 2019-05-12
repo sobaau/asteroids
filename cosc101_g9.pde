@@ -14,7 +14,7 @@
 	
 
 
-JSONObject json;
+JSONArray json;
 
 //Import required libraries
 import processing.sound.*;
@@ -44,7 +44,8 @@ leaderBoard openLdr;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Shot> eShots = new ArrayList<Shot>();
-String[] ldrData;
+String[] Name;
+String[] jsonTime;
 
 //Font Change
 PFont font1;
@@ -91,7 +92,6 @@ void draw(){
     checkLevelProgress();
   }
 }
-
 /**************************************************************
  * Function: loadData()
  
@@ -99,27 +99,10 @@ void draw(){
  
  * Returns: Void
  
- * Desc: Loads the Highscore Data from json file
+ * Desc: Loads the data from the JSON file.
  ***************************************************************/
 void loadData(){
-  //load JSON file from folder
-  json = loadJSONObject("json/ldr.json");
-  //
-  JSONArray highscoreData = json.getJSONArray("highscores");
-  
-  for (int i = 0; i < highscoreData.size(); i++) {
-    // Get top 10 rank in the array
-    JSONObject hsData = highscoreData.getJSONObject(i); 
-
-    // Get highscore objects
-    int ldrRank = hsData.getInt("Rank");
-    String ldrName = hsData.getString("Name");
-    String ldrTime = hsData.getString("jsonTime");
-    int ldrScore = hsData.getInt("jsonScr");
-
-    //Put object in array form
-    println(ldrRank+" | "+ ldrName + " | " + ldrTime + " | " + ldrScore);
-  }
+//Call class functions
 }
 
 /**************************************************************
