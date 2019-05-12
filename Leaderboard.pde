@@ -1,10 +1,11 @@
 class leaderBoard{
+
   //Define Strings
-  StringList menu;
   StringList ldrInfo;
   String AstMn = "ASTEROIDS";
   String LdrBd = "Leaderboard";
   String backB = "M for main menu";
+  String headr = "Rank | Name |   Time   | Score";
   String rank1 = "{}";
   String rank2 = "";
   String rank3 = "";
@@ -16,9 +17,18 @@ class leaderBoard{
   String rank9 = "";
   String rank10 = "";
 
+  //Define Variables
+  float rctX = width*.50;
+  float rctY = height*.55;
+  float rctW = width*.50;
+  float rctH = height*.70;
+  int rctRad = 10;
+  int topTen = 9;
+
+  //Array
+  
+
   leaderBoard() {
-    menu = new StringList();
-    menu.append(backB);
 
     ldrInfo =new StringList();
     ldrInfo.append(rank1);
@@ -47,10 +57,13 @@ class leaderBoard{
  ***************************************************************/
  void draw() {
    
-    JSONObject highscores = new JSONObject();
 
 
-
+  //
+  fill(0);
+  stroke(230);
+  rectMode(CENTER);
+  rect(rctX,rctY,rctW,rctH,rctRad);
 
   //
   fill(255);
@@ -62,19 +75,17 @@ class leaderBoard{
   text(AstMn,width/2,height*.10);
 
   //Leaderboard Text
-  textSize(25);
+  textSize(40);
   stroke(5);
   text(LdrBd, width/2,height*.15);
+  text(headr, width/2,height*.25);
 
+  for (int i = 0; i < ldrInfo.size()  ||  i > topTen; i++) {
+      text(ldrInfo.get(i), width/2, (height*.30) + (40 * i));
+    }
   //Menu Option
-  
+  textSize(25);
   fill(250,240,0);
-  text(backB, width/2,height*.95);}}
-
-  /*
-  json.setInt("id", 0);
-  json.setString("species", "Panthera leo");
-  json.setString("name", "Lion");
-
-  saveJSONObject(json, "json/ldr.json");
-*/
+  text(backB, width/2,height*.95);}
+  
+  }

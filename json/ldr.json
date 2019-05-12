@@ -1,5 +1,53 @@
-{ "highscores": [{"jsonScr": 1000000,
-  "jsonTime": "00:00:00",
-  "Name": "Reece",
-  "Rank": 1}]
+{ "highscores":[
+        
+        {"jsonScr": 1000000,
+        "jsonTime": "00:00:00",
+        "Name": "Reece",
+        "Rank": 1},
+
+        {"jsonScr": 1000000,
+        "jsonTime": "00:00:00",
+        "Name": "Daniel",
+        "Rank": 2},
+    
+        {"jsonScr": 1000000,
+        "jsonTime": "00:00:00",
+        "Name": "David",
+        "Rank": 3},
+        
+        {"jsonScr": 1000000,
+        "jsonTime": "00:00:00",
+        "Name": "Luke",
+        "Rank": 4},
+            
+        {"jsonScr": 1000000,
+        "jsonTime": "00:00:00",
+        "Name": "Marge",
+        "Rank": 5},
+                
+        {"jsonScr": 1000000,
+        "jsonTime": "00:00:00",
+        "Name": "Lisa",
+        "Rank": 6},
+    
+        {"jsonScr": 1000000,
+        "jsonTime": "00:00:00",
+        "Name": "John",
+        "Rank": 7},
+    
+        {"jsonScr": 1000000,
+        "jsonTime": "00:00:00",
+        "Name": "Betty",
+        "Rank": 8},
+    
+        {"jsonScr": 1000000,
+        "jsonTime": "00:00:00",
+        "Name": "Layla",
+        "Rank": 9},
+        
+        {"jsonScr": 1000000,
+        "jsonTime": "00:00:00",
+        "Name": "Sadie",
+        "Rank": 10}
+]
 }

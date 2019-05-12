@@ -13,16 +13,17 @@
 
 	
 
+
 JSONObject json;
 
 //Import required libraries
 import processing.sound.*;
+
 //Define global variables
 Ship player;
 Asteroid asteroid;
 Shot shot;
 Alien alien;
-//HishScores[] highscores;
 SoundFile shipShot;
 SoundFile explosion;
 SoundFile asteroidHit;
@@ -32,6 +33,7 @@ int level = 1;
 int starAmount = 200;
 int highScr = 11;
 int minScreenEdge;
+int highscores;
 boolean runGame;
 boolean loadLdr;
 boolean helpMn;
@@ -42,13 +44,14 @@ leaderBoard openLdr;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Shot> eShots = new ArrayList<Shot>();
+String[] ldrData;
 
 //Font Change
 PFont font1;
 
 void setup(){
   fullScreen();
-  //loadData();
+  loadData();
   player = new Ship();
   spawnAsteroids(startingAste);
   alien = new Alien();
@@ -61,12 +64,13 @@ void setup(){
   explosion = new SoundFile(this, "audio/explosion.wav");
   asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
   font1 = loadFont("font/OCRAExtended-48.vlw");
-  opScrn = false; 
+  opScrn = false;  // Change this to false to get the start open.
   runGame = false; // Change this to false to get the start open.
   loadLdr = false; // Change this to false to get the start open.
 }
 
 void draw(){
+  noCursor();
   background(0);
   stars.draw();
   if (!runGame) {
@@ -97,26 +101,26 @@ void draw(){
  
  * Desc: Loads the Highscore Data from json file
  ***************************************************************/
-/*void loadData(){
+void loadData(){
   //load JSON file from folder
   json = loadJSONObject("json/ldr.json");
   //
-  JSONArray highscoreData = json.getJSONArray("higschores");
-  //Check the size of the highscores array in JSON file
-  highscores = new Highscores[highscoreData.size()];
-
-  for (int i = 0; i < highscoresData.Size() || i < highScr; i++) {
+  JSONArray highscoreData = json.getJSONArray("highscores");
+  
+  for (int i = 0; i < highscoreData.size(); i++) {
     // Get top 10 rank in the array
-    JSONObject rank = highscoreData.getJSONObject(i); 
+    JSONObject hsData = highscoreData.getJSONObject(i); 
+
     // Get highscore objects
-    JSONObject name = Highscores.getJSONObject("name");
-    JSONObject jsonScr = Highscores.getJSONObject("jsonScr");
-    JSONObject jsonTime = Highscores.getJSONObject("jsonTime");
+    int ldrRank = hsData.getInt("Rank");
+    String ldrName = hsData.getString("Name");
+    String ldrTime = hsData.getString("jsonTime");
+    int ldrScore = hsData.getInt("jsonScr");
 
     //Put object in array form
-    highscores[i] = new Highscores(rank," || ",name," | ",jsonScr," | ",jsonTime);
+    println(ldrRank+" | "+ ldrName + " | " + ldrTime + " | " + ldrScore);
+  }
 }
-}*/
 
 /**************************************************************
  * Function: drawPlayer()
