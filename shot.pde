@@ -101,7 +101,7 @@ class Shot {
   */
   boolean checkBounds() {
     if (location.x > width || location.y > height 
-        || location.x < screenEdge || location.y < screenEdge) {
+        || location.x < minScreenEdge || location.y < minScreenEdge) {
       return true;
     }
     return false;

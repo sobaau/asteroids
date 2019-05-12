@@ -12,8 +12,8 @@ class Star {
     Returns: None
   */
   Star() {
-    locX = random(screenEdge, width);
-    locY = random(screenEdge, height);
+    locX = random(minScreenEdge, width);
+    locY = random(minScreenEdge, height);
     starBright = 1;
   }
   

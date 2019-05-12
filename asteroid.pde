@@ -1,26 +1,25 @@
-class Asteroid{
+class Asteroid {
+  //Define class variables
   PVector location;
   PVector velocity;
   float minSize;
   float maxSize;
   ArrayList<PVector> vertices = new ArrayList<PVector>();
 
-  /**************************************************************
-   * Function: Asteroid()
-   
-   * Parameters: PVector(loc): The location to spawn the Asteroid.
-   
-   * Returns: None
-   
-   * Desc: Spawns an asteroid at the given Vector location and generates its 
-           size and shape to be used when drawing.
-   ***************************************************************/
-  Asteroid(PVector loc){
+  /**
+    Function: Asteroid()
+    Description: Spawns an asteroid at the given Vector location and
+                  generates its size and shape to be used when drawing.
+    Parameters: PVector(loc): The location to spawn the Asteroid.
+    Returns: None
+  */
+  Asteroid(PVector loc) {
     location = new PVector(loc.x, loc.y);
     velocity = PVector.random2D();
     minSize = 30;
     maxSize = 50;
     float a = 0;
+
     while (a < 360) {
       float x = cos(radians(a)) * random(minSize,maxSize);
       float y = sin(radians(a)) * random(minSize,maxSize);
@@ -29,24 +28,22 @@ class Asteroid{
     }
   }
 
-  /**************************************************************
-   * Function: Asteroid()
-   
-   * Parameters: PVector(loc): The location to spawn the Asteroid.
-   float(size): The size of the old asteroid.
-   
-   * Returns: None
-   
-   * Desc: Constructor for the Asteroid once its destroyed. Spawns the a 
-           new asteroid at the given location and also reduce its size based 
-           on the size of the old asteroid.
-   ***************************************************************/
-  Asteroid(PVector loc, float minS, float maxS){
+  /**
+    Function: Asteroid()
+    Description: Constructor for the Asteroid once its destroyed. Spawns
+                  the a new asteroid at the given location and also reduce
+                  its size based on the size of the old asteroid.
+    Parameters: PVector(loc): The location to spawn the Asteroid.
+                float(size): The size of the old asteroid.
+    Returns: None
+  */
+  Asteroid(PVector loc, float minS, float maxS) {
     location = new PVector(loc.x, loc.y);
     velocity = PVector.random2D();
     minSize = minS - 10;
     maxSize = maxS - 10;
     float a = 0;
+
     while (a < 360) {
       float x = cos(radians(a)) * random(minSize,maxSize);
       float y = sin(radians(a)) * random(minSize,maxSize);
@@ -55,31 +52,25 @@ class Asteroid{
     }
   }
 
-  /**************************************************************
-   * Function: update()
-   
-   * Parameters: None
-   
-   * Returns: Void
-   
-   * Desc: Updates the location of the asteroid.
-   ***************************************************************/
-  void update(){
+  /**
+    Function: update()
+    Description: Updates the location of the asteroid.
+    Parameters: None
+    Returns: Void
+  */
+  void update() {
     checkEdges();
     location.add(velocity);
   }
 
-  /**************************************************************
-   * Function: draw()
-   
-   * Parameters: None
-   
-   * Returns: Void
-   
-   * Desc: Draws the asteroid at a given location and also random generates
-           the asteroid.
-   ***************************************************************/
-  void draw(){
+  /**
+    Function: draw()
+    Description: Draws the asteroid at a given location and also
+                  random generates the asteroid.
+    Parameters: None
+    Returns: Void
+  */
+  void draw() {
     push();
     stroke(255);
     noFill();
@@ -92,22 +83,20 @@ class Asteroid{
     pop();
   }
 
-  /**************************************************************
-   * Function: checkEdges()
-   
-   * Parameters: None
-   
-   * Returns: Void
-   
-   * Desc: Checks to see if an Asteroid is off the screen and if so wraps it 
-           to the other side of the screen if it is.
-   ***************************************************************/
-  void checkEdges(){
+  /**
+    Function: checkEdges()
+    Description: Checks to see if an Asteroid is off the screen and
+                  if so wraps it to the other side of the screen if it is.
+    Parameters: None
+    Returns: Void
+  */
+  void checkEdges() {
     if (location.x > width + maxSize){
       location.x = -maxSize;
     } else if (location.x < -maxSize){
       location.x = width + maxSize;
     }
+
     if (location.y > height + maxSize){
       location.y = -maxSize;
     } else if (location.y < -maxSize){
@@ -115,15 +104,12 @@ class Asteroid{
     }
   }
 
-  /**************************************************************
-   * Function: playAudio()
-   
-   * Parameters: None
-   
-   * Returns: void
-   
-   * Desc: Plays the astertoid explosion audio file.
-   ***************************************************************/
+  /**
+    Function: playAudio()
+    Description: Plays the astertoid explosion audio file.
+    Parameters: None
+    Returns: void
+  */
   void playAudio() {
     asteroidHit.play();
   }
