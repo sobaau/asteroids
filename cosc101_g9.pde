@@ -31,6 +31,7 @@ int score = 0;
 int level = 1;
 int starAmount = 200;
 int highScr = 11;
+int screenEdge;
 boolean runGame;
 boolean loadLdr;
 boolean helpMn;
