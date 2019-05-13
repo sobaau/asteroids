@@ -2,6 +2,7 @@ class Shot {
   //Define class variables
   PVector location;
   PVector velocity;
+  String type;
 
   /**
     Function: Shot()
@@ -15,6 +16,7 @@ class Shot {
     Returns: None
   */
   Shot(PVector spawnLoc, PVector targetLoc) {
+    type = "alien";
     location = new PVector(spawnLoc.x, spawnLoc.y);	
     PVector target = PVector.sub(targetLoc, spawnLoc);
     velocity = PVector.fromAngle(target.heading());
@@ -32,6 +34,7 @@ class Shot {
     Returns: None
   */
   Shot(PVector spawnLoc, float heading) {
+    type = "player";
     location = new PVector(spawnLoc.x, spawnLoc.y);
     velocity = PVector.fromAngle(heading);
     velocity.mult(9);

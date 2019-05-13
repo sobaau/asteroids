@@ -10,16 +10,10 @@
           (don't use anything with copyright - unless you have permission)
  * ...
  **************************************************************/
-
-	
-
-
-JSONArray json;
-
 //Import required libraries
 import processing.sound.*;
-
 //Define global variables
+JSONArray json;
 Ship player;
 Asteroid asteroid;
 Shot shot;
@@ -43,10 +37,8 @@ OpenScn openScreen;
 leaderBoard openLdr;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
-ArrayList<Shot> eShots = new ArrayList<Shot>();
 String[] Name;
 String[] jsonTime;
-
 //Font Change
 PFont font1;
 
@@ -65,9 +57,9 @@ void setup(){
   explosion = new SoundFile(this, "audio/explosion.wav");
   asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
   font1 = loadFont("font/OCRAExtended-48.vlw");
-  opScrn = false;  // Change this to false to get the start open.
-  runGame = false; // Change this to false to get the start open.
-  loadLdr = false; // Change this to false to get the start open.
+  opScrn = false;
+  runGame = false;
+  loadLdr = false;
 }
 
 void draw(){
@@ -84,14 +76,15 @@ void draw(){
       collisionDetection();
       if(player.getLives() > 0) {
         drawPlayer();
-        drawAlien();
         drawShots();
+        drawAsteroids();
+        drawAlien();
       }
-    drawAsteroids();
     drawStats();
     checkLevelProgress();
   }
 }
+
 /**************************************************************
  * Function: loadData()
  
@@ -132,7 +125,7 @@ void drawAlien(){
   alien.update();
   alien.draw();
   if (alien.energy > 50){
-    eShots.add(new Shot(alien.location, player.location));
+    shots.add(new Shot(alien.location, player.location));
     alien.energy = 0;
   }
 }
@@ -156,7 +149,6 @@ void drawStats() {
   int milSecPerMin = secPerMin * milSecPerSec;
   int milSecPerHr = minPerHr * secPerMin * milSecPerSec;
   String backB = "ESC or M for main menu";
-
   textFont(font1);
   textSize(14);
   fill(255);
@@ -205,29 +197,9 @@ void spawnAsteroids(int asteroNums){
          arrays if they go off the screen.
  ***************************************************************/
 void drawShots(){ 
-  for (int i = 0; i < shots.size(); i++){
-    shots.get(i).update();
-    shots.get(i).draw();
-    if (shots.get(i).checkBounds()){
-      shots.remove(i);
-    }
-  }
-  for (int i = 0; i < eShots.size(); i++){
-    eShots.get(i).update();
-    eShots.get(i).draw();
-    if (eShots.get(i).checkBounds()){
-      eShots.remove(i);
-    }
-  }
-  for (int i = 0; i < eShots.size(); i++){
-    eShots.get(i).update();
-    eShots.get(i).draw();
-    for (int j = 0; j < asteroids.size(); j++){
-      if (eShots.get(i).collide(asteroids.get(j))){
-        eShots.remove(i);
-        break;
-      }
-    }
+  for (Shot s : shots){
+    s.update();
+    s.draw();
   }
 }
 
@@ -263,33 +235,30 @@ void drawAsteroids(){
          and a smaller one is spawned in its place.
  ***************************************************************/
 void collisionDetection(){
-  float maxSize;
-  float minSize;
-  PVector newLoc;
-
-  for (int i = 0; i < shots.size(); i++){
-    for (int j = 0; j < asteroids.size(); j++){
+  for (int i = shots.size() - 1; i >= 0; i--){
+    if (shots.get(i).collide(player) && shots.get(i).type != "player"){
+      println("Player hit by alien");
+      shots.remove(i); 
+      break;
+    }
+    if (shots.get(i).checkBounds()){
+      shots.remove(i); 
+      break;
+    }
+    for (int j = asteroids.size() - 1; j >= 0; j--){
       if (shots.get(i).collide(asteroids.get(j))){
-        score++;
-        if (asteroids.get(j).minSize > 10){
-          println("Asteroid Hit");
-          minSize = asteroids.get(j).minSize;
-          maxSize = asteroids.get(j).maxSize;
-          newLoc = asteroids.get(j).location;
-          asteroids.add(new Asteroid(newLoc, minSize, maxSize)); 
-          asteroids.add(new Asteroid(newLoc, minSize, maxSize));
+        if (shots.get(i).type == "player"){
+          score++;
+          if (asteroids.get(j).minSize > 10){
+            println("Asteroid Hit");
+            splitAsteroid(asteroids.get(j), 2);
+          }
+          asteroids.remove(j);
+          asteroid.playAudio();
         }
-        asteroids.remove(j);
-        asteroid.playAudio();
         shots.remove(i);
         break;
       }
-    }
-  }
-  for ( int i = 0; i < eShots.size(); i++){
-    if (eShots.get(i).collide(player)){
-      println("Ship Hit");
-      eShots.remove(i);
     }
   }
   for (Asteroid a : asteroids){
@@ -300,6 +269,20 @@ void collisionDetection(){
   }
   //TODO If alien and player hit each other do something
   //TODO If playershot hits alien do something
+}
+
+
+/**
+  Function: splitAsteroid()
+  Description: Splits the asteroids by the provided times.
+  Parameters: Asteroid(a): The asteroid to split.
+              int(x): The amount of times to split it.
+  Returns: Void
+*/
+void splitAsteroid(Asteroid a, int x){
+  for(int i = 0; i < x; i++){
+    asteroids.add(new Asteroid(a));
+  }
 }
 
 /**************************************************************
@@ -323,6 +306,18 @@ void checkLevelProgress() {
   }
 }
 
+/**
+  Function: closeMenu()
+  Description: Close's any open menus.
+  Parameters: None
+  Returns: Void
+*/
+void closeMenu(){
+  runGame = false;
+  loadLdr = false;
+  helpMn = false;
+}
+
 /**************************************************************
  * Function: keyPressed()
  
@@ -333,41 +328,33 @@ void checkLevelProgress() {
  * Desc: 
  ***************************************************************/
 void keyPressed(){
-
   //This section is for the Menu related key presses.
-  
   //Play Game
   if (keyCode == 'p' || keyCode == 'P') {
     runGame = true;
   }
   //Show Leaderboard
-if (keyCode == 'l' || keyCode == 'L') {
+  if (keyCode == 'l' || keyCode == 'L') {
     loadLdr = true;
   }
   //Show Help Menu
-if (keyCode == 'h' || keyCode == 'H') {
+  if (keyCode == 'h' || keyCode == 'H') {
     //helpMn = true;
   }
   //Back to Main
-if (keyCode == 'm' || keyCode == 'M') {
-    runGame = false;
-    loadLdr = false;
-    helpMn = false;
+  if (keyCode == 'm' || keyCode == 'M') {
+    closeMenu();
   }
   //Exit
   if (keyCode == 'e' || keyCode == 'E' && 
-  runGame == false && loadLdr == false  && helpMn == false) {
+      runGame == false && loadLdr == false  && helpMn == false) {
     exit();
   }
-
-    //Remove ESC key current and change to Main Menu
+  //Remove ESC key current and change to Main Menu
   if (keyCode == ESC) {
-    key =0;
-    runGame = false;
-    loadLdr = false;
-    helpMn = false;
+    key = 0;
+    closeMenu();
   }
-
   //This section is for the Game related key presses.
   if (key == CODED){
     if (keyCode == UP){
@@ -385,9 +372,8 @@ if (keyCode == 'm' || keyCode == 'M') {
     }
   }
   if (keyCode == ' '){
-    shot = new Shot(player.location, player.heading);
-    shots.add(shot);
-  }
+      shots.add(new Shot(player.location, player.heading));
+    }
 }
 
 /**************************************************************

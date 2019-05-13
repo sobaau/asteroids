@@ -31,17 +31,19 @@ class Asteroid {
   /**
     Function: Asteroid()
     Description: Constructor for the Asteroid once its destroyed. Spawns
-                  the a new asteroid at the given location and also reduce
-                  its size based on the size of the old asteroid.
+                  the a new smaller asteroid at the old asteroids location 
+                  and sends it in a random direction.
     Parameters: PVector(loc): The location to spawn the Asteroid.
-                float(size): The size of the old asteroid.
+                float(minS): The min size of the old asteroid.
+                float(maxS): The max size of the old asteroid
     Returns: None
   */
-  Asteroid(PVector loc, float minS, float maxS) {
-    location = new PVector(loc.x, loc.y);
+  Asteroid(Asteroid oldAster) {
+    location = new PVector(oldAster.location.x, oldAster.location.y);
     velocity = PVector.random2D();
-    minSize = minS - 10;
-    maxSize = maxS - 10;
+    float reduce = 10;
+    minSize = oldAster.minSize - reduce;
+    maxSize = oldAster.maxSize - reduce;
     float a = 0;
 
     while (a < 360) {
@@ -73,7 +75,7 @@ class Asteroid {
   void draw() {
     push();
     stroke(255);
-    noFill();
+    fill(0);
     translate(location.x, location.y);
     beginShape();
     for (PVector v : vertices) {

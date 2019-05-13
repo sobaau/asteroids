@@ -6,7 +6,6 @@ class Ship {
   boolean isThrusting = false;
   boolean isTurning = false;
   boolean gunOvertemp = false;
-  boolean alive;
   int lives = 3;
   int r = 15; // Size of the ship 
   int gunTemperature = 0;
@@ -184,6 +183,13 @@ class Ship {
     return lives;
   }
 
+  /**
+    Function: hit()
+    Description: Removes a life from the player depending on the time expired 
+                 so that the player doesn't die right away.
+    Parameters: None
+    Returns: Void
+  */
   void hit(){
     if(lives > 0 && frameCount % 15 == 0){
       lives--;
