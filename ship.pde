@@ -21,7 +21,6 @@ class Ship {
   */
   Ship() {
     location = new PVector(width/2, height/2);
-    boolean alive = true;
   }
 
   /**
