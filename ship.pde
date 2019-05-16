@@ -189,8 +189,8 @@ class Ship {
     Parameters: None
     Returns: Void
   */
-  void hit(){
-    if(lives > 0 && frameCount % 15 == 0){
+  void hit() {
+    if(lives > 0) {
       lives--;
     }
   }

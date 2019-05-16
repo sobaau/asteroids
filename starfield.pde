@@ -6,7 +6,7 @@ class Starfield {
     Function: Starfield()
     Description: Constructor for the Starfield class. 
                   Creates the amount of stars specified by size.
-    Parameters: int(size): The amount of stars to spawn
+    Parameters: int(size): The amount of stars to spawn.
     Returns: None
   */
   Starfield(int size) {

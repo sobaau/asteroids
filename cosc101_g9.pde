@@ -21,14 +21,15 @@ Alien alien;
 SoundFile shipShot;
 SoundFile explosion;
 SoundFile asteroidHit;
-int startingAste = 5;
+int startingAste = 1;
 int score = 0;
 int level = 1;
 int starAmount = 200;
 int highScr = 11;
-int minScreenEdge;
+final int minScreenEdge = 0;
 int highscores;
 boolean runGame;
+boolean aliensAdded;
 boolean loadLdr;
 boolean helpMn;
 boolean opScrn;
@@ -45,9 +46,6 @@ PFont font1;
 void setup(){
   fullScreen();
   loadData();
-  player = new Ship();
-  spawnAsteroids(startingAste);
-  alien = new Alien();
   stars = new Starfield(starAmount);
   openScreen = new OpenScn();
   openLdr = new leaderBoard();
@@ -78,7 +76,9 @@ void draw(){
         drawPlayer();
         drawShots();
         drawAsteroids();
-        drawAlien();
+        if (aliensAdded) {
+          drawAlien();
+        }
       }
     drawStats();
     checkLevelProgress();
@@ -98,33 +98,27 @@ void loadData(){
 //Call class functions
 }
 
-/**************************************************************
- * Function: drawPlayer()
- 
- * Parameters: None.
- 
- * Returns: Void
- 
- * Desc: Updates and draws the players location.
- ***************************************************************/
-void drawPlayer(){
+/**
+  Function: drawPlayer()
+  Description: Updates and draws the players location.
+  Parameters: None
+  Returns: Void
+*/
+void drawPlayer() {
   player.update();
   player.draw();
 }
 
-/**************************************************************
- * Function: drawAlien()
- 
- * Parameters: None.
- 
- * Returns: Void
- 
- * Desc: Updates and draws the aliens location.
- ***************************************************************/
-void drawAlien(){
+/**
+  Function: drawAlien()
+  Description: Updates and draws the aliens location.
+  Parameters: None
+  Returns: Void
+*/
+void drawAlien() {
   alien.update();
   alien.draw();
-  if (alien.energy > 50){
+  if (alien.energy > 50) {
     shots.add(new Shot(alien.location, player.location));
     alien.energy = 0;
   }
@@ -143,11 +137,11 @@ void drawStats() {
   int indent = 15;
   float oppindent = width -15;
   int yTextPos = 20;
-  int secPerMin = 60;
-  int minPerHr = 60;
-  int milSecPerSec = 1000;
-  int milSecPerMin = secPerMin * milSecPerSec;
-  int milSecPerHr = minPerHr * secPerMin * milSecPerSec;
+  final int secPerMin = 60;
+  final int minPerHr = 60;
+  final int milSecPerSec = 1000;
+  final int milSecPerMin = secPerMin * milSecPerSec;
+  final int milSecPerHr = minPerHr * secPerMin * milSecPerSec;
   String backB = "ESC or M for main menu";
   textFont(font1);
   textSize(14);
@@ -164,21 +158,18 @@ void drawStats() {
   text(backB,oppindent,yTextPos*1);
 }
 
-/**************************************************************
- * Function: spawnAsteroids()
- 
- * Parameters: int(asteroNums): The number of asteroids to spawn.
- 
- * Returns: Void
- 
- * Desc: Spawns asteroids and makes sure they aren't within a certain distance 
-         of the player.
- ***************************************************************/
-void spawnAsteroids(int asteroNums){
+/**
+  Function: spawnAsteroids()
+  Description: Spawns asteroids and makes sure they aren't within a
+                certain distance of the player.
+  Parameters: int(asteroNums): The number of asteroids to spawn.
+  Returns: Void
+*/
+void spawnAsteroids(int asteroNums) {
   int minDistance = 150; // Change this to spawn them closer to the player.
-  for (int i = 0; i < asteroNums; i++){
+  for (int i = 0; i < asteroNums; i++) {
     PVector spawn = new PVector(random(width), random(height));
-    while (spawn.dist(player.location) < minDistance){
+    while (spawn.dist(player.location) < minDistance) {
       spawn = new PVector(random(width), random(height));
     }
     asteroid = new Asteroid(spawn);
@@ -186,34 +177,28 @@ void spawnAsteroids(int asteroNums){
   }
 }
 
-/**************************************************************
- * Function: drawShots()
- 
- * Parameters: None
- 
- * Returns: Void
- 
- * Desc: Draws both player and alien shots and also removes them from their 
-         arrays if they go off the screen.
- ***************************************************************/
-void drawShots(){ 
-  for (Shot s : shots){
+/**
+  Function: drawShots()
+  Description: Draws both player and alien shots and also removes them 
+                from their arrays if they go off the screen. 
+  Parameters: None
+  Returns: Void
+*/
+void drawShots() { 
+  for (Shot s : shots) {
     s.update();
     s.draw();
   }
 }
 
-/**************************************************************
- * Function: drawAsteroids()
- 
- * Parameters: None 
- 
- * Returns: Void
- 
- * Desc: Updates the location of all asteroids in the asteroids array.
- ***************************************************************/
-void drawAsteroids(){
-  for (Asteroid a : asteroids){
+/**
+  Function: drawAsteroids()
+  Description: Updates the location of all asteroids in the asteroids array.
+  Parameters: None 
+  Returns: Void
+*/
+void drawAsteroids() {
+  for (Asteroid a : asteroids) {
     a.update();
     a.draw();
   }
@@ -238,6 +223,7 @@ void collisionDetection(){
   for (int i = shots.size() - 1; i >= 0; i--){
     if (shots.get(i).collide(player) && shots.get(i).type != "player"){
       println("Player hit by alien");
+      player.hit();
       shots.remove(i); 
       break;
     }
@@ -279,8 +265,8 @@ void collisionDetection(){
               int(x): The amount of times to split it.
   Returns: Void
 */
-void splitAsteroid(Asteroid a, int x){
-  for(int i = 0; i < x; i++){
+void splitAsteroid(Asteroid a, int x) {
+  for(int i = 0; i < x; i++) {
     asteroids.add(new Asteroid(a));
   }
 }
@@ -298,11 +284,10 @@ void splitAsteroid(Asteroid a, int x){
  ***************************************************************/
 void checkLevelProgress() {
   if (asteroids.size() == 0) {
-    println("Level completed");
     level++;
-    spawnAsteroids(startingAste*level);
-    stars = new Starfield(starAmount);
+    spawnAsteroids(startingAste * level);
     alien = new Alien();
+    aliensAdded = true;
   }
 }
 
@@ -318,6 +303,24 @@ void closeMenu(){
   helpMn = false;
 }
 
+/**
+  Function: newGame()
+  Description: Clears old game if one exists and creates objects for new
+                game.
+  Parameters: None
+  Returns: Void
+*/
+void newGame() {
+    asteroids.clear();
+    shots.clear();
+    score = 0;
+    level = 1;
+    aliensAdded = false;
+
+    player = new Ship();
+    spawnAsteroids(startingAste);
+}
+
 /**************************************************************
  * Function: keyPressed()
  
@@ -329,8 +332,9 @@ void closeMenu(){
  ***************************************************************/
 void keyPressed(){
   //This section is for the Menu related key presses.
-  //Play Game
-  if (keyCode == 'p' || keyCode == 'P') {
+  //New Game
+  if (keyCode == 'n' || keyCode == 'N') {
+    newGame();
     runGame = true;
   }
   //Show Leaderboard
@@ -376,27 +380,24 @@ void keyPressed(){
     }
 }
 
-/**************************************************************
- * Function: keyReleased()
- 
- * Parameters: None
- 
- * Returns: Void
- 
- * Desc: 
- ***************************************************************/
-void keyReleased(){
-  if (key == CODED){
-    if (keyCode == UP){
+/**
+  Function: keyReleased()
+  Decription: TODO
+  Parameters: None
+  Returns: Void
+*/
+void keyReleased() {
+  if (key == CODED) {
+    if (keyCode == UP) {
       player.thrusting(false);
     }
-    if (keyCode == DOWN){
+    if (keyCode == DOWN) {
     } 
-    if (keyCode == RIGHT){
+    if (keyCode == RIGHT) {
       player.turning(false);
       player.setRotation(0);
     }
-    if (keyCode == LEFT){
+    if (keyCode == LEFT) {
       player.turning(false);
       player.setRotation(0);
     }

@@ -12,7 +12,7 @@ class Shot {
                   toward the provided target.
     Parameters: PVector(spawnLoc): The location to spawn the shot, 
                 PVector(targetLoc): The location of the target that the shot 
-                will be fired towards
+                will be fired towards.
     Returns: None
   */
   Shot(PVector spawnLoc, PVector targetLoc) {
@@ -28,7 +28,7 @@ class Shot {
     Function: Shot()
     Description: Constructor for the Shot class, The shot is created
                   at the given location and fired in the direction 
-                  that the ship firing it is facing
+                  that the ship firing it is facing.
     Parameters: PVector(spawnLoc): The location to spawn the shot,
                  float(heading): The heading to fire the shot from.
     Returns: None
@@ -83,7 +83,7 @@ class Shot {
   /**
     Function: collide()
     Description: Checks if the shot has collided with a ship and returns
-                  true if it has
+                  true if it has.
     Parameters: Ship(s): the ship to check if its been hit.
     Returns: Boolean
   */
