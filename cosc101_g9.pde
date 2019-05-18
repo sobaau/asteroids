@@ -28,7 +28,13 @@ int starAmount = 200;
 int highScr = 11;
 final int minScreenEdge = 0;
 int highscores;
+int periodTimerStart;
+int totalGameTimer;
+int liveGameTimer;
 boolean runGame;
+boolean gameOver;
+boolean gameRunningLastScan;
+boolean gameInProgress;
 boolean aliensAdded;
 boolean loadLdr;
 boolean helpMn;
@@ -57,6 +63,9 @@ void setup(){
   font1 = loadFont("font/OCRAExtended-48.vlw");
   opScrn = false;
   runGame = false;
+  gameOver = false;
+  gameRunningLastScan = false;
+  gameInProgress = false;
   loadLdr = false;
 }
 
@@ -64,6 +73,7 @@ void draw(){
   noCursor();
   background(0);
   stars.draw();
+  gameTimer();
   if (!runGame) {
     if (loadLdr) {
       openLdr.draw();
@@ -71,17 +81,21 @@ void draw(){
       openScreen.draw();
     }
   } else {
-      collisionDetection();
-      if(player.getLives() > 0) {
+      gameOver = !player.isAlive;
+
+      if (player.isAlive) {
         drawPlayer();
         drawShots();
         drawAsteroids();
         if (aliensAdded) {
           drawAlien();
         }
+        collisionDetection();
+        checkLevelProgress();
+      } else {
+        // game over. check for new high score and save.
       }
     drawStats();
-    checkLevelProgress();
   }
 }
 
@@ -147,15 +161,41 @@ void drawStats() {
   textSize(14);
   fill(255);
   textAlign(LEFT);
-  text("TIME: " + floor(millis()/milSecPerHr) + ":" + 
-        floor(millis()/milSecPerMin) + ":" + 
-        (millis()/milSecPerSec)%secPerMin, indent, yTextPos);
+  text("TIME: " + floor(liveGameTimer/milSecPerHr) + ":" + 
+        floor(liveGameTimer/milSecPerMin) + ":" + 
+        (liveGameTimer/milSecPerSec)%secPerMin, indent, yTextPos);
   text("SCORE: " + score, indent, yTextPos*2);
   text("LEVEL: " + level, indent, yTextPos*3);
   text("LIVES: " + player.getLives(), indent, yTextPos*4);
   fill(250,240,0);
    textAlign(RIGHT);
   text(backB,oppindent,yTextPos*1);
+}
+
+/**
+  Function: gameTimer()
+  Description: TODO
+  Parameters: None
+  Returns: Void
+*/
+void gameTimer() {
+
+  //Transition to game running
+  if (!gameRunningLastScan && runGame) {
+    periodTimerStart = millis();
+    gameRunningLastScan = true;
+  }
+
+  //Transition to game not running
+  if (gameRunningLastScan && !runGame) {
+    totalGameTimer+= millis() - periodTimerStart;
+    gameRunningLastScan = false;
+  }
+
+  //Game continues running
+  if (gameRunningLastScan && runGame && !gameOver) {
+    liveGameTimer = totalGameTimer + millis() - periodTimerStart;
+  }
 }
 
 /**
@@ -298,6 +338,7 @@ void checkLevelProgress() {
   Returns: Void
 */
 void closeMenu(){
+  openScreen = new OpenScn();
   runGame = false;
   loadLdr = false;
   helpMn = false;
@@ -316,9 +357,13 @@ void newGame() {
     score = 0;
     level = 1;
     aliensAdded = false;
+    totalGameTimer = 0;
+    periodTimerStart = millis();
 
     player = new Ship();
     spawnAsteroids(startingAste);
+    gameInProgress = true;
+    gameOver = false;
 }
 
 /**************************************************************
@@ -336,6 +381,12 @@ void keyPressed(){
   if (keyCode == 'n' || keyCode == 'N') {
     newGame();
     runGame = true;
+  }
+  //Continue Game
+  if (keyCode == 'c' || keyCode == 'C') {
+    if (gameInProgress) {
+      runGame = true;
+    }
   }
   //Show Leaderboard
   if (keyCode == 'l' || keyCode == 'L') {

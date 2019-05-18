@@ -15,6 +15,9 @@ class OpenScn{
   OpenScn() {
     menu = new StringList();
     menu.append("(N)ew Game");
+    if (gameInProgress) {
+      menu.append("(C)ontinue Game");
+    }
     menu.append("(L)eaderboard");
     menu.append("(H)elp");
     menu.append("(E)xit");

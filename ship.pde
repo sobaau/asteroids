@@ -3,12 +3,15 @@ class Ship {
   PVector location;
   PVector velocity = new PVector(0, 0);
   PVector force;
+  boolean isAlive;
   boolean isThrusting = false;
   boolean isTurning = false;
   boolean gunOvertemp = false;
   int lives = 3;
-  int r = 15; // Size of the ship 
+  int r = 15; // Size of the ship
+  final int safeTimeBetweenDeaths = 1000;
   int gunTemperature = 0;
+  int timeOfLastDeath;
   float heading = 0;
   float rotation;
 
@@ -20,6 +23,8 @@ class Ship {
     Returns: None
   */
   Ship() {
+    isAlive = true;
+    timeOfLastDeath = 0;
     location = new PVector(width/2, height/2);
   }
 
@@ -31,6 +36,7 @@ class Ship {
     Returns: Void
   */
   void update() {
+    isAlive = isAlive();
     if (isThrusting) {
       thrust();
     }
@@ -188,11 +194,23 @@ class Ship {
                  so that the player doesn't die right away.
     Parameters: None
     Returns: Void
-  */
+    */
   void hit() {
-    if(lives > 0) {
+    if (lives > 0 && 
+        ((liveGameTimer - timeOfLastDeath) > safeTimeBetweenDeaths)) {
+      timeOfLastDeath = liveGameTimer;
       lives--;
     }
+  }
+
+  /**
+    Function: isAlive()
+    Description: TODO
+    Parameters: None
+    Returns: Boolean
+    */
+  boolean isAlive() {
+    return (lives != 0);
   }
 
   /**
@@ -200,7 +218,7 @@ class Ship {
     Description: Plays the ship explosion audio file.
     Parameters: None
     Returns: void
-  */
+    */
   void playAudio() {
     explosion.play();
   }
