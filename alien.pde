@@ -6,6 +6,7 @@ class Alien {
   PVector velocity = new PVector(0, 0);
   final float topSpeed = 2;
   int energy = 0;
+  boolean isAlive;
 
   /**
     Function: Alien()
@@ -13,10 +14,11 @@ class Alien {
                   random location and flies to another one and repeats.
     Parameters: None
     Returns: Void
-  */
+    */
   Alien() {
     location = new PVector(random(10, height), random(10, width));
     target = new PVector(random(10, height), random(10, width));
+    isAlive = true;
   }
 
   /**
@@ -26,7 +28,7 @@ class Alien {
                   its target.
     Parameters: None
     Returns: Void
-  */
+    */
   void update() {
     float deadzone = 15;
     float d = dist(location.x, location.y, target.x, target.y);
@@ -54,7 +56,7 @@ class Alien {
     Description: Draws the alien at its location using arcs and vertex's.
     Parameters: None
     Returns: Void
-  */
+    */
   void draw() {
     push();
     noFill();
@@ -76,7 +78,7 @@ class Alien {
                   its location to the other side of the screen if it is.
     Parameters: None
     Returns: Void
-  */
+    */
   void checkEdges() {
     if (location.x > width) {
       location.x = minScreenEdge;

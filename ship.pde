@@ -187,7 +187,7 @@ class Ship {
     Parameters: TODO
     Returns: Boolean
     */
-  boolean collide(Alien a) {
+  boolean collide(Alien a) {    
     float d = dist(location.x, location.y, a.location.x, a.location.y);
     if (d < 50) {
       return true;

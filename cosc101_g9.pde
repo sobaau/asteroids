@@ -107,7 +107,9 @@ void draw() {
         drawShots();
         drawAsteroids();
         if (aliensAdded) {
-          drawAlien();
+          if (alien.isAlive) {
+            drawAlien();
+          }
         }
         if (explosionsExist) {
           drawExplosions();
@@ -116,6 +118,10 @@ void draw() {
         checkLevelProgress();
       } else {
         // game over. check for new high score and save.
+        endGame();
+        if (explosionsExist) {
+          drawExplosions();
+        }
       }
     drawStats();
   }
@@ -285,9 +291,10 @@ void collisionDetection() {
     //If player shot collides with the alien
     if (aliensAdded) {
       if (shots.get(i).collide(alien) && shots.get(i).type != "alien") {
-        explosions.add(new Explosion(15, alien.location, liveGameTimer));
+        explosionsExist = true;
+        explosions.add(new Explosion(20, alien.location, liveGameTimer));
         player.addScore(100);
-        aliensAdded = false;
+        alien.isAlive = false;
         shots.remove(i);
         break;
       }
@@ -331,9 +338,10 @@ void collisionDetection() {
   //Check if alien and player hit each other
   if (aliensAdded) {
     if (player.collide(alien)) {
+      explosionsExist = true;
       explosions.add(new Explosion(15, alien.location, liveGameTimer));
       player.hit();
-      aliensAdded = false;
+      alien.isAlive = false;
     }
   }  
 }
@@ -361,18 +369,29 @@ void splitAsteroid(Asteroid a, int x) {
 void newGame() {
     asteroids.clear();
     shots.clear();
+    explosions.clear();
     level = 1;
     aliensAdded = false;
     totalGameTimer = 0;
     periodTimerStart = millis();
 
-    shipShot = new SoundFile(this, "audio/shotGun.wav");
-    explosion = new SoundFile(this, "audio/explosion.wav");
-
     player = new Ship();
     spawnAsteroids(startingAste);
     gameInProgress = true;
     gameOver = false;
+}
+
+/**
+  Function: endGame()
+  Description:
+  Parameters: None
+  */
+void endGame() {
+  for (int i = asteroids.size() - 1; i >= 0; i--) {
+    explosionsExist = true;
+    explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
+    asteroids.remove(i);
+  }
 }
 
 /**

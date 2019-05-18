@@ -56,7 +56,7 @@ class Shot {
     Description: Draws the shot using a processing point function.
     Parameters: None
     Returns: Void
-  */
+    */
   void draw() {
     push();
     stroke(255);
@@ -71,7 +71,7 @@ class Shot {
                   and returns true if it has.
     Parameters: Asteroid(a): The asteroid to check if its been hit.
     Returns: Boolean
-  */
+    */
   boolean collide(Asteroid a) {
     float d = dist(location.x, location.y, a.location.x, a.location.y);
     if (d < a.maxSize) {
@@ -86,7 +86,7 @@ class Shot {
                   true if it has.
     Parameters: Ship(s): the ship to check if its been hit.
     Returns: Boolean
-  */
+    */
   boolean collide(Ship s) {
     float d = dist(location.x, location.y, s.location.x, s.location.y);
     if (d < s.r) {
@@ -96,12 +96,12 @@ class Shot {
   }
 
     /**
-    Function: collide()
-    Description: Checks if the shot has collided with a ship and returns
-                  true if it has.
-    Parameters: Ship(s): the ship to check if its been hit.
-    Returns: Boolean
-  */
+      Function: collide()
+      Description: Checks if the shot has collided with a ship and returns
+                    true if it has.
+      Parameters: Ship(s): the ship to check if its been hit.
+      Returns: Boolean
+      */
   boolean collide(Alien a) {
     float d = dist(location.x, location.y, a.location.x, a.location.y);
     if (d < 10) {
@@ -116,7 +116,7 @@ class Shot {
                   true if it is.
     Parameters: None
     Returns: Boolean
-  */
+    */
   boolean checkBounds() {
     if (location.x > width || location.y > height 
         || location.x < minScreenEdge || location.y < minScreenEdge) {
@@ -130,7 +130,7 @@ class Shot {
     Description: Plays the shot audio file.
     Parameters: None
     Returns: void
-  */
+    */
   void playAlienAudio() {
     alienShot.amp(0.1);
     alienShot.play();
@@ -138,11 +138,11 @@ class Shot {
   }
 
     /**
-    Function: playAudio()
-    Description: Plays the shot audio file.
-    Parameters: None
-    Returns: void
-  */
+      Function: playAudio()
+      Description: Plays the shot audio file.
+      Parameters: None
+      Returns: void
+      */
   void playShipAudio() {
     shipShot.amp(0.1);
     shipShot.play();
