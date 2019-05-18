@@ -6,3 +6,6 @@ http://soundbible.com/1986-Bomb-Exploding.html
 
 asteroidHit.wav
 http://soundbible.com/1151-Grenade.html
+
+alienShot.wav
+https://www.mediacollege.com/downloads/sound-effects/alien/laser-01.wav

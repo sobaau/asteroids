@@ -44,7 +44,7 @@ class Alien {
     location.add(velocity);
     checkEdges();
 
-    if(frameCount % 1 == 0 && energy <= 100) {
+    if(frameCount % 1 == 0 && energy < 100) {
       energy++;
     }
   }

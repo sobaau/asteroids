@@ -20,6 +20,7 @@ Shot shot;
 Explosion explode;
 Alien alien;
 SoundFile shipShot;
+SoundFile alienShot;
 SoundFile explosion;
 SoundFile asteroidHit;
 int startingAste = 1;
@@ -33,6 +34,7 @@ int periodTimerStart;
 int totalGameTimer;
 int liveGameTimer;
 int dispScreen;
+int soundsCount = 0;
 boolean runGame;
 boolean gameOver;
 boolean gameRunningLastScan;
@@ -65,8 +67,8 @@ void setup(){
   //openHelp = new helpMenu();
   //Load audio
   shipShot = new SoundFile(this, "audio/shotGun.wav");
+  alienShot = new SoundFile(this, "audio/alienShot.wav");
   explosion = new SoundFile(this, "audio/explosion.wav");
-  //asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
   font1 = loadFont("font/OCRAExtended-48.vlw");
   runGame = false;
   dispScreen = 1;
@@ -216,6 +218,8 @@ void drawStats() {
   text("SCORE: " + player.getScore(), indent, yTextPos * 2);
   text("LEVEL: " + level, indent, yTextPos * 3);
   text("LIVES: " + player.getLives(), indent, yTextPos * 4);
+  text("ENERGY: " + player.energy, indent, yTextPos * 5);
+  text("Sounds: " + soundsCount, indent, yTextPos * 6);
   fill(250, 240, 0);
   textAlign(RIGHT);
   text(backB, oppindent, yTextPos * 1);
@@ -362,6 +366,9 @@ void newGame() {
     totalGameTimer = 0;
     periodTimerStart = millis();
 
+    shipShot = new SoundFile(this, "audio/shotGun.wav");
+    explosion = new SoundFile(this, "audio/explosion.wav");
+
     player = new Ship();
     spawnAsteroids(startingAste);
     gameInProgress = true;
@@ -462,7 +469,10 @@ void keyPressed(){
       }
     }
     if (keyCode == ' ') {
-        shots.add(new Shot(player.location, player.heading));
+        if (player.energy > 25) {
+          shots.add(new Shot(player.location, player.heading));
+          player.energy -= 25;
+        }
     }
   }
   //Back to Main

@@ -6,7 +6,7 @@ class Ship {
   boolean isAlive;
   boolean isThrusting = false;
   boolean isTurning = false;
-  boolean gunOvertemp = false;
+  int energy;
   int lives = 3;
   int r = 15; // Size of the ship
   final int safeTimeBetweenDeaths = 1000;
@@ -27,6 +27,7 @@ class Ship {
     isAlive = true;
     timeOfLastDeath = 0;
     score = 0;
+    energy = 100;
     location = new PVector(width/2, height/2);
   }
 
@@ -46,6 +47,10 @@ class Ship {
     velocity.mult(0.99);
     checkEdges();
     turn();
+
+    if(frameCount % 1 == 0 && energy < 100) {
+      energy++;
+    }
   }
 
   /**
@@ -188,10 +193,6 @@ class Ship {
       return true;
     }
     return false;
-  }
-
-  void gunTemperature() {
-
   }
 
   /**

@@ -37,6 +37,9 @@ class Explosion {
     Returns: void
     */
   void playAudio() {
-    explosion.play();
+    if (!explosion.isPlaying()) {
+      soundsCount++;
+      explosion.play();
+    }
   }
 }
