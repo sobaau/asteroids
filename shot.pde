@@ -95,6 +95,21 @@ class Shot {
     return false;
   }
 
+    /**
+    Function: collide()
+    Description: Checks if the shot has collided with a ship and returns
+                  true if it has.
+    Parameters: Ship(s): the ship to check if its been hit.
+    Returns: Boolean
+  */
+  boolean collide(Alien a) {
+    float d = dist(location.x, location.y, a.location.x, a.location.y);
+    if (d < 10) {
+      return true;
+    }
+    return false;
+  }
+
   /**
     Function: checkBounds()
     Description: Checks if the shot is off the screen and returns
@@ -119,5 +134,9 @@ class Shot {
   void playAudio() {
     shipShot.amp(0.1);
     shipShot.play();
+  }
+
+  void stopAudio() {
+    shipShot.stop();
   }
 }

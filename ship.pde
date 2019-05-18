@@ -22,7 +22,7 @@ class Ship {
                   middle of the screen and sets its status to alive.
     Parameters:  None
     Returns: None
-  */
+    */
   Ship() {
     isAlive = true;
     timeOfLastDeath = 0;
@@ -36,7 +36,7 @@ class Ship {
                   thrusting to turn the ship.
     Parameters: None
     Returns: Void
-  */
+    */
   void update() {
     isAlive = isAlive();
     if (isThrusting) {
@@ -54,7 +54,7 @@ class Ship {
                   function from processing.
     Parameters: None
     Returns: Void
-  */
+    */
   void draw() {
     float offset = PI / 2;
     push();
@@ -91,7 +91,7 @@ class Ship {
                   location to the other side of the screen if it is.
     Parameters: None
     Returns: Void
-  */
+    */
   void checkEdges() {
     if (location.x > (width + r)) {
       location.x = -r;
@@ -111,7 +111,7 @@ class Ship {
     Description: Sets the rotation variable.
     Parameters: float(x): The number to set rotation to.
     Returns: Void
-  */
+    */
   void setRotation(float x) {
     rotation = x;
   }
@@ -121,7 +121,7 @@ class Ship {
     Description: Sets isTurning to the provided boolean.
     Parameters: boolean(b): The status to set the isTurning boolean to.
     Returns: Void
-  */
+    */
   void turning(boolean b) {
     isTurning = b;
   }
@@ -132,7 +132,7 @@ class Ship {
                   Heading is limited to between -2 * PI and 2 * PI.
     Parameters: None
     Returns: Void
-  */
+    */
   void turn() {
     heading += rotation;
     if ((heading > (2 * PI)) || (heading < (-2 * PI))) {
@@ -145,7 +145,7 @@ class Ship {
     Description: Sets isThrusting to the provided boolean.
     Parameters: boolean(b): The status to set the isThrusting boolean to.
     Returns: Void
-  */
+    */
   void thrusting(boolean b) {
     isThrusting = b;
   }
@@ -155,7 +155,7 @@ class Ship {
     Description: Thrusts the ship forward using a Vector.
     Parameters: None
     Returns: Void
-  */
+    */
   void thrust() {
     force = PVector.fromAngle(heading);
     force.mult(0.1);
@@ -167,10 +167,24 @@ class Ship {
     Description: Checks if the ship is colliding with the provided asteroid.
     Parameters: Asteroid(a): The Asteroid to check.
     Returns: Boolean
-  */
+    */
   boolean collide(Asteroid a) {
     float d = dist(location.x, location.y, a.location.x, a.location.y);
     if (d < a.maxSize) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+    Function: collide()
+    Description: TODO
+    Parameters: TODO
+    Returns: Boolean
+    */
+  boolean collide(Alien a) {
+    float d = dist(location.x, location.y, a.location.x, a.location.y);
+    if (d < 50) {
       return true;
     }
     return false;
@@ -185,7 +199,7 @@ class Ship {
     Description: Returns the number of lives the player has.
     Parameters: None
     Returns: int
-  */
+    */
   int getLives() {
     return lives;
   }

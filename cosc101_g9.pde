@@ -33,7 +33,6 @@ int periodTimerStart;
 int totalGameTimer;
 int liveGameTimer;
 int dispScreen;
-float asteroidSize;
 boolean runGame;
 boolean gameOver;
 boolean gameRunningLastScan;
@@ -51,6 +50,12 @@ String[] jsonTime;
 //Font Change
 PFont font1;
 
+/**
+  Function: setup()
+  Description: TODO
+  Parameters: None
+  Returns: Void
+  */
 void setup(){
   fullScreen();
   loadData();
@@ -61,17 +66,22 @@ void setup(){
   //Load audio
   shipShot = new SoundFile(this, "audio/shotGun.wav");
   explosion = new SoundFile(this, "audio/explosion.wav");
-  asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
+  //asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
   font1 = loadFont("font/OCRAExtended-48.vlw");
   runGame = false;
   dispScreen = 1;
   gameOver = false;
   gameRunningLastScan = false;
   gameInProgress = false;
-  asteroidSize = 30;
 }
 
-void draw(){
+/**
+  Function: draw()
+  Description: TODO
+  Parameters: None
+  Returns: Void
+  */
+void draw() {
   noCursor();
   background(0);
   stars.draw();
@@ -109,25 +119,12 @@ void draw(){
   }
 }
 
-/**************************************************************
- * Function: loadData()
- 
- * Parameters: None.
- 
- * Returns: Void
- 
- * Desc: Loads the data from the JSON file.
- ***************************************************************/
-void loadData(){
-//Call class functions
-}
-
 /**
   Function: drawPlayer()
   Description: Updates and draws the players location.
   Parameters: None
   Returns: Void
-*/
+  */
 void drawPlayer() {
   player.update();
   player.draw();
@@ -148,12 +145,43 @@ void drawAlien() {
   }
 }
 
+/**
+  Function: drawShots()
+  Description: Draws both player and alien shots and also removes them 
+                from their arrays if they go off the screen. 
+  Parameters: None
+  Returns: Void
+  */
+void drawShots() { 
+  for (Shot s : shots) {
+    s.update();
+    s.draw();
+  }
+}
+
+/**
+  Function: drawAsteroids()
+  Description: Updates the location of all asteroids in the asteroids array.
+  Parameters: None 
+  Returns: Void
+  */
+void drawAsteroids() {
+  for (Asteroid a : asteroids) {
+    a.update();
+    a.draw();
+  }
+}
+
+/**
+  Function: drawExplosions()
+  Description: TODO
+  Parameters: None
+  Returns: Void
+  */
 void drawExplosions() {
   for (int i = 0; i < explosions.size(); i++) {
     explosions.get(i).draw();
     if ((liveGameTimer - explosions.get(i).explosionTime) > explosionDuration) {
-      //print("Explosion time: " + explosions.get(i).explosionTime);
-      //println(" Removal time: " + liveGameTimer);
       explosions.remove(i);
     }
   }
@@ -162,18 +190,15 @@ void drawExplosions() {
   }
 }
 
-/**************************************************************
- * Function: drawStats()
- 
- * Parameters: None
- 
- * Returns: Void
- 
- * Desc: Draws the score, level and lifes remaining to the screen.
- ***************************************************************/
+/**
+  Function: drawStats()
+  Description: Draws the score, level and lifes remaining to the screen.
+  Parameters: None
+  Returns: Void
+ */
 void drawStats() {
   int indent = 15;
-  float oppindent = width -15;
+  float oppindent = width - 15;
   int yTextPos = 20;
   final int secPerMin = 60;
   final int minPerHr = 60;
@@ -188,12 +213,12 @@ void drawStats() {
   text("TIME: " + floor(liveGameTimer/milSecPerHr) + ":" + 
         floor(liveGameTimer/milSecPerMin) + ":" + 
         (liveGameTimer/milSecPerSec)%secPerMin, indent, yTextPos);
-  text("SCORE: " + player.getScore(), indent, yTextPos*2);
-  text("LEVEL: " + level, indent, yTextPos*3);
-  text("LIVES: " + player.getLives(), indent, yTextPos*4);
-  fill(250,240,0);
-   textAlign(RIGHT);
-  text(backB,oppindent,yTextPos*1);
+  text("SCORE: " + player.getScore(), indent, yTextPos * 2);
+  text("LEVEL: " + level, indent, yTextPos * 3);
+  text("LIVES: " + player.getLives(), indent, yTextPos * 4);
+  fill(250, 240, 0);
+  textAlign(RIGHT);
+  text(backB, oppindent, yTextPos * 1);
 }
 
 /**
@@ -201,21 +226,18 @@ void drawStats() {
   Description: TODO
   Parameters: None
   Returns: Void
-*/
+  */
 void gameTimer() {
-
   //Transition to game running
   if (!gameRunningLastScan && runGame) {
     periodTimerStart = millis();
     gameRunningLastScan = true;
   }
-
   //Transition to game not running
   if (gameRunningLastScan && !runGame) {
     totalGameTimer+= millis() - periodTimerStart;
     gameRunningLastScan = false;
   }
-
   //Game continues running
   if (gameRunningLastScan && runGame && !gameOver) {
     liveGameTimer = totalGameTimer + millis() - periodTimerStart;
@@ -228,7 +250,7 @@ void gameTimer() {
                 certain distance of the player.
   Parameters: int(asteroNums): The number of asteroids to spawn.
   Returns: Void
-*/
+  */
 void spawnAsteroids(int asteroNums) {
   int minDistance = 150; // Change this to spawn them closer to the player.
   for (int i = 0; i < asteroNums; i++) {
@@ -242,87 +264,75 @@ void spawnAsteroids(int asteroNums) {
 }
 
 /**
-  Function: drawShots()
-  Description: Draws both player and alien shots and also removes them 
-                from their arrays if they go off the screen. 
+  Function: collisionDetection()
+  Description: Checks if the following are colliding:
+                Asteroids with shots.
+                Alien shots with the player.
+                Asteroids and the player.
+                If an alien shot collides with a player it is despawned
+                and if a player shot collides with an asteroid the asteroid
+                is removed from the array and a smaller one is spawned in 
+                its place.
   Parameters: None
   Returns: Void
-*/
-void drawShots() { 
-  for (Shot s : shots) {
-    s.update();
-    s.draw();
-  }
-}
-
-/**
-  Function: drawAsteroids()
-  Description: Updates the location of all asteroids in the asteroids array.
-  Parameters: None 
-  Returns: Void
-*/
-void drawAsteroids() {
-  for (Asteroid a : asteroids) {
-    a.update();
-    a.draw();
-  }
-}
-
-/**************************************************************
- * Function: collisionDetection()
- 
- * Parameters: None
- 
- * Returns: Void
- 
- * Desc: Checks if the following are colliding:
-         Asteroids with shots.
-         Alien shots with the player.
-         Asteroids and the player.
-         If an alien shot collides with a player it is despawned and if a player
-         shot collides with an asteroid the asteroid is removed from the array
-         and a smaller one is spawned in its place.
- ***************************************************************/
-void collisionDetection(){
-  for (int i = shots.size() - 1; i >= 0; i--){
-    if (shots.get(i).collide(player) && shots.get(i).type != "player"){
-      //println("Player hit by alien");
+  */
+void collisionDetection() {
+  for (int i = shots.size() - 1; i >= 0; i--) {
+    //If player shot collides with the alien
+    if (aliensAdded) {
+      if (shots.get(i).collide(alien) && shots.get(i).type != "alien") {
+        explosions.add(new Explosion(15, alien.location, liveGameTimer));
+        player.addScore(100);
+        aliensAdded = false;
+        shots.remove(i);
+        break;
+      }
+    }
+    //If an alien shot collides with the player
+    if (shots.get(i).collide(player) && shots.get(i).type != "player") {
       player.hit();
       shots.remove(i); 
       break;
     }
-    if (shots.get(i).checkBounds()){
+    //If a shot is out of bounds
+    if (shots.get(i).checkBounds()) {
       shots.remove(i); 
       break;
     }
+    //Check if asteroid is hit
     for (int j = asteroids.size() - 1; j >= 0; j--) {
       if (shots.get(i).collide(asteroids.get(j))){
+        //Check if a player shot hits the asteroid
         if (shots.get(i).type == "player"){
           explosionsExist = true;
           explosions.add(new Explosion(6, asteroids.get(j).location, liveGameTimer));
           player.addScore(10);
+          //If asteroid is still large split it.
           if (asteroids.get(j).minSize > 10) {
-            //println("Asteroid Hit");
             splitAsteroid(asteroids.get(j), 2);
           }
           asteroids.remove(j);
-          asteroid.playAudio();
         }
         shots.remove(i);
         break;
       }
     }
   }
+  //Check if asteroid hits player
   for (Asteroid a : asteroids){
     if (player.collide(a)){
-      //println("Ship Hit");
       player.hit();
     }
   }
-  //TODO If alien and player hit each other do something
-  //TODO If playershot hits alien do something
+  //Check if alien and player hit each other
+  if (aliensAdded) {
+    if (player.collide(alien)) {
+      explosions.add(new Explosion(15, alien.location, liveGameTimer));
+      player.hit();
+      aliensAdded = false;
+    }
+  }  
 }
-
 
 /**
   Function: splitAsteroid()
@@ -330,40 +340,10 @@ void collisionDetection(){
   Parameters: Asteroid(a): The asteroid to split.
               int(x): The amount of times to split it.
   Returns: Void
-*/
+  */
 void splitAsteroid(Asteroid a, int x) {
   for(int i = 0; i < x; i++) {
     asteroids.add(new Asteroid(a));
-  }
-}
-
-/**************************************************************
- * Function: checkLevelProgress()
- 
- * Parameters: None.
- 
- * Returns: Void
- 
- * Desc: Checks if the asteroids have been destroyed.
-          If they have it increments the level and spwans new
-          asteroids.
- ***************************************************************/
-void checkLevelProgress() {
-  if (asteroids.size() == 0) {
-    level++;
-    if (level > 20) {
-      spawnAsteroids(25);
-    } else if (level >= 15) {
-      spawnAsteroids(20);
-    } else if (level >= 10) {
-      spawnAsteroids(15);
-    } else if (level >= 5) {
-      spawnAsteroids(10);
-    } else {
-      spawnAsteroids(startingAste * level);
-    }
-    alien = new Alien();
-    aliensAdded = true;
   }
 }
 
@@ -373,7 +353,7 @@ void checkLevelProgress() {
                 game.
   Parameters: None
   Returns: Void
-*/
+  */
 void newGame() {
     asteroids.clear();
     shots.clear();
@@ -388,15 +368,53 @@ void newGame() {
     gameOver = false;
 }
 
-/**************************************************************
- * Function: keyPressed()
- 
- * Parameters: None
- 
- * Returns: Void
- 
- * Desc: 
- ***************************************************************/
+/**
+  Function: checkLevelProgress()
+  Description: Checks if the asteroids have been destroyed.
+          If they have it increments the level and spwans new
+          asteroids. The game gets harder as the levels
+          increase.
+  Parameters: None
+  Returns: Void
+ */
+void checkLevelProgress() {
+  if (asteroids.size() == 0) {
+    level++;
+    if (level > 20) {
+      spawnAsteroids(25);
+    } else if (level >= 15) {
+      spawnAsteroids(20);
+    } else if (level >= 10) {
+      spawnAsteroids(15);
+    } else if (level >= 5) {
+      spawnAsteroids(10);
+    } else {
+      spawnAsteroids(startingAste * level);
+    }
+    //Once level 3 is reached add aliens to game.
+    if (level >= 1) {
+      alien = new Alien();
+      aliensAdded = true;
+    }
+  }
+}
+
+/**
+  Function: loadData()
+  Description: Loads the data from the JSON file.
+  Parameters: None
+  Returns: Void
+ */
+void loadData() {
+  //TODO Call class functions
+}
+
+/**
+  Function: keyPressed()
+  Description: TODO
+  Parameters: None
+  Returns: Void
+  */
 void keyPressed(){
 
   //This section is for the Menu related key presses.
@@ -467,21 +485,23 @@ void keyPressed(){
   Decription: TODO
   Parameters: None
   Returns: Void
-*/
+  */
 void keyReleased() {
-  if (key == CODED) {
-    if (keyCode == UP) {
-      player.thrusting(false);
-    }
-    if (keyCode == DOWN) {
-    } 
-    if (keyCode == RIGHT) {
-      player.turning(false);
-      player.setRotation(0);
-    }
-    if (keyCode == LEFT) {
-      player.turning(false);
-      player.setRotation(0);
+  if (runGame) {
+    if (key == CODED) {
+      if (keyCode == UP) {
+        player.thrusting(false);
+      }
+      if (keyCode == DOWN) {
+      } 
+      if (keyCode == RIGHT) {
+        player.turning(false);
+        player.setRotation(0);
+      }
+      if (keyCode == LEFT) {
+        player.turning(false);
+        player.setRotation(0);
+      }
     }
   }
 }

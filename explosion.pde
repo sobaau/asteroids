@@ -11,6 +11,7 @@ class Explosion {
     */
   Explosion(int size, PVector locaion, int time) {
     explosionTime = time;
+    playAudio();
     while (shrapnel.size() < size) {
       shrapnel.add(new Shrapnel(locaion));
     }
@@ -27,5 +28,15 @@ class Explosion {
       s.update();
       s.draw();
     }
+  }
+
+  /**
+    Function: playAudio()
+    Description: Plays the explosion audio file.
+    Parameters: None
+    Returns: void
+    */
+  void playAudio() {
+    explosion.play();
   }
 }
