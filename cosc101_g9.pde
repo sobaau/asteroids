@@ -31,14 +31,12 @@ int highscores;
 int periodTimerStart;
 int totalGameTimer;
 int liveGameTimer;
+int dispScreen;
 boolean runGame;
 boolean gameOver;
 boolean gameRunningLastScan;
 boolean gameInProgress;
 boolean aliensAdded;
-boolean loadLdr;
-boolean helpMn;
-boolean opScrn;
 Starfield stars;
 OpenScn openScreen;
 leaderBoard openLdr;
@@ -61,12 +59,11 @@ void setup(){
   explosion = new SoundFile(this, "audio/explosion.wav");
   asteroidHit = new SoundFile(this, "audio/asteroidHit.wav");
   font1 = loadFont("font/OCRAExtended-48.vlw");
-  opScrn = false;
   runGame = false;
+  dispScreen = 1;
   gameOver = false;
   gameRunningLastScan = false;
   gameInProgress = false;
-  loadLdr = false;
 }
 
 void draw(){
@@ -75,10 +72,15 @@ void draw(){
   stars.draw();
   gameTimer();
   if (!runGame) {
-    if (loadLdr) {
-      openLdr.draw();
-    } else {
-      openScreen.draw();
+    switch (dispScreen) {
+      case 1 :
+        openScreen.draw();
+        break;
+      case 10 :
+        openLdr.draw();
+        break;
+      default :
+        break;	
     }
   } else {
       gameOver = !player.isAlive;
@@ -332,19 +334,6 @@ void checkLevelProgress() {
 }
 
 /**
-  Function: closeMenu()
-  Description: Close's any open menus.
-  Parameters: None
-  Returns: Void
-*/
-void closeMenu(){
-  openScreen = new OpenScn();
-  runGame = false;
-  loadLdr = false;
-  helpMn = false;
-}
-
-/**
   Function: newGame()
   Description: Clears old game if one exists and creates objects for new
                 game.
@@ -376,59 +365,68 @@ void newGame() {
  * Desc: 
  ***************************************************************/
 void keyPressed(){
+
   //This section is for the Menu related key presses.
-  //New Game
-  if (keyCode == 'n' || keyCode == 'N') {
-    newGame();
-    runGame = true;
-  }
-  //Continue Game
-  if (keyCode == 'c' || keyCode == 'C') {
-    if (gameInProgress) {
+  if (!runGame) {
+    //New Game
+    if ((keyCode == 'n' || keyCode == 'N') && dispScreen == 1) {
+      newGame();
       runGame = true;
+      dispScreen = 0;
     }
-  }
-  //Show Leaderboard
-  if (keyCode == 'l' || keyCode == 'L') {
-    loadLdr = true;
-  }
-  //Show Help Menu
-  if (keyCode == 'h' || keyCode == 'H') {
-    //helpMn = true;
+    //Continue Game
+    if ((keyCode == 'c' || keyCode == 'C') && dispScreen == 1) {
+      if (gameInProgress) {
+        runGame = true;
+        dispScreen = 0;
+      }
+    }
+    //Show Leaderboard
+    if ((keyCode == 'l' || keyCode == 'L') && dispScreen == 1) {
+      dispScreen = 10;
+    }
+    //Show Help Menu
+    if ((keyCode == 'h' || keyCode == 'H') && dispScreen == 1) {
+      dispScreen = 20;
+    }
+    //Exit
+    if ((keyCode == 'e' || keyCode == 'E') && dispScreen == 1) {
+      exit();
+    }
+  } else {
+    //This section is for the Game related key presses.
+    if (key == CODED){
+      if (keyCode == UP){
+        player.thrusting(true);
+      }
+      if (keyCode == DOWN){
+      } 
+      if (keyCode == RIGHT){
+        player.turning(true);
+        player.setRotation(0.1);
+      }
+      if (keyCode == LEFT){
+        player.turning(true);
+        player.setRotation(-0.1);
+      }
+    }
+    if (keyCode == ' ') {
+        shots.add(new Shot(player.location, player.heading));
+    }
   }
   //Back to Main
   if (keyCode == 'm' || keyCode == 'M') {
-    closeMenu();
-  }
-  //Exit
-  if (keyCode == 'e' || keyCode == 'E' && 
-      runGame == false && loadLdr == false  && helpMn == false) {
-    exit();
+    openScreen = new OpenScn();
+    dispScreen = 1;
+    runGame = false;
   }
   //Remove ESC key current and change to Main Menu
   if (keyCode == ESC) {
+    openScreen = new OpenScn();
+    dispScreen = 1;
+    runGame = false;
     key = 0;
-    closeMenu();
   }
-  //This section is for the Game related key presses.
-  if (key == CODED){
-    if (keyCode == UP){
-      player.thrusting(true);
-    }
-    if (keyCode == DOWN){
-    } 
-    if (keyCode == RIGHT){
-      player.turning(true);
-      player.setRotation(0.1);
-    }
-    if (keyCode == LEFT){
-      player.turning(true);
-      player.setRotation(-0.1);
-    }
-  }
-  if (keyCode == ' '){
-      shots.add(new Shot(player.location, player.heading));
-    }
 }
 
 /**
