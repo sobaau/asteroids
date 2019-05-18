@@ -12,6 +12,7 @@ class Ship {
   final int safeTimeBetweenDeaths = 1000;
   int gunTemperature = 0;
   int timeOfLastDeath;
+  int score;
   float heading = 0;
   float rotation;
 
@@ -25,6 +26,7 @@ class Ship {
   Ship() {
     isAlive = true;
     timeOfLastDeath = 0;
+    score = 0;
     location = new PVector(width/2, height/2);
   }
 
@@ -211,6 +213,36 @@ class Ship {
     */
   boolean isAlive() {
     return (lives != 0);
+  }
+
+  /**
+    Function: addScore()
+    Description: TODO
+    Parameters: 
+    Returns: Void
+    */
+  void addScore(int x) {
+    score+= x;
+  }
+
+  /**
+    Function: subtractScore()
+    Description: TODO
+    Parameters: 
+    Returns: Void
+    */
+  void subtractScore(int x) {
+    score-= x;
+  }
+
+/**
+    Function: getScore()
+    Description: TODO
+    Parameters: 
+    Returns: Int
+    */
+  int getScore() {
+    return score;
   }
 
   /**

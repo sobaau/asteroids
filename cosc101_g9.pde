@@ -17,31 +17,35 @@ JSONArray json;
 Ship player;
 Asteroid asteroid;
 Shot shot;
+Explosion explode;
 Alien alien;
 SoundFile shipShot;
 SoundFile explosion;
 SoundFile asteroidHit;
 int startingAste = 1;
-int score = 0;
 int level = 1;
 int starAmount = 200;
 int highScr = 11;
 final int minScreenEdge = 0;
+final int explosionDuration = 1000;
 int highscores;
 int periodTimerStart;
 int totalGameTimer;
 int liveGameTimer;
 int dispScreen;
+float asteroidSize;
 boolean runGame;
 boolean gameOver;
 boolean gameRunningLastScan;
 boolean gameInProgress;
 boolean aliensAdded;
+boolean explosionsExist;
 Starfield stars;
 OpenScn openScreen;
 leaderBoard openLdr;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
+ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 String[] Name;
 String[] jsonTime;
 //Font Change
@@ -64,6 +68,7 @@ void setup(){
   gameOver = false;
   gameRunningLastScan = false;
   gameInProgress = false;
+  asteroidSize = 30;
 }
 
 void draw(){
@@ -91,6 +96,9 @@ void draw(){
         drawAsteroids();
         if (aliensAdded) {
           drawAlien();
+        }
+        if (explosionsExist) {
+          drawExplosions();
         }
         collisionDetection();
         checkLevelProgress();
@@ -130,13 +138,27 @@ void drawPlayer() {
   Description: Updates and draws the aliens location.
   Parameters: None
   Returns: Void
-*/
+  */
 void drawAlien() {
   alien.update();
   alien.draw();
   if (alien.energy > 50) {
     shots.add(new Shot(alien.location, player.location));
     alien.energy = 0;
+  }
+}
+
+void drawExplosions() {
+  for (int i = 0; i < explosions.size(); i++) {
+    explosions.get(i).draw();
+    if ((liveGameTimer - explosions.get(i).explosionTime) > explosionDuration) {
+      //print("Explosion time: " + explosions.get(i).explosionTime);
+      //println(" Removal time: " + liveGameTimer);
+      explosions.remove(i);
+    }
+  }
+  if (explosions.size() == 0) {
+    explosionsExist = false;
   }
 }
 
@@ -166,7 +188,7 @@ void drawStats() {
   text("TIME: " + floor(liveGameTimer/milSecPerHr) + ":" + 
         floor(liveGameTimer/milSecPerMin) + ":" + 
         (liveGameTimer/milSecPerSec)%secPerMin, indent, yTextPos);
-  text("SCORE: " + score, indent, yTextPos*2);
+  text("SCORE: " + player.getScore(), indent, yTextPos*2);
   text("LEVEL: " + level, indent, yTextPos*3);
   text("LIVES: " + player.getLives(), indent, yTextPos*4);
   fill(250,240,0);
@@ -264,7 +286,7 @@ void drawAsteroids() {
 void collisionDetection(){
   for (int i = shots.size() - 1; i >= 0; i--){
     if (shots.get(i).collide(player) && shots.get(i).type != "player"){
-      println("Player hit by alien");
+      //println("Player hit by alien");
       player.hit();
       shots.remove(i); 
       break;
@@ -273,12 +295,14 @@ void collisionDetection(){
       shots.remove(i); 
       break;
     }
-    for (int j = asteroids.size() - 1; j >= 0; j--){
+    for (int j = asteroids.size() - 1; j >= 0; j--) {
       if (shots.get(i).collide(asteroids.get(j))){
         if (shots.get(i).type == "player"){
-          score++;
-          if (asteroids.get(j).minSize > 10){
-            println("Asteroid Hit");
+          explosionsExist = true;
+          explosions.add(new Explosion(6, asteroids.get(j).location, liveGameTimer));
+          player.addScore(10);
+          if (asteroids.get(j).minSize > 10) {
+            //println("Asteroid Hit");
             splitAsteroid(asteroids.get(j), 2);
           }
           asteroids.remove(j);
@@ -291,7 +315,7 @@ void collisionDetection(){
   }
   for (Asteroid a : asteroids){
     if (player.collide(a)){
-      println("Ship Hit");
+      //println("Ship Hit");
       player.hit();
     }
   }
@@ -327,7 +351,17 @@ void splitAsteroid(Asteroid a, int x) {
 void checkLevelProgress() {
   if (asteroids.size() == 0) {
     level++;
-    spawnAsteroids(startingAste * level);
+    if (level > 20) {
+      spawnAsteroids(25);
+    } else if (level >= 15) {
+      spawnAsteroids(20);
+    } else if (level >= 10) {
+      spawnAsteroids(15);
+    } else if (level >= 5) {
+      spawnAsteroids(10);
+    } else {
+      spawnAsteroids(startingAste * level);
+    }
     alien = new Alien();
     aliensAdded = true;
   }
@@ -343,7 +377,6 @@ void checkLevelProgress() {
 void newGame() {
     asteroids.clear();
     shots.clear();
-    score = 0;
     level = 1;
     aliensAdded = false;
     totalGameTimer = 0;

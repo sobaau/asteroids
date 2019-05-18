@@ -12,7 +12,7 @@ class Asteroid {
                   generates its size and shape to be used when drawing.
     Parameters: PVector(loc): The location to spawn the Asteroid.
     Returns: None
-  */
+    */
   Asteroid(PVector loc) {
     location = new PVector(loc.x, loc.y);
     velocity = PVector.random2D();
@@ -21,8 +21,8 @@ class Asteroid {
     float a = 0;
 
     while (a < 360) {
-      float x = cos(radians(a)) * random(minSize,maxSize);
-      float y = sin(radians(a)) * random(minSize,maxSize);
+      float x = cos(radians(a)) * random(minSize, maxSize);
+      float y = sin(radians(a)) * random(minSize, maxSize);
       vertices.add(new PVector(x,y));
       a += random(15, 40);
     }
@@ -37,7 +37,7 @@ class Asteroid {
                 float(minS): The min size of the old asteroid.
                 float(maxS): The max size of the old asteroid
     Returns: None
-  */
+    */
   Asteroid(Asteroid oldAster) {
     location = new PVector(oldAster.location.x, oldAster.location.y);
     velocity = PVector.random2D();
@@ -47,8 +47,8 @@ class Asteroid {
     float a = 0;
 
     while (a < 360) {
-      float x = cos(radians(a)) * random(minSize,maxSize);
-      float y = sin(radians(a)) * random(minSize,maxSize);
+      float x = cos(radians(a)) * random(minSize, maxSize);
+      float y = sin(radians(a)) * random(minSize, maxSize);
       vertices.add(new PVector(x,y));
       a += random(15, 40);
     }
@@ -59,7 +59,7 @@ class Asteroid {
     Description: Updates the location of the asteroid.
     Parameters: None
     Returns: Void
-  */
+    */
   void update() {
     checkEdges();
     location.add(velocity);
@@ -71,7 +71,7 @@ class Asteroid {
                   random generates the asteroid.
     Parameters: None
     Returns: Void
-  */
+    */
   void draw() {
     push();
     stroke(255);
@@ -91,7 +91,7 @@ class Asteroid {
                   if so wraps it to the other side of the screen if it is.
     Parameters: None
     Returns: Void
-  */
+    */
   void checkEdges() {
     if (location.x > width + maxSize){
       location.x = -maxSize;
@@ -111,7 +111,7 @@ class Asteroid {
     Description: Plays the astertoid explosion audio file.
     Parameters: None
     Returns: void
-  */
+    */
   void playAudio() {
     asteroidHit.play();
   }

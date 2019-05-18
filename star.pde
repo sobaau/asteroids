@@ -10,7 +10,7 @@ class Star {
                   random location within the screen boundaries.
     Parameters: None
     Returns: None
-  */
+    */
   Star() {
     locX = random(minScreenEdge, width);
     locY = random(minScreenEdge, height);
@@ -23,7 +23,7 @@ class Star {
                   and changes its brightness every second.
     Parameters: None
     Returns: Void
-  */
+    */
   void draw() {
     push();
     if (frameCount % 10 == 0) {
