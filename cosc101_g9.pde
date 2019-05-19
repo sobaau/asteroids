@@ -19,6 +19,7 @@ Asteroid asteroid;
 Shot shot;
 Explosion explode;
 Alien alien;
+DataLB data;
 SoundFile shipShot;
 SoundFile alienShot;
 SoundFile explosion;
@@ -64,6 +65,7 @@ void setup(){
   stars = new Starfield(starAmount);
   openScreen = new OpenScn();
   openLdr = new leaderBoard();
+  data = new DataLB();
   //openHelp = new helpMenu();
   //Load audio
   shipShot = new SoundFile(this, "audio/shotGun.wav");
@@ -95,6 +97,7 @@ void draw() {
         break;
       case 10 :
         openLdr.draw();
+        data.update();
         break;
       default :
         break;	
