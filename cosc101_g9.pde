@@ -105,6 +105,12 @@ void draw() {
   } else {
       gameOver = !player.isAlive;
 
+      shipShot.amp(0.1);
+      //if (!shipShot.isPlaying()) {
+        //shipShot.play();
+        //soundsCount++;
+      //}
+
       if (player.isAlive) {
         drawPlayer();
         drawShots();
@@ -293,7 +299,7 @@ void collisionDetection() {
   for (int i = shots.size() - 1; i >= 0; i--) {
     //If player shot collides with the alien
     if (aliensAdded) {
-      if (shots.get(i).collide(alien) && shots.get(i).type != "alien") {
+      if (alien.isAlive && shots.get(i).collide(alien) && shots.get(i).type != "alien") {
         explosionsExist = true;
         explosions.add(new Explosion(20, alien.location, liveGameTimer));
         player.addScore(100);
@@ -340,7 +346,7 @@ void collisionDetection() {
   }
   //Check if alien and player hit each other
   if (aliensAdded) {
-    if (player.collide(alien)) {
+    if (alien.isAlive && player.collide(alien)) {
       explosionsExist = true;
       explosions.add(new Explosion(15, alien.location, liveGameTimer));
       player.hit();

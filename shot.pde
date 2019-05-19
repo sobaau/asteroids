@@ -133,6 +133,7 @@ class Shot {
     */
   void playAlienAudio() {
     alienShot.amp(0.1);
+    alienShot.stop();
     alienShot.play();
     soundsCount++;
   }
@@ -145,6 +146,7 @@ class Shot {
       */
   void playShipAudio() {
     shipShot.amp(0.1);
+    shipShot.stop();
     shipShot.play();
     soundsCount++;
   }
