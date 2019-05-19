@@ -97,6 +97,7 @@ class DataLB {
     //Start at the highest score.
     //Check if the new score is higher than the score in the array.
     //If it is return true
+    return true;
   }
 
   /**
