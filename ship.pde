@@ -250,7 +250,7 @@ class Ship {
     score-= x;
   }
 
-/**
+  /**
     Function: getScore()
     Description: TODO
     Parameters: 
@@ -267,6 +267,6 @@ class Ship {
     Returns: void
     */
   void playAudio() {
-    explosion.play();
+    explosion.trigger();
   }
 }

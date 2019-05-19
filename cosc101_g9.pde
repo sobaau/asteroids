@@ -11,7 +11,8 @@
  * ...
  **************************************************************/
 //Import required libraries
-import processing.sound.*;
+import ddf.minim.*;
+Minim minim;
 //Define global variables
 JSONArray json;
 Ship player;
@@ -20,10 +21,10 @@ Shot shot;
 Explosion explode;
 Alien alien;
 DataLB data;
-SoundFile shipShot;
-SoundFile alienShot;
-SoundFile explosion;
-SoundFile asteroidHit;
+AudioSample shipShot;
+AudioSample alienShot;
+AudioSample explosion;
+AudioSample asteroidHit;
 int startingAste = 1;
 int level = 1;
 int starAmount = 200;
@@ -68,9 +69,10 @@ void setup(){
   data = new DataLB();
   //openHelp = new helpMenu();
   //Load audio
-  shipShot = new SoundFile(this, "audio/shotGun.wav");
-  alienShot = new SoundFile(this, "audio/alienShot.wav");
-  explosion = new SoundFile(this, "audio/explosion.wav");
+  minim = new Minim(this);
+  shipShot = minim.loadSample("audio/shotGun.wav", 512);
+  alienShot = minim.loadSample("audio/alienShot.wav", 512);
+  explosion = minim.loadSample("audio/explosion.wav", 512);
   font1 = loadFont("font/OCRAExtended-48.vlw");
   runGame = false;
   dispScreen = 1;
@@ -104,12 +106,6 @@ void draw() {
     }
   } else {
       gameOver = !player.isAlive;
-
-      shipShot.amp(0.1);
-      //if (!shipShot.isPlaying()) {
-        //shipShot.play();
-        //soundsCount++;
-      //}
 
       if (player.isAlive) {
         drawPlayer();
@@ -497,10 +493,10 @@ void keyPressed(){
       }
     }
     if (keyCode == ' ') {
-        if (player.energy > 25) {
+        //if (player.energy > 25) {
           shots.add(new Shot(player.location, player.heading));
           player.energy -= 25;
-        }
+        //}
     }
   }
   //Back to Main

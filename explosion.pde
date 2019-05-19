@@ -38,7 +38,6 @@ class Explosion {
     */
   void playAudio() {
     soundsCount++;
-    explosion.stop();
-    explosion.play();
+    explosion.trigger();
   }
 }

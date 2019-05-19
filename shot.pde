@@ -132,9 +132,7 @@ class Shot {
     Returns: void
     */
   void playAlienAudio() {
-    alienShot.amp(0.1);
-    alienShot.stop();
-    alienShot.play();
+    alienShot.trigger();
     soundsCount++;
   }
 
@@ -145,13 +143,7 @@ class Shot {
       Returns: void
       */
   void playShipAudio() {
-    shipShot.amp(0.1);
-    shipShot.stop();
-    shipShot.play();
+    shipShot.trigger();
     soundsCount++;
-  }
-
-  void stopAudio() {
-    shipShot.stop();
   }
 }
