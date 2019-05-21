@@ -43,6 +43,7 @@ boolean gameRunningLastScan;
 boolean gameInProgress;
 boolean aliensAdded;
 boolean explosionsExist;
+boolean endGameDone;
 Starfield stars;
 OpenScn openScreen;
 leaderBoard openLdr;
@@ -79,6 +80,7 @@ void setup(){
   gameOver = false;
   gameRunningLastScan = false;
   gameInProgress = false;
+  endGameDone = false;
 }
 
 /**
@@ -123,7 +125,9 @@ void draw() {
         checkLevelProgress();
       } else {
         // game over. check for new high score and save.
-        endGame();
+        if (!endGameDone) {
+          endGame();
+        }
         if (explosionsExist) {
           drawExplosions();
         }
@@ -335,9 +339,15 @@ void collisionDetection() {
     }
   }
   //Check if asteroid hits player
-  for (Asteroid a : asteroids){
-    if (player.collide(a)){
+  for (int i = asteroids.size() - 1; i >= 0; i--) {
+    if (player.collide(asteroids.get(i))){
       player.hit();
+      explosionsExist = true;
+      explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
+      if (asteroids.get(i).minSize > 10) {
+        splitAsteroid(asteroids.get(i), 2);
+      }
+      asteroids.remove(i);
     }
   }
   //Check if alien and player hit each other
@@ -397,6 +407,13 @@ void endGame() {
     explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
     asteroids.remove(i);
   }
+  explosions.add(new Explosion(50, player.location, liveGameTimer));
+  if (aliensAdded) {
+    if (alien.isAlive) {
+      explosions.add(new Explosion(20, alien.location, liveGameTimer));
+    }
+  }
+  endGameDone = true;
 }
 
 /**
