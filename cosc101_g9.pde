@@ -493,10 +493,10 @@ void keyPressed(){
       }
     }
     if (keyCode == ' ') {
-        //if (player.energy > 25) {
+        if (player.energy > 25) {
           shots.add(new Shot(player.location, player.heading));
           player.energy -= 25;
-        //}
+        }
     }
   }
   //Back to Main
