@@ -73,8 +73,8 @@ class Shot {
     Returns: Boolean
   */
   boolean collide(Asteroid a) {
-    float d = dist(location.x, location.y, a.location.x, a.location.y);
-    if (d < a.maxSize) {
+    float d = dist(location.x, location.y, a.getLoc().x, a.getLoc().y);
+    if (d < a.getMaxSize()) {
       return true;
     }
     return false;
@@ -88,29 +88,29 @@ class Shot {
     Returns: Boolean
   */
   boolean collide(Ship s) {
-    float d = dist(location.x, location.y, s.location.x, s.location.y);
-    if (d < s.r) {
+    float d = dist(location.x, location.y, s.getShipLoc().x, s.getShipLoc().y);
+    if (d < s.getShipSize()) {
       return true;
     }
     return false;
   }
 
-    /**
-      Function: collide()
-      Description: Checks if the shot has collided with the alien and returns
-                    true if it has.
-      Parameters: Alien(a): the alien to check if its been hit.
-      Returns: Boolean
-    */
+  /**
+    Function: collide()
+    Description: Checks if the shot has collided with the alien and returns
+                  true if it has.
+    Parameters: Alien(a): the alien to check if its been hit.
+    Returns: Boolean
+  */
   boolean collide(Alien a) {
     /*
       Referenced from the following site;
       https://happycoding.io/tutorials/processing/collision-detection
     */
-    if ((location.x > (a.location.x - a.hitBoxW/2)) && 
-          (location.x < (a.location.x + a.hitBoxW/2))) {
-      if ((location.y > (a.location.y - a.hitBoxH/2)) && 
-          (location.y < (a.location.y + a.hitBoxH/2))) {
+    if ((location.x > (a.getLoc().x - a.getWidth()/2)) && 
+          (location.x < (a.getLoc().x + a.getWidth()/2))) {
+      if ((location.y > (a.getLoc().y - a.getHeight()/2)) && 
+          (location.y < (a.getLoc().y + a.getHeight()/2))) {
         return true;
       }
     }
@@ -142,12 +142,12 @@ class Shot {
     alienShot.trigger();
   }
 
-    /**
-      Function: playAudio()
-      Description: Plays the player shot audio file.
-      Parameters: None
-      Returns: void
-    */
+  /**
+    Function: playAudio()
+    Description: Plays the player shot audio file.
+    Parameters: None
+    Returns: void
+  */
   void playShipAudio() {
     shipShot.trigger();
   }

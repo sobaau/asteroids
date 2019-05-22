@@ -110,4 +110,24 @@ class Asteroid {
       location.y = height + maxSize;
     }
   }
+
+  /**
+    Function: getLoc()
+    Description: Returns the location of the asteroid.
+    Parameters: None
+    Returns: PVector
+  */
+  PVector getLoc() {
+    return location;
+  }
+
+  /**
+    Function: getMaxSize()
+    Description: Returns the Max Size of the asteroid.
+    Parameters: None
+    Returns: float
+  */
+  float getMaxSize() {
+    return maxSize;
+  }
 }

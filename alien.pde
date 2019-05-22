@@ -53,7 +53,7 @@ class Alien {
     velocity.limit(topSpeed);
     location.add(velocity);
     checkEdges();
-
+    
     //Recharge ray gun energy when not full.
     if(frameCount % numFrames == 0 && energy < maxEnergy) {
       energy++;
@@ -99,5 +99,35 @@ class Alien {
     } else if (location.y < minScreenEdge) {
       location.y = height;
     }
+  }
+
+  /**
+    Function: getLoc()
+    Description: Returns the location of the alien.
+    Parameters: None
+    Returns: PVector
+  */
+  PVector getLoc() {
+    return location;
+  }
+
+  /**
+    Function: getWidth()
+    Description: Returns the width of the ship.
+    Parameters: None
+    Returns: float
+  */
+  float getWidth() {
+    return hitBoxW;
+  }
+
+  /**
+    Function: getHeight()
+    Description: Returns the Height of the ship.
+    Parameters: None
+    Returns: float
+  */
+  float getHeight() {
+    return hitBoxH;
   }
 }
