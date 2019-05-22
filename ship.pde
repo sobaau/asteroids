@@ -15,6 +15,7 @@ class Ship {
   int score;
   float heading = 0;
   float rotation;
+  float area;
 
   /**
     Function: Ship()
@@ -87,6 +88,7 @@ class Ship {
     fill(0);
     stroke(255);
     triangle(-r, r, r, r, 0, -r);
+    circle(0, 0, 2*r); // Remove this
     pop();
   }
 

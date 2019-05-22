@@ -133,7 +133,6 @@ class Shot {
     */
   void playAlienAudio() {
     alienShot.trigger();
-    soundsCount++;
   }
 
     /**
@@ -144,6 +143,5 @@ class Shot {
       */
   void playShipAudio() {
     shipShot.trigger();
-    soundsCount++;
   }
 }

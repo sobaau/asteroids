@@ -6,9 +6,13 @@ class Explosion {
   /**
     Function: Explosion()
     Description: Constructor for the Explosion class.
-    Parameters: TODO
+                  Creates the amount of shrapnel specified by size.
+                  Records what time the explosion occured.
+    Parameters: int(size): The amount of pieces of shrapnel to spawn.
+                PVector(location): Location of explosion.
+                int(time): Game time explosion started.
     Returns: None
-    */
+  */
   Explosion(int size, PVector locaion, int time) {
     explosionTime = time;
     playAudio();
@@ -19,10 +23,11 @@ class Explosion {
 
   /**
     Function: draw()
-    Description: Draws the starfield using the stars within the stars array.
+    Description: Draws the explosion using the shrapnel within the 
+                  shrapnel array.
     Parameters: None
     Returns: Void
-    */
+  */
   void draw() {
     for (Shrapnel s: shrapnel) {
       s.update();
@@ -35,9 +40,8 @@ class Explosion {
     Description: Plays the explosion audio file.
     Parameters: None
     Returns: void
-    */
+  */
   void playAudio() {
-    soundsCount++;
     explosion.trigger();
   }
 }

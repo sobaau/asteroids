@@ -28,22 +28,19 @@ AudioSample asteroidHit;
 int startingAste = 1;
 int level = 1;
 int starAmount = 200;
-int highScr = 11;
 final int minScreenEdge = 0;
 final int explosionDuration = 1000;
-int highscores;
 int periodTimerStart;
 int totalGameTimer;
 int liveGameTimer;
-int dispScreen;
-int soundsCount = 0;
-boolean runGame;
-boolean gameOver;
-boolean gameRunningLastScan;
-boolean gameInProgress;
+int dispScreen = 1;
+boolean runGame = false;
+boolean gameOver = false;
+boolean gameRunningLastScan = false;
+boolean gameInProgress = false;
 boolean aliensAdded;
 boolean explosionsExist;
-boolean endGameDone;
+boolean endGameDone = false;
 Starfield stars;
 OpenScn openScreen;
 leaderBoard openLdr;
@@ -60,27 +57,20 @@ PFont font1;
   Description: TODO
   Parameters: None
   Returns: Void
-  */
-void setup(){
+*/
+void setup() {
   fullScreen();
   loadData();
   stars = new Starfield(starAmount);
   openScreen = new OpenScn();
   openLdr = new leaderBoard();
   data = new DataLB();
-  //openHelp = new helpMenu();
   //Load audio
   minim = new Minim(this);
   shipShot = minim.loadSample("audio/shotGun.wav", 512);
   alienShot = minim.loadSample("audio/alienShot.wav", 512);
   explosion = minim.loadSample("audio/explosion.wav", 512);
   font1 = loadFont("font/OCRAExtended-48.vlw");
-  runGame = false;
-  dispScreen = 1;
-  gameOver = false;
-  gameRunningLastScan = false;
-  gameInProgress = false;
-  endGameDone = false;
 }
 
 /**
@@ -234,7 +224,6 @@ void drawStats() {
   text("LEVEL: " + level, indent, yTextPos * 3);
   text("LIVES: " + player.getLives(), indent, yTextPos * 4);
   text("ENERGY: " + player.energy, indent, yTextPos * 5);
-  text("Sounds: " + soundsCount, indent, yTextPos * 6);
   fill(250, 240, 0);
   textAlign(RIGHT);
   text(backB, oppindent, yTextPos * 1);

@@ -2,7 +2,10 @@ class Star {
   //Define class variables
   float locX;
   float locY;
+  final float minBright = 1;
+  final float maxBright = 3;
   int starBright;
+  final int numFrames = 10;
 
   /**
     Function: Star()
@@ -10,24 +13,24 @@ class Star {
                   random location within the screen boundaries.
     Parameters: None
     Returns: None
-    */
+  */
   Star() {
     locX = random(minScreenEdge, width);
     locY = random(minScreenEdge, height);
-    starBright = 1;
+    starBright = int(minBright);
   }
   
   /**
     Function: draw()
     Description: draws the star using a processing point function 
-                  and changes its brightness every second.
+                  and changes its brightness.
     Parameters: None
     Returns: Void
-    */
+  */
   void draw() {
     push();
-    if (frameCount % 10 == 0) {
-      starBright = int(random(1, 3));
+    if (frameCount % numFrames == 0) {
+      starBright = int(random(minBright, maxBright));
     }
     strokeWeight(starBright);
     stroke(255);
