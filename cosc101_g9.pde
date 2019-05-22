@@ -38,8 +38,6 @@ boolean runGame = false;
 boolean gameOver = false;
 boolean gameRunningLastScan = false;
 boolean gameInProgress = false;
-boolean aliensAdded;
-boolean explosionsExist;
 boolean endGameDone = false;
 Starfield stars;
 OpenScn openScreen;
@@ -103,12 +101,12 @@ void draw() {
         drawPlayer();
         drawShots();
         drawAsteroids();
-        if (aliensAdded) {
+        if (alien != null) {
           if (alien.isAlive) {
             drawAlien();
           }
         }
-        if (explosionsExist) {
+        if (explosions != null) {
           drawExplosions();
         }
         collisionDetection();
@@ -118,7 +116,7 @@ void draw() {
         if (!endGameDone) {
           endGame();
         }
-        if (explosionsExist) {
+        if (explosions != null) {
           drawExplosions();
         }
       }
@@ -131,7 +129,7 @@ void draw() {
   Description: Updates and draws the players location.
   Parameters: None
   Returns: Void
-  */
+*/
 void drawPlayer() {
   player.update();
   player.draw();
@@ -142,7 +140,7 @@ void drawPlayer() {
   Description: Updates and draws the aliens location.
   Parameters: None
   Returns: Void
-  */
+*/
 void drawAlien() {
   alien.update();
   alien.draw();
@@ -193,7 +191,6 @@ void drawExplosions() {
     }
   }
   if (explosions.size() == 0) {
-    explosionsExist = false;
   }
 }
 
@@ -287,9 +284,8 @@ void spawnAsteroids(int asteroNums) {
 void collisionDetection() {
   for (int i = shots.size() - 1; i >= 0; i--) {
     //If player shot collides with the alien
-    if (aliensAdded) {
+    if (alien != null) {
       if (alien.isAlive && shots.get(i).collide(alien) && shots.get(i).type != "alien") {
-        explosionsExist = true;
         explosions.add(new Explosion(20, alien.location, liveGameTimer));
         player.addScore(100);
         alien.isAlive = false;
@@ -313,7 +309,6 @@ void collisionDetection() {
       if (shots.get(i).collide(asteroids.get(j))){
         //Check if a player shot hits the asteroid
         if (shots.get(i).type == "player"){
-          explosionsExist = true;
           explosions.add(new Explosion(6, asteroids.get(j).location, liveGameTimer));
           player.addScore(10);
           //If asteroid is still large split it.
@@ -331,7 +326,6 @@ void collisionDetection() {
   for (int i = asteroids.size() - 1; i >= 0; i--) {
     if (player.collide(asteroids.get(i))){
       player.hit();
-      explosionsExist = true;
       explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
       if (asteroids.get(i).minSize > 10) {
         splitAsteroid(asteroids.get(i), 2);
@@ -340,9 +334,8 @@ void collisionDetection() {
     }
   }
   //Check if alien and player hit each other
-  if (aliensAdded) {
+  if (alien != null) {
     if (alien.isAlive && player.collide(alien)) {
-      explosionsExist = true;
       explosions.add(new Explosion(15, alien.location, liveGameTimer));
       player.hit();
       alien.isAlive = false;
@@ -375,7 +368,6 @@ void newGame() {
     shots.clear();
     explosions.clear();
     level = 1;
-    aliensAdded = false;
     totalGameTimer = 0;
     periodTimerStart = millis();
 
@@ -392,12 +384,11 @@ void newGame() {
   */
 void endGame() {
   for (int i = asteroids.size() - 1; i >= 0; i--) {
-    explosionsExist = true;
     explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
     asteroids.remove(i);
   }
   explosions.add(new Explosion(50, player.location, liveGameTimer));
-  if (aliensAdded) {
+  if (alien != null) {
     if (alien.isAlive) {
       explosions.add(new Explosion(20, alien.location, liveGameTimer));
     }
@@ -431,7 +422,6 @@ void checkLevelProgress() {
     //Once level 3 is reached add aliens to game.
     if (level >= 1) {
       alien = new Alien();
-      aliensAdded = true;
     }
   }
 }
