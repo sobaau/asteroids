@@ -4,11 +4,12 @@ class Alien {
   PVector direction;
   PVector acceleration;
   PVector velocity = new PVector(0, 0);
-  float hitBoxX = -25;
-  float hitBoxY = -25;
-  float hitBoxW = 50;
-  float hitBoxH = 30;
+  final float hitBoxW = 50;
+  final float hitBoxH = 30;
   final float topSpeed = 2;
+  final float minWallGap = 10;
+  final int maxEnergy = 100;
+  final int numFrames = 1;
   int energy = 0;
   boolean isAlive;
 
@@ -18,10 +19,12 @@ class Alien {
                   random location and flies to another one and repeats.
     Parameters: None
     Returns: Void
-    */
+  */
   Alien() {
-    location = new PVector(random(10, height), random(10, width));
-    target = new PVector(random(10, height), random(10, width));
+    location = new PVector(random(minWallGap, height - minWallGap), 
+                            random(minWallGap, width - minWallGap));
+    target = new PVector(random(minWallGap, height - minWallGap), 
+                            random(minWallGap, width - minWallGap));
     isAlive = true;
   }
 
@@ -32,13 +35,14 @@ class Alien {
                   its target.
     Parameters: None
     Returns: Void
-    */
+  */
   void update() {
     float deadzone = 15;
     float d = dist(location.x, location.y, target.x, target.y);
 
-    if (d < deadzone){
-      target = new PVector(random(10, width), random(10, height));
+    if (d < deadzone) {
+      target = new PVector(random(minWallGap, height - minWallGap), 
+                            random(minWallGap, width - minWallGap));
     }
 
     direction = PVector.sub(target, location);
@@ -50,7 +54,8 @@ class Alien {
     location.add(velocity);
     checkEdges();
 
-    if(frameCount % 1 == 0 && energy < 100) {
+    //Recharge ray gun energy when not full.
+    if(frameCount % numFrames == 0 && energy < maxEnergy) {
       energy++;
     }
   }
@@ -60,13 +65,12 @@ class Alien {
     Description: Draws the alien at its location using arcs and vertex's.
     Parameters: None
     Returns: Void
-    */
+  */
   void draw() {
     push();
     noFill();
     translate(location.x, location.y);
     stroke(255);
-    rect(hitBoxX, hitBoxY, hitBoxW, hitBoxH); // Remove this
     arc(0, 0, 40, 40, PI, TWO_PI);
     beginShape();
     vertex(-20, -5);
@@ -83,7 +87,7 @@ class Alien {
                   its location to the other side of the screen if it is.
     Parameters: None
     Returns: Void
-    */
+  */
   void checkEdges() {
     if (location.x > width) {
       location.x = minScreenEdge;
