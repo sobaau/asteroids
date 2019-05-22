@@ -4,6 +4,10 @@ class Alien {
   PVector direction;
   PVector acceleration;
   PVector velocity = new PVector(0, 0);
+  float hitBoxX = -25;
+  float hitBoxY = -25;
+  float hitBoxW = 50;
+  float hitBoxH = 30;
   final float topSpeed = 2;
   int energy = 0;
   boolean isAlive;
@@ -62,12 +66,13 @@ class Alien {
     noFill();
     translate(location.x, location.y);
     stroke(255);
-    arc(0, 30, 40, 40, PI, TWO_PI);
+    rect(hitBoxX, hitBoxY, hitBoxW, hitBoxH); // Remove this
+    arc(0, 0, 40, 40, PI, TWO_PI);
     beginShape();
-    vertex(-25, 30);
-    vertex(25, 30);
-    vertex(20, 25);
-    vertex(-20, 25);
+    vertex(-20, -5);
+    vertex(20, -5);
+    vertex(25, 0);
+    vertex(-25, 0);
     endShape(CLOSE);
     pop();
   }
