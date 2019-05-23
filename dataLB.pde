@@ -39,12 +39,12 @@ class DataLB {
     */
   boolean readFromFile(String file) {
     //load JSON file
-    json = loadJSONArray(file);
+    hsData = loadJSONArray(file);
     boolean valid = true;
     int i = 0 ;
 
     //Check if file read successful
-    if (json == null) {
+    if (hsData == null) {
       valid = false;
     } else {
       while (valid && i < hsData.size()) {
@@ -77,7 +77,7 @@ class DataLB {
         } else {
           //Check Name is an string no greater than 10 in length Catch the error if it isn't
           try {   
-            string name = jsonObj.getString("Name");
+            String name = jsonObj.getString("Name");
             if(name.length() > 10) {
               valid = false;
             }
@@ -145,8 +145,17 @@ class DataLB {
     Returns: boolean
     */
   boolean isNewHighScore(int newScore, JSONArray data) {
-    //Start at the highest score.
-    //Check if the new score is higher than the score in the array.
+    boolean higher = false;
+
+       for(int i = 0; i < data.length(); i++) {
+        JSONObject jsonObj = data.getJSONObject(i);
+        int scr = jsonObj.getInt("jsonScr");
+            if(newScore > scr) {
+
+            }
+
+      }
+
     //If it is return true
     return true;
   }
