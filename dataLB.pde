@@ -40,8 +40,6 @@ class DataLB {
   boolean readFromFile(String file) {
     //load JSON file
     json = loadJSONArray(file);
-    hsData = json.getJSONArray(0);
-    int rank = jsonObj("Rank");
     boolean valid = true;
     int i = 0 ;
 
@@ -61,9 +59,10 @@ class DataLB {
           valid = false;
         } else {
           //Check Rank is an Int. Catch the error if it isn't
-          try {      
+          try {   
+            int rank = jsonObj.getInt("Rank");
             if((rank < 1) || (rank > 10)) {
-              valid - false;
+              valid = false;
             }
           }
           catch (Exception e) {
@@ -72,12 +71,62 @@ class DataLB {
           }
         }
 
+        //Check Name contains a value
+        if (jsonObj.isNull("Name")) {
+          valid = false;
+        } else {
+          //Check Name is an string no greater than 10 in length Catch the error if it isn't
+          try {   
+            string name = jsonObj.getString("Name");
+            if(name.length() > 10) {
+              valid = false;
+            }
+          }
+          catch (Exception e) {
+            valid = false;
+            //println("Name not a String or too long/blank");
+          }
+        }
+
+
+        //Check jsonScr contains a value
+        if (jsonObj.isNull("jsonScr")) {
+          valid = false;
+        } else {
+          //Check jsonScr is greater than 0
+          try {   
+            int scr = jsonObj.getInt("jsonScr");
+            if(scr < 0) {
+              valid = false;
+            }
+          }
+          catch (Exception e) {
+            valid = false;
+            //println("jsonScr not an Int or is less than 1");
+          }
+        }
+
+        if (jsonObj.isNull("jsonTime")) {
+          valid = false;
+        } else {
+          //Check jsonTime is an Int. Catch the error if it isn't
+          try {   
+            int timer = jsonObj.getInt("jsonTime");
+            if(timer < 1) {
+              valid = false;
+            }
+          }
+          catch (Exception e) {
+            valid = false;
+            //println("jsonTime not an Int");
+          }
+        }
+
         i++;
       }
     }    
     return valid;
   }
-
 
   /**
     Function: writeToFile()
