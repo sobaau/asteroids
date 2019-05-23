@@ -11,7 +11,6 @@ class Alien {
   final int maxEnergy = 100;
   final int numFrames = 1;
   int energy = 0;
-  boolean isAlive;
 
   /**
     Function: Alien()
@@ -25,7 +24,6 @@ class Alien {
                             random(minWallGap, width - minWallGap));
     target = new PVector(random(minWallGap, height - minWallGap), 
                             random(minWallGap, width - minWallGap));
-    isAlive = true;
   }
 
   /**
