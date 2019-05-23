@@ -1,14 +1,11 @@
 /**************************************************************
- * File: a3.pde
- * Group: Daniel Harraka, David Preston, Reece Temple, group 09
+ * File: cosc101_g9.pde
+ * Group: Daniel Harraka, David Preston, Reece Temple, group 9
  * Date: 26/05/2019
  * Course: COSC101 - Software Development Studio 1
- * Desc: Asteroids is a ...
- * ...
- * Usage: Make sure to run in the processing environment and press play etc...
- * Notes: If any third party items are use they need to be credited 
-          (don't use anything with copyright - unless you have permission)
- * ...
+ * Desc: Asteroids is a space-themed multidirectional shooter with asteroids and
+         Aliens.
+ * Usage: Make sure to run in the processing environment and press play.
  **************************************************************/
 //Import required libraries
 import ddf.minim.*;
@@ -40,6 +37,7 @@ boolean gameOver = false;
 boolean gameRunningLastScan = false;
 boolean gameInProgress = false;
 boolean endGameDone = false;
+boolean alienSpawned = false;
 Starfield stars;
 OpenScn openScreen;
 leaderBoard openLdr;
@@ -102,10 +100,8 @@ void draw() {
         drawPlayer();
         drawShots();
         drawAsteroids();
-        if (alien != null) {
-          if (alien.isAlive) {
-            drawAlien();
-          }
+        if (alienSpawned) {
+          drawAlien();
         }
         if (explosions != null) {
           drawExplosions();
@@ -286,10 +282,10 @@ void collisionDetection() {
   for (int i = shots.size() - 1; i >= 0; i--) {
     //If player shot collides with the alien
     if (alien != null) {
-      if (alien.isAlive && shots.get(i).collide(alien) && shots.get(i).type != "alien") {
+      if (alienSpawned && shots.get(i).collide(alien) && shots.get(i).type != "alien") {
         explosions.add(new Explosion(20, alien.location, liveGameTimer));
         player.addScore(100);
-        alien.isAlive = false;
+        alienSpawned = false;
         shots.remove(i);
         break;
       }
@@ -335,13 +331,12 @@ void collisionDetection() {
     }
   }
   //Check if alien and player hit each other
-  if (alien != null) {
-    if (alien.isAlive && player.collide(alien)) {
-      explosions.add(new Explosion(15, alien.location, liveGameTimer));
-      player.hit();
-      alien.isAlive = false;
-    }
-  }  
+  if (alienSpawned && player.collide(alien)) {
+    explosions.add(new Explosion(15, alien.location, liveGameTimer));
+    player.hit();
+    alienSpawned = false;
+  }
+
 }
 
 /**
@@ -371,7 +366,7 @@ void newGame() {
     level = 1;
     totalGameTimer = 0;
     periodTimerStart = millis();
-
+    alienSpawned = false;
     player = new Ship();
     spawnAsteroids(startingAste);
     gameInProgress = true;
@@ -390,7 +385,7 @@ void endGame() {
   }
   explosions.add(new Explosion(50, player.location, liveGameTimer));
   if (alien != null) {
-    if (alien.isAlive) {
+    if (alienSpawned) {
       explosions.add(new Explosion(20, alien.location, liveGameTimer));
     }
   }
@@ -407,7 +402,8 @@ void endGame() {
   Returns: Void
  */
 void checkLevelProgress() {
-  if (asteroids.size() == 0) {
+  if (asteroids.size() == 0 && alienSpawned) {
+    shots.clear();
     level++;
     if (level > 20) {
       spawnAsteroids(25);
@@ -420,8 +416,9 @@ void checkLevelProgress() {
     } else {
       spawnAsteroids(startingAste * level);
     }
-    //Once level 3 is reached add aliens to game.
+    //Once level 2 is reached add aliens to game.
     if (level >= 1) {
+      alienSpawned = true;
       alien = new Alien();
     }
   }

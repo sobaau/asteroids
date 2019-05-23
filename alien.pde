@@ -130,4 +130,5 @@ class Alien {
   float getHeight() {
     return hitBoxH;
   }
+  
 }
