@@ -6,7 +6,7 @@ class DataLB {
     Description: Constructor for the dataLB Class
     Parameters: None
     Returns: None
-    */
+  */
   DataLB() {
 
   }
@@ -16,7 +16,7 @@ class DataLB {
     Description: TODO
     Parameters: None
     Returns: Void
-    */
+  */
   void update() {
     readFromFile("json/ldr.json");
   }
@@ -26,7 +26,7 @@ class DataLB {
     Description: TODO
     Parameters: None
     Returns: Void
-    */
+  */
   void draw() {
   
   }
@@ -36,7 +36,7 @@ class DataLB {
     Description: TODO
     Parameters: TODO
     Returns: Void
-    */
+  */
   boolean readFromFile(String file) {
     //load JSON file
     hsData = loadJSONArray(file);
@@ -121,10 +121,9 @@ class DataLB {
             //println("jsonTime not an Int");
           }
         }
-
         i++;
       }
-    }    
+    }
     return valid;
   }
 
@@ -133,7 +132,7 @@ class DataLB {
     Description: TODO
     Parameters: TODO
     Returns: Void
-    */
+  */
   void writeToFile(String file) {
 
   }
@@ -143,21 +142,19 @@ class DataLB {
     Description: TODO
     Parameters: TODO
     Returns: boolean
-    */
+  */
   boolean isNewHighScore(int newScore, JSONArray data) {
     boolean higher = false;
 
-       for(int i = 0; i < data.length(); i++) {
-        JSONObject jsonObj = data.getJSONObject(i);
-        int scr = jsonObj.getInt("jsonScr");
-            if(newScore > scr) {
-
-            }
-
+    for(int i = 0; i < data.length(); i++) {
+      JSONObject jsonObj = data.getJSONObject(i);
+      int scr = jsonObj.getInt("jsonScr");
+      if(newScore > scr) {
+      
       }
-
+    }
     //If it is return true
-    return true;
+  return true;
   }
 
   /**
@@ -165,7 +162,7 @@ class DataLB {
     Description: TODO
     Parameters: TODO
     Returns: 
-    */
+  */
   void updateHighScore(int newScore, String name, int time, JSONArray data) {
     //Start at the highest score.
     //Check if the new score is higher than the score in the array.
