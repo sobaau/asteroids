@@ -7,7 +7,7 @@ class Alien {
   final float hitBoxW = 50;
   final float hitBoxH = 30;
   final float topSpeed = 2;
-  final float minWallGap = 10;
+  final float minWallGap = 50;
   final int maxEnergy = 100;
   final int numFrames = 1;
   int energy = 0;
@@ -20,10 +20,10 @@ class Alien {
     Returns: Void
   */
   Alien() {
-    location = new PVector(random(minWallGap, height - minWallGap), 
-                            random(minWallGap, width - minWallGap));
-    target = new PVector(random(minWallGap, height - minWallGap), 
-                            random(minWallGap, width - minWallGap));
+    location = new PVector(random(minWallGap, width - minWallGap), 
+                            random(minWallGap, height - minWallGap));
+    target = new PVector(random(minWallGap, width - minWallGap), 
+                            random(minWallGap, height - minWallGap));
   }
 
   /**
