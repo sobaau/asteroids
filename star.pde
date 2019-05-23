@@ -2,8 +2,8 @@ class Star {
   //Define class variables
   float locX;
   float locY;
-  final float minBright = 1;
-  final float maxBright = 3;
+  final int minBright = 1;
+  final int maxBright = 3;
   int starBright;
   final int numFrames = 10;
 
