@@ -15,6 +15,7 @@ import ddf.minim.*;
 Minim minim;
 //Define global variables
 JSONArray json;
+JSONArray hsData;
 Ship player;
 Asteroid asteroid;
 Shot shot;

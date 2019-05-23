@@ -18,7 +18,7 @@ class DataLB {
     Returns: Void
     */
   void update() {
-    readFromFile();
+    readFromFile("json/ldr.json");
   }
 
   /**
@@ -37,15 +37,68 @@ class DataLB {
     Parameters: TODO
     Returns: Void
     */
-  void readFromFile() {
-    //load JSON file from folder
-    //Eventually make the file location an input to the function.
-    json = loadJSONArray("json/ldr.json");
+  boolean readFromFile(String file) {
+    //load JSON file
+    json = loadJSONArray(file);
+    hsData = json.getJSONArray(0);
     
-    JSONArray highscoreData = json.getJSONArray(0);
+    boolean valid = true;
+    int i = 0 ;
 
-    for (int i = 0; i < highscoreData.size(); i++) {
-      // Get top 10 rank in the array
+    //Check if file read successful
+    if (json == null) {
+      valid = false;
+    } else {
+      while (valid && i < hsData.size()) {
+
+        //println(hsData.getJSONObject(i));
+
+        //Get one object
+        JSONObject jsonObj = hsData.getJSONObject(i);
+
+        //Check Rank contains a value
+        if (jsonObj.isNull("Rank")) {
+          valid = false;
+        } else {
+          //Check Rank is an Int. Catch the error if it isn't
+          try {      
+            jsonObj.getInt("Rank");
+          }
+          catch (Exception e) {
+            valid = false;
+            //println("Rank not an Int");
+          }
+        }
+
+        i++;
+      }
+    }    
+    return valid;
+  }
+
+  //JSONArray highscoreData = json.getJSONArray(0);
+    //for (int i = 0; i < json.size(); i++) {
+    
+      //if (json.getJSONObject(i)
+
+      //I hope this doesn't confuse you but i would only read and check the data is valid
+      //in this function. Basically you want to go through the array and ensure it has what
+      //you expect. I'd probably change the return type of this function to boolean. Return
+      //true if it was successful. False if it failed.
+
+      // Get highscore objects
+      /* This doesn't need to be in the loop or in this function.
+      i would have a seperate function that prints the data to the screen.
+      *//*
+      int rank = hsData.getInt("Rank");
+      String name = hsData.getString("Name");
+      int score = hsData.getInt("jsonScr");
+      String timer = hsData.getString("jsonTime");
+
+      println("Rank: " + (rank + 1) + " Name: " + name + " Score: " + score + " Time: " + timer);*/
+    //}
+
+// Get top 10 rank in the array
       /*hsData isn't an array. While you are reading a new value
       every iteration of the loop, you're writing over the same
       variable each time. Make hsData an array and increment
@@ -56,26 +109,7 @@ class DataLB {
       I would create hsData as part of the class. Then it exists while the class
       exists.
       */
-      JSONObject hsData = highscoreData.getJSONObject(i); 
 
-      //I hope this doesn't confuse you but i would only read and check the data is valid
-      //in this function. Basically you want to go through the array and ensure it has what
-      //you expect. I'd probably change the return type of this function to boolean. Return
-      //true if it was successful. False if it failed.
-
-      // Get highscore objects
-      /* This doesn't need to be in the loop or in this function.
-      i would have a seperate function that prints the data to the screen.
-      */
-      int rank = hsData.getInt("Rank");
-      String name = hsData.getString("Name");
-      int score = hsData.getInt("jsonScr");
-      String timer = hsData.getString("jsonTime");
-
-      println("Rank: " + (rank + 1) + " Name: " + name + " Score: " + score + " Time: " + timer);
-    }
-    //saveJSONArray(highscoreData,"json/ldr.json");
-  }
 
   /**
     Function: writeToFile()
