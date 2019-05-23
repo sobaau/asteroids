@@ -402,7 +402,7 @@ void endGame() {
   Returns: Void
  */
 void checkLevelProgress() {
-  if (asteroids.size() == 0 && alienSpawned) {
+  if (asteroids.size() == 0 && !alienSpawned) {
     shots.clear();
     level++;
     if (level > 20) {
