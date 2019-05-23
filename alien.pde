@@ -41,8 +41,8 @@ class Alien {
     float d = dist(location.x, location.y, target.x, target.y);
 
     if (d < deadzone) {
-      target = new PVector(random(minWallGap, height - minWallGap), 
-                            random(minWallGap, width - minWallGap));
+      target = new PVector(random(minWallGap, width - minWallGap), 
+                            random(minWallGap, height - minWallGap));
     }
 
     direction = PVector.sub(target, location);
