@@ -131,10 +131,12 @@ class DataLB {
     Function: writeToFile()
     Description: TODO
     Parameters: TODO
-    Returns: Void
+    Returns: boolean
   */
-  void writeToFile(String file) {
+  boolean writeToFile(String file, JSONArray data) {
 
+         saveJSONArray(data, file);
+      return true;
   }
 
   /**
@@ -160,7 +162,7 @@ class DataLB {
     Function: updateHighScore()
     Description: TODO
     Parameters: TODO
-    Returns: 
+    Returns: voi
   */
   void updateHighScore(int newScore, String name, int time, JSONArray data) {
        json = new JSONObject();
