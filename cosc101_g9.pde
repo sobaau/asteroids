@@ -48,6 +48,7 @@ String[] Name;
 String[] jsonTime;
 //Font Change
 PFont font1;
+boolean temp = false;
 
 /**
   Function: setup()
@@ -88,7 +89,12 @@ void draw() {
         break;
       case 10 :
         openLdr.draw();
-        data.update();
+        if (!temp) {
+          data.update();
+          data.updateHighScore(1605000, "Test100", 37732, hsData);
+          data.writeToFile("json/ldr.json", hsData);
+          temp = true;
+        }
         break;
       default :
         break;	
