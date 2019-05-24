@@ -144,17 +144,16 @@ class DataLB {
     Returns: boolean
   */
   boolean isNewHighScore(int newScore, JSONArray data) {
-    boolean higher = false;
-
+  
     for(int i = 0; i < data.size(); i++) {
       JSONObject jsonObj = data.getJSONObject(i);
       int scr = jsonObj.getInt("jsonScr");
       if(newScore > scr) {
-      
+      return true;
       }
     }
     //If it is return true
-  return true;
+  return false;
   }
 
   /**
@@ -164,18 +163,29 @@ class DataLB {
     Returns: 
   */
   void updateHighScore(int newScore, String name, int time, JSONArray data) {
-    //Start at the highest score.
-    //Check if the new score is higher than the score in the array.
-    //If it is return true
-    //Hint use the isNewHighScore function for the above few steps.
-    //Find where to insert the new score.
-    //Copy the previous score into temporary1 variables.
-    //Insert new score.
-    //Copy next slot into temporary2 variables.
-    //Insert temporary1 variables into this slot.
-    //repeat previous few steps.
-    //Essentially you want to shift down the remaining scores until the last one drops out.
-    //But you need to copy what is there before overwriting it. There are a few ways to do
-    //this.
-  }
-}
+       json = new JSONObject();
+
+      json.setInt(“jsonScr”, newScore);
+      json.setString(“name”, name);
+      json.setInt(“jsonTime”, time);
+      json.setInt(“Rank”, data.size()+1);
+
+      data.append(json);
+
+        for(int i= data.size()-1; i >=0; i--) {
+          JSONObject jsonObj = data.getJSONObject(i);
+          int scoreOne = jsonObj.getInt("jsonScr");
+          jsonObj = data.getJSONObject(i-1);
+          int scoreTwo = jsonObj.getInt("jsonScr");
+          if(scoreOne > scoreTwo) {
+            
+            //get the current value of the last score in the array
+            JSONObject tempObj = data.getJSONObject(i-1);
+            JSONObject dataObj = data.getJSONObject(i);
+            data.setJSONArray(i-1,dataObj);
+            data.setJSONArray(i,tempObj);
+          }
+       }
+      while (data.size() > 9) {
+      data.remove(data.size() - 1);
+    }
