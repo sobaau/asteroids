@@ -109,8 +109,8 @@ class DataLB {
   /**
     Function: isNewHighScore()
     Description: Checks if the new score beats one of the scores on the
-                  top 10 leaderboard or if there are empty slots. Returns 
-                  whether it was successful or not as a boolean.
+                 top 10 leaderboard or if there are empty slots. Returns 
+                 whether it was successful or not as a boolean.
     Parameters: int(newScore): the new score to check
                 JSONArray(data): the array of data to compare the score with
     Returns: boolean
@@ -150,7 +150,7 @@ class DataLB {
     data.append(newObject);
 
     //Sort array
-    for (int i = data.size() - 1 ; i > 0; i--) {  
+    for (int i = data.size() - 1 ; i > 0; i--) {
       int scoreOne = data.getJSONObject(i).getInt("score");
       int scoreTwo = data.getJSONObject(i-1).getInt("score");
 
@@ -158,10 +158,8 @@ class DataLB {
       if (scoreOne > scoreTwo) {
         //Using a temp object swap the i'th and (i-1)'th objects
         JSONObject tempObj = data.getJSONObject(i-1);
-
         JSONObject dataObj = data.getJSONObject(i);
         data.setJSONObject(i-1, dataObj);
-        
         data.setJSONObject(i, tempObj);
       }
     }
