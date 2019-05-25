@@ -1,56 +1,52 @@
 [
   {
+    "score": 600,
     "name": "Daniel",
-    "Rank": 10,
-    "jsonScr": 260,
-    "jsonTime": 38127
+    "time": 89797
   },
   {
+    "score": 280,
     "name": "Daniel",
-    "Rank": 10,
-    "jsonScr": 240,
-    "jsonTime": 21059
+    "time": 46419
   },
   {
-    "name": "Daniel",
-    "Rank": 10,
-    "jsonScr": 230,
-    "jsonTime": 23633
+    "score": 280,
+    "name": "DanielH",
+    "time": 37250
   },
   {
+    "score": 260,
     "name": "Daniel",
-    "Rank": 10,
-    "jsonScr": 210,
-    "jsonTime": 26086
+    "time": 38127
   },
   {
-    "name": "Daniel",
-    "Rank": 10,
-    "jsonScr": 210,
-    "jsonTime": 26086
+    "score": 240,
+    "name": "Reece",
+    "time": 21059
   },
   {
-    "name": "Daniel",
-    "Rank": 10,
-    "jsonScr": 210,
-    "jsonTime": 26086
+    "score": 230,
+    "name": "David",
+    "time": 23633
   },
   {
+    "score": 210,
     "name": "Daniel",
-    "Rank": 10,
-    "jsonScr": 210,
-    "jsonTime": 26086
+    "time": 26086
   },
   {
-    "name": "Daniel",
-    "Rank": 10,
-    "jsonScr": 210,
-    "jsonTime": 27591
+    "score": 140,
+    "name": "TestD",
+    "time": 13958
   },
   {
-    "name": "Daniel",
-    "Rank": 10,
-    "jsonScr": 200,
-    "jsonTime": 18434
+    "score": 70,
+    "name": "Daniel H",
+    "time": 11627
+  },
+  {
+    "score": 70,
+    "name": "fdsdf",
+    "time": 14191
   }
 ]

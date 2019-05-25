@@ -3,8 +3,7 @@ class leaderBoard {
   final String gameTitle = "ASTEROIDS";
   final String ldrBd = "Leaderboard";
   final String backB = "Esc or M for main menu";
-  int topTen = 10;
-  
+
   /**
     Function: leaderBoard()
     Description: Constructor for the Leaderboard Page.
@@ -74,11 +73,11 @@ class leaderBoard {
     fill(255);
     textSize(normalTextSize);
     
-    for (int i = 0; (i < topScores.size()) && (i < topTen); i++) {
+    for (int i = 0; (i < topScores.size()) && (i < numOfTopScores); i++) {
       //Extract data from array
       String name = topScores.getJSONObject(i).getString("name");
-      int time = topScores.getJSONObject(i).getInt("jsonTime");
-      int score = topScores.getJSONObject(i).getInt("jsonScr");
+      int time = topScores.getJSONObject(i).getInt("time");
+      int score = topScores.getJSONObject(i).getInt("score");
       //Display data on screen
       text(nf(i + 1), width * 0.30, (height * 0.30) + (65 * i));
       text(name, width * 0.40, (height * 0.30) + (65 * i));

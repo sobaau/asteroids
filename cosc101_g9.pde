@@ -32,6 +32,7 @@ final int explosionDuration = 1000;
 int periodTimerStart;
 int totalGameTimer;
 int liveGameTimer;
+int numOfTopScores = 10;
 int dispScreen = 1;
 int gameTitleTextSize = 80;
 int pageTitleTextSize = 40;
@@ -518,7 +519,8 @@ void keyPressed() {
       name = name.substring( 0, name.length() - 1);
     } 
     //https://forum.processing.org/two/discussion/16079/taking-user-input
-    else if ( key >= 'A' && key <= 'Z' || key >= 'a' && key <= 'z' ) {
+    else if ( key >= 'A' && key <= 'Z' || key >= 'a' && key <= 'z' ||
+              keyCode == ' ') {
       name += key;
     } else if (keyCode == ENTER || keyCode == RETURN) {
       data.updateHighScore(player.getScore(), name, liveGameTimer, hsData);
@@ -527,7 +529,6 @@ void keyPressed() {
       dispScreen = 1;
       runGame = false;
     } else {
-      println("Unkown key");
     }
   } else {
     //This section is for the Game related key presses.
