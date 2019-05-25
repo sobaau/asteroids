@@ -88,8 +88,8 @@ class Shot {
     Returns: Boolean
   */
   boolean collide(Ship s) {
-    float d = dist(location.x, location.y, s.getShipLoc().x, s.getShipLoc().y);
-    if (d < s.getShipSize()) {
+    float d = dist(location.x, location.y, s.getLoc().x, s.getLoc().y);
+    if (d < s.getSize()) {
       return true;
     }
     return false;

@@ -301,7 +301,7 @@ class Ship {
     Parameters: None
     Returns: PVector
   */
-  PVector getShipLoc() {
+  PVector getLoc() {
     return location;
   }
 
@@ -311,7 +311,7 @@ class Ship {
     Parameters: None
     Returns: int
   */
-  int getShipSize() {
+  int getSize() {
     return r;
   }
 

@@ -1,8 +1,18 @@
 [
   {
+    "score": 1720,
+    "name": "Daniel H",
+    "time": 215054
+  },
+  {
     "score": 600,
     "name": "Daniel",
     "time": 89797
+  },
+  {
+    "score": 450,
+    "name": "Daniel DDD",
+    "time": 69072
   },
   {
     "score": 280,
@@ -38,15 +48,5 @@
     "score": 140,
     "name": "TestD",
     "time": 13958
-  },
-  {
-    "score": 70,
-    "name": "Daniel H",
-    "time": 11627
-  },
-  {
-    "score": 70,
-    "name": "fdsdf",
-    "time": 14191
   }
 ]

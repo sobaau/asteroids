@@ -3,16 +3,16 @@
  * Group: Daniel Harraka, David Preston, Reece Temple, group 9
  * Date: 26/05/2019
  * Course: COSC101 - Software Development Studio 1
- * Desc: Asteroids is a space-themed multidirectional shooter with asteroids and
- Aliens.
+ * Desc: Asteroids is a space-themed multidirectional shooter with 
+ asteroids and Aliens.
  * Usage: Make sure to run in the processing environment and press play.
  * Packages required: minim
  **************************************************************/
+ 
 //Import required libraries
 import ddf.minim.*;
 Minim minim;
 //Define global variables
-JSONArray json;
 JSONArray hsData;
 Ship player;
 Asteroid asteroid;
@@ -37,6 +37,10 @@ int dispScreen = 1;
 int gameTitleTextSize = 80;
 int pageTitleTextSize = 40;
 int normalTextSize = 28;
+int weaponEnergyReq = 25;
+int numExplosAstr = 6;
+int numExplosAlien = 15;
+int numExplosShip = 50;
 float playerRotationRate = 0.08;
 boolean runGame = false;
 boolean gameOver = true;
@@ -52,13 +56,10 @@ helpPage helpPage;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Explosion> explosions = new ArrayList<Explosion>();
-String[] Name;
-String[] jsonTime;
-//Font Change
-PFont font1;
-boolean temp = false;
 String highScore = "New high score! Please enter your name";
 String name = "";
+//Font Change
+PFont font1;
 
 /**
   Function: setup()
@@ -69,7 +70,6 @@ String name = "";
 */
 void setup() {
   fullScreen();
-  //size(1366, 768);
   //Declare classes
   stars = new Starfield(starAmount);
   openScreen = new openScn();
@@ -106,8 +106,9 @@ void draw() {
       break;
     //Load Leaderboard page
     case 10 :
-      data.readFromFile("json/ldr.json");
-      openLdr.draw();
+      if (data.readFromFile("json/topScores.json")) {
+        openLdr.draw();
+      }
       break;
     //Load help page
     case 20 :
@@ -117,6 +118,7 @@ void draw() {
       break;
     }
   } else {
+    //Run game
     gameOver = !player.isAlive;
     if (player.isAlive) {
       drawPlayer();
@@ -128,35 +130,40 @@ void draw() {
       collisionDetection();
       checkLevelProgress();
     } else {
-      // game over. check for new high score and save.
+      //Game over. Check for new high score and save.
       if (!endGameDone) {
+        //Trigger endGame sequence once.
         endGame();
       }
-      if (explosions != null) {
-        drawExplosions();
-      }
       checkScore();
+    }
+    //Draw the explosions if any exist
+    if (explosions != null) {
+      drawExplosions();
     }
     drawStats();
   }
 }
+
 /**
   Function: checkScore()
-  Description: TODO
+  Description: Checks if there is a new high score. If there is triggers the
+                name entry screen.
   Parameters: None
   Returns: Void
 */
-void checkScore(){
-  data.readFromFile("json/ldr.json");
-  if(data.isNewHighScore(player.getScore(), hsData)) {
-    fill(255);
-    textSize(40);
-    textAlign(CENTER);
-    text(highScore, width/2, height/2);
-    text(name, width/2, height/2 + 50);
-    enterScore = true;
+void checkScore() {
+  //Check if the file can be read.
+  if (data.readFromFile("json/topScores.json")) {
+    if (data.isNewHighScore(player.getScore(), hsData)) {
+      fill(255);
+      textSize(40);
+      textAlign(CENTER);
+      text(highScore, width/2, height/2);
+      text(name, width/2, height/2 + 50);
+      enterScore = true;
+    }
   }
-  
 }
 /**
   Function: drawPlayer()
@@ -180,7 +187,7 @@ void drawAlien() {
   alien.update();
   alien.draw();
   if (alien.isAbleToFire()) {
-    shots.add(new Shot(alien.getLoc(), player.getShipLoc()));
+    shots.add(new Shot(alien.getLoc(), player.getLoc()));
     alien.setEnergy(0);
   }
 }
@@ -222,7 +229,8 @@ void drawAsteroids() {
 void drawExplosions() {
   for (int i = 0; i < explosions.size(); i++) {
     explosions.get(i).draw();
-    if ((liveGameTimer - explosions.get(i).explosionTime) > explosionDuration) {
+    if ((liveGameTimer - explosions.get(i).explosionTime) > 
+          explosionDuration) {
       explosions.remove(i);
     }
   }
@@ -235,8 +243,8 @@ void drawExplosions() {
   Returns: Void
 */
 void drawStats() {
-  int indent = 15;
-  float oppindent = width - 15;
+  int rIndent = 15;
+  float lIndent = width - 15;
   int yTextPos = 20;
   int i = 1;
   String backB = "ESC or M for main menu";
@@ -244,14 +252,14 @@ void drawStats() {
   textSize(22);
   fill(255);
   textAlign(LEFT);
-  text("TIME: " + convertTime(liveGameTimer), indent, yTextPos * i++);
-  text("SCORE: " + player.getScore(), indent, yTextPos * i++);
-  text("LEVEL: " + level, indent, yTextPos * i++);
-  text("LIVES: " + player.getLives(), indent, yTextPos * i++);
-  text("ENERGY: " + player.energy, indent, yTextPos * i++);
+  text("TIME: " + convertTime(liveGameTimer), rIndent, yTextPos * i++);
+  text("SCORE: " + player.getScore(), rIndent, yTextPos * i++);
+  text("LEVEL: " + level, rIndent, yTextPos * i++);
+  text("LIVES: " + player.getLives(), rIndent, yTextPos * i++);
+  text("ENERGY: " + player.energy, rIndent, yTextPos * i++);
   fill(250, 240, 0);
   textAlign(RIGHT);
-  text(backB, oppindent, yTextPos * 1);
+  text(backB, lIndent, yTextPos * 1);
 }
 
 /**
@@ -306,7 +314,7 @@ void spawnAsteroids(int asteroNums) {
   int minDistance = 150; // Change this to spawn them closer to the player.
   for (int i = 0; i < asteroNums; i++) {
     PVector spawn = new PVector(random(width), random(height));
-    while (spawn.dist(player.getShipLoc()) < minDistance) {
+    while (spawn.dist(player.getLoc()) < minDistance) {
       spawn = new PVector(random(width), random(height));
     }
     asteroid = new Asteroid(spawn);
@@ -319,11 +327,13 @@ void spawnAsteroids(int asteroNums) {
   Description: Checks if the following are colliding:
                Asteroids with shots.
                Alien shots with the player.
+               Player shots with the alien.
                Asteroids and the player.
                If an alien shot collides with a player it is despawned
                and if a player shot collides with an asteroid the asteroid
                is removed from the array and a smaller one is spawned in 
                its place.
+               If there is a collision it triggers an explosion.
   Parameters: None
   Returns: Void
 */
@@ -358,7 +368,8 @@ void collisionDetection() {
       if (shots.get(i).collide(asteroids.get(j))) {
         //Check if a player shot hits the asteroid
         if (shots.get(i).type == "player") {
-          explosions.add(new Explosion(6, asteroids.get(j).location, liveGameTimer));
+          explosions.add(new Explosion(numExplosAstr, 
+              asteroids.get(j).location, liveGameTimer));
           player.addScore(astreScore);
           //If asteroid is still large split it.
           if (asteroids.get(j).minSize > maxAstreSize) {
@@ -375,7 +386,8 @@ void collisionDetection() {
   for (int i = asteroids.size() - 1; i >= 0; i--) {
     if (player.collide(asteroids.get(i))) {
       player.hit();
-      explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
+      explosions.add(new Explosion(numExplosAstr, 
+          asteroids.get(i).location, liveGameTimer));
       if (asteroids.get(i).minSize > maxAstreSize) {
         splitAsteroid(asteroids.get(i), astreToSplit);
       }
@@ -384,7 +396,8 @@ void collisionDetection() {
   }
   //Check if alien and player hit each other
   if (alienSpawned && player.collide(alien)) {
-    explosions.add(new Explosion(15, alien.location, liveGameTimer));
+    explosions.add(new Explosion(numExplosAlien, 
+        alien.location, liveGameTimer));
     player.hit();
     alienSpawned = false;
   }
@@ -405,8 +418,8 @@ void splitAsteroid(Asteroid a, int x) {
 
 /**
   Function: newGame()
-  Description: Clears old game if one exists and creates objects for new
-                game.
+  Description: Clears old game if one exists and creates objects 
+                for new game.
   Parameters: None
   Returns: Void
 */
@@ -435,13 +448,16 @@ void newGame() {
 */
 void endGame() {
   for (int i = asteroids.size() - 1; i >= 0; i--) {
-    explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
+    explosions.add(new Explosion(numExplosAstr, 
+        asteroids.get(i).location, liveGameTimer));
     asteroids.remove(i);
   }
-  explosions.add(new Explosion(50, player.location, liveGameTimer));
+  explosions.add(new Explosion(numExplosShip, 
+      player.location, liveGameTimer));
   if (alien != null) {
     if (alienSpawned) {
-      explosions.add(new Explosion(20, alien.location, liveGameTimer));
+      explosions.add(new Explosion(numExplosAlien, 
+          alien.location, liveGameTimer));
     }
   }
   endGameDone = true;
@@ -471,8 +487,8 @@ void checkLevelProgress() {
     } else {
       spawnAsteroids(startingAste * level);
     }
-    //Once level 2 is reached add aliens to game.
-    if (level >= 1) {
+    //Once level 3 is reached add aliens to game.
+    if (level >= 3) {
       alienSpawned = true;
       alien = new Alien();
     }
@@ -517,18 +533,17 @@ void keyPressed() {
     //This section is for entering the name for a new high score.
     if (keyCode == BACKSPACE) {
       name = name.substring( 0, name.length() - 1);
-    } 
+    }
     //https://forum.processing.org/two/discussion/16079/taking-user-input
-    else if ( key >= 'A' && key <= 'Z' || key >= 'a' && key <= 'z' ||
-              keyCode == ' ') {
+    else if ((key >= 'A' && key <= 'Z' || key >= 'a' && key <= 'z' ||
+              keyCode == ' ') && (name.length() < 10)) {
       name += key;
     } else if (keyCode == ENTER || keyCode == RETURN) {
       data.updateHighScore(player.getScore(), name, liveGameTimer, hsData);
-      data.writeToFile("json/ldr.json", hsData);
+      data.writeToFile("json/topScores.json", hsData);
       enterScore = false;
       dispScreen = 1;
       runGame = false;
-    } else {
     }
   } else {
     //This section is for the Game related key presses.
@@ -549,11 +564,12 @@ void keyPressed() {
     }
     if (keyCode == ' ') {
       if (player.isAbleToFire()) {
-        shots.add(new Shot(player.getShipLoc(), player.getHeading()));
-        player.subEnergy(25);
+        shots.add(new Shot(player.getLoc(), player.getHeading()));
+        player.subEnergy(weaponEnergyReq);
       }
     }
   }
+  //The following keys need to work all time
   //Back to Main
   if (keyCode == 'm' || keyCode == 'M') {
     openScreen = new openScn();
