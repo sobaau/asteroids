@@ -4,7 +4,7 @@
  * Date: 26/05/2019
  * Course: COSC101 - Software Development Studio 1
  * Desc: Asteroids is a space-themed multidirectional shooter with asteroids and
-         Aliens.
+ Aliens.
  * Usage: Make sure to run in the processing environment and press play.
  **************************************************************/
 //Import required libraries
@@ -86,48 +86,48 @@ void draw() {
   gameTimer();
   if (!runGame) {
     switch (dispScreen) {
-      case 1 :
-        openScreen.draw();
-        break;
-      case 10 :
-        data.update();
-        openLdr.draw();
-        if (!temp) {
-          //data.update();
-          data.updateHighScore(1605000, "Test100", 37732, hsData);
-          data.writeToFile("json/ldr.json", hsData);
-          temp = true;
-        }
-        break;
-        case 20 :
-        helpMenuScreen.draw();
-        break;
-      default :
-        break;
+    case 1 :
+      openScreen.draw();
+      break;
+    case 10 :
+      data.update();
+      openLdr.draw();
+      if (!temp) {
+        //data.update();
+        data.updateHighScore(1605000, "Test100", 37732, hsData);
+        data.writeToFile("json/ldr.json", hsData);
+        temp = true;
+      }
+      break;
+    case 20 :
+      helpMenuScreen.draw();
+      break;
+    default :
+      break;
     }
   } else {
-      gameOver = !player.isAlive;
-      if (player.isAlive) {
-        drawPlayer();
-        drawShots();
-        drawAsteroids();
-        if (alienSpawned) {
-          drawAlien();
-        }
-        if (explosions != null) {
-          drawExplosions();
-        }
-        collisionDetection();
-        checkLevelProgress();
-      } else {
-        // game over. check for new high score and save.
-        if (!endGameDone) {
-          endGame();
-        }
-        if (explosions != null) {
-          drawExplosions();
-        }
+    gameOver = !player.isAlive;
+    if (player.isAlive) {
+      drawPlayer();
+      drawShots();
+      drawAsteroids();
+      if (alienSpawned) {
+        drawAlien();
       }
+      if (explosions != null) {
+        drawExplosions();
+      }
+      collisionDetection();
+      checkLevelProgress();
+    } else {
+      // game over. check for new high score and save.
+      if (!endGameDone) {
+        endGame();
+      }
+      if (explosions != null) {
+        drawExplosions();
+      }
+    }
     drawStats();
   }
 }
@@ -161,7 +161,7 @@ void drawAlien() {
 /**
   Function: drawShots()
   Description: Draws both player and alien shots and also removes them 
-                from their arrays if they go off the screen. 
+               from their arrays if they go off the screen. 
   Parameters: None
   Returns: Void
 */
@@ -224,8 +224,8 @@ void drawStats() {
   fill(255);
   textAlign(LEFT);
   text("TIME: " + floor(liveGameTimer/milSecPerHr) + ":" + 
-        floor(liveGameTimer/milSecPerMin) + ":" + 
-        (liveGameTimer/milSecPerSec)%secPerMin, indent, yTextPos * i++);
+    floor(liveGameTimer/milSecPerMin) + ":" + 
+    (liveGameTimer/milSecPerSec)%secPerMin, indent, yTextPos * i++);
   text("SCORE: " + player.getScore(), indent, yTextPos * i++);
   text("LEVEL: " + level, indent, yTextPos * i++);
   text("LIVES: " + player.getLives(), indent, yTextPos * i++);
@@ -261,7 +261,7 @@ void gameTimer() {
 /**
   Function: spawnAsteroids()
   Description: Spawns asteroids and makes sure they aren't within a
-                certain distance of the player.
+               certain distance of the player.
   Parameters: int(asteroNums): The number of asteroids to spawn.
   Returns: Void
 */
@@ -280,13 +280,13 @@ void spawnAsteroids(int asteroNums) {
 /**
   Function: collisionDetection()
   Description: Checks if the following are colliding:
-                Asteroids with shots.
-                Alien shots with the player.
-                Asteroids and the player.
-                If an alien shot collides with a player it is despawned
-                and if a player shot collides with an asteroid the asteroid
-                is removed from the array and a smaller one is spawned in 
-                its place.
+               Asteroids with shots.
+               Alien shots with the player.
+               Asteroids and the player.
+               If an alien shot collides with a player it is despawned
+               and if a player shot collides with an asteroid the asteroid
+               is removed from the array and a smaller one is spawned in 
+               its place.
   Parameters: None
   Returns: Void
 */
@@ -318,9 +318,9 @@ void collisionDetection() {
     }
     //Check if asteroid is hit
     for (int j = asteroids.size() - 1; j >= 0; j--) {
-      if (shots.get(i).collide(asteroids.get(j))){
+      if (shots.get(i).collide(asteroids.get(j))) {
         //Check if a player shot hits the asteroid
-        if (shots.get(i).type == "player"){
+        if (shots.get(i).type == "player") {
           explosions.add(new Explosion(6, asteroids.get(j).location, liveGameTimer));
           player.addScore(astreScore);
           //If asteroid is still large split it.
@@ -336,7 +336,7 @@ void collisionDetection() {
   }
   //Check if asteroid hits player
   for (int i = asteroids.size() - 1; i >= 0; i--) {
-    if (player.collide(asteroids.get(i))){
+    if (player.collide(asteroids.get(i))) {
       player.hit();
       explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
       if (asteroids.get(i).minSize > maxAstSize) {
@@ -357,11 +357,11 @@ void collisionDetection() {
   Function: splitAsteroid()
   Description: Splits the asteroids by the provided times.
   Parameters: Asteroid(a): The asteroid to split.
-              int(x): The amount of times to split it.
+  int(x): The amount of times to split it.
   Returns: Void
 */
 void splitAsteroid(Asteroid a, int x) {
-  for(int i = 0; i < x; i++) {
+  for (int i = 0; i < x; i++) {
     asteroids.add(new Asteroid(a));
   }
 }
@@ -369,7 +369,7 @@ void splitAsteroid(Asteroid a, int x) {
 /**
   Function: newGame()
   Description: Clears old game if one exists and creates objects for new
-                game.
+  game.
   Parameters: None
   Returns: Void
 */
@@ -409,9 +409,9 @@ void endGame() {
 /**
   Function: checkLevelProgress()
   Description: Checks if the asteroids have been destroyed.
-          If they have it increments the level and spwans new
-          asteroids. The game gets harder as the levels
-          increase.
+               If they have it increments the level and spwans new
+               asteroids. The game gets harder as the levels
+               increase.
   Parameters: None
   Returns: Void
 */
@@ -454,7 +454,7 @@ void loadData() {
   Parameters: None
   Returns: Void
 */
-void keyPressed(){
+void keyPressed() {
   //This section is for the Menu related key presses.
   if (!runGame) {
     //New Game
@@ -484,26 +484,26 @@ void keyPressed(){
     }
   } else {
     //This section is for the Game related key presses.
-    if (key == CODED){
-      if (keyCode == UP){
+    if (key == CODED) {
+      if (keyCode == UP) {
         player.thrusting(true);
       }
-      if (keyCode == DOWN){
+      if (keyCode == DOWN) {
       } 
-      if (keyCode == RIGHT){
+      if (keyCode == RIGHT) {
         player.turning(true);
         player.setRotation(0.1);
       }
-      if (keyCode == LEFT){
+      if (keyCode == LEFT) {
         player.turning(true);
         player.setRotation(-0.1);
       }
     }
     if (keyCode == ' ') {
-        if (player.energy > 25) {
-          shots.add(new Shot(player.location, player.heading));
-          player.energy -= 25;
-        }
+      if (player.energy > 25) {
+        shots.add(new Shot(player.location, player.heading));
+        player.energy -= 25;
+      }
     }
   }
   //Back to Main
