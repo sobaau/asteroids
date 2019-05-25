@@ -32,6 +32,9 @@ int periodTimerStart;
 int totalGameTimer;
 int liveGameTimer;
 int dispScreen = 1;
+int gameTitleTextSize = 80;
+int pageTitleTextSize = 40;
+int normalTextSize = 28;
 float playerRotationRate = 0.1;
 boolean runGame = false;
 boolean gameOver = true;
@@ -62,7 +65,8 @@ String name = "";
   Returns: Void
 */
 void setup() {
-  fullScreen();
+  //fullScreen();
+  size(1366, 768);
   //Declare classes
   stars = new Starfield(starAmount);
   openScreen = new openScn();
@@ -99,7 +103,7 @@ void draw() {
       break;
     //Load Leaderboard page
     case 10 :
-      data.update();
+      data.readFromFile("json/ldr.json");
       openLdr.draw();
       //if (!temp) {
         //data.update();
@@ -146,12 +150,13 @@ void draw() {
   Returns: Void
 */
 void checkScore(){
-  data.update();
+  data.readFromFile("json/ldr.json");
   if(data.isNewHighScore(player.getScore(), hsData)){
     fill(255);
     textSize(40);
+    textAlign(CENTER);
     text(highScore, width/2, height/2);
-    text(name, width/2, height/2 - 50);
+    text(name, width/2, height/2 + 50);
   }
   
 }
@@ -508,11 +513,15 @@ void keyPressed() {
     if ((keyCode == 'e' || keyCode == 'E') && dispScreen == 1) {
       exit();
     }
-  } else if (gameOver && data.isNewHighScore(player.getScore(),hsData)){
-    if (key != ENTER || key != RETURN) {
-    name +=key;
+  } else if (gameOver && data.isNewHighScore(player.getScore(),hsData)) {
+    //This section is for entering the name for a new high score.
+    if (keyCode == BACKSPACE) {
+      name = name.substring( 0, name.length() - 1);
+    } else if (key != ENTER || key != RETURN) {
+      name += key;
     } else {
-      data.updateHighScore(player.getScore(), name, 37732, hsData);
+      data.updateHighScore(player.getScore(), name, liveGameTimer, hsData);
+      data.writeToFile("json/ldr.json", hsData);
     }
   } else {
     //This section is for the Game related key presses.

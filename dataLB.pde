@@ -12,26 +12,6 @@ class DataLB {
   }
 
   /**
-    Function: update()
-    Description: TODO
-    Parameters: None
-    Returns: Void
-  */
-  void update() {
-    readFromFile("json/ldr.json");
-  }
-
-  /**
-    Function: draw()
-    Description: TODO
-    Parameters: None
-    Returns: Void
-  */
-  void draw() {
-  
-  }
-
-  /**
     Function: readFromFile()
     Description: TODO
     Parameters: TODO

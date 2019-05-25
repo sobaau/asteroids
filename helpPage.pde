@@ -1,7 +1,7 @@
 class helpPage {
   //Define Strings
   StringList helpText;
-  final String astMn = "ASTEROIDS";
+  final String gameTitle = "ASTEROIDS";
   final String helpMn = "Help";
   final String backB = "M for Main Menu";
   final String helpArrows = "Use the directional arrows on your keyboard to" +
@@ -46,21 +46,22 @@ class helpPage {
     fill(255);
     textFont(font1);
     textAlign(CENTER);
-    textSize(80);
-    text(astMn, width/2, height * 0.10);
+    textSize(gameTitleTextSize);
+    text(gameTitle, width/2, height * 0.10);
     fill(250, 240, 0);
-    textSize(35);
+    textSize(pageTitleTextSize);
     text(helpMn, width/2, height * 0.15);
     //Menu Info
     noFill();
     stroke(255);
-    textSize(25);
+    textSize(normalTextSize);
     fill(255);
     textAlign(CENTER);
     for (int i = 0; i < helpText.size(); i++) {
       text(helpText.get(i), width/4, height/4 + (120 * i), width/2, height/2);
     }
     //Back to Menu Option
+    textSize(normalTextSize);
     fill(250, 240, 0);
     text(backB, width/2, height * 0.95);
   }

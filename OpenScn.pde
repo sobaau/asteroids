@@ -1,10 +1,10 @@
 class openScn{
-
   //Define Strings
   StringList menu;
   final String gameTitle = "ASTEROIDS";
   final String tip = "Select using the shortcut keys";
-  final String devTeam = "Created by Daniel Harraka, David Preston & Reece Temple";
+  final String devTeam = "Created by Daniel Harraka, David Preston" + 
+                          " & Reece Temple";
 
   /**
     Function: openScn()
@@ -30,20 +30,22 @@ class openScn{
     Returns: Void.
   */
   void draw() {
+    int menuSpacing = 60;
+
     //Common setup
     fill(255);
     textFont(font1);
     textAlign(CENTER);
 
     //Game Title
-    textSize(80);
-    text(gameTitle, width/2, (height/2) - 300);
-    
+    textSize(gameTitleTextSize);
+    text(gameTitle, width/2, height * 0.10);
+
     //Menu
-    textSize(25);
+    textSize(normalTextSize);
     stroke(5);
     for (int i = 0; i < menu.size(); i++) {
-      text(menu.get(i), width/2, (height/2) + (40 * i));
+      text(menu.get(i), width/2, ((height/2) * 0.8) + (menuSpacing * i));
     }
 
     //Credits
