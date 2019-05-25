@@ -339,7 +339,7 @@ void collisionDetection() {
     if (player.collide(asteroids.get(i))) {
       player.hit();
       explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
-      if (asteroids.get(i).minSize > maxAstSize) {
+      if (asteroids.get(i).minSize > maxAstreSize) {
         splitAsteroid(asteroids.get(i), astreToSplit);
       }
       asteroids.remove(i);
