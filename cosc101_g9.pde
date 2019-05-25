@@ -41,6 +41,7 @@ boolean alienSpawned = false;
 Starfield stars;
 OpenScn openScreen;
 leaderBoard openLdr;
+helpMenu helpMenuScreen;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Explosion> explosions = new ArrayList<Explosion>();
@@ -61,6 +62,7 @@ void setup() {
   loadData();
   stars = new Starfield(starAmount);
   openScreen = new OpenScn();
+  helpMenuScreen = new helpMenu();
   openLdr = new leaderBoard();
   data = new DataLB();
   //Load audio
@@ -96,6 +98,9 @@ void draw() {
           temp = true;
         }
         break;
+        case 20 :
+        helpMenuScreen.draw();
+        break;        
       default :
         break;	
     }
@@ -212,6 +217,7 @@ void drawStats() {
   final int milSecPerSec = 1000;
   final int milSecPerMin = secPerMin * milSecPerSec;
   final int milSecPerHr = minPerHr * secPerMin * milSecPerSec;
+  int i = 1;
   String backB = "ESC or M for main menu";
   textFont(font1);
   textSize(14);
@@ -219,11 +225,11 @@ void drawStats() {
   textAlign(LEFT);
   text("TIME: " + floor(liveGameTimer/milSecPerHr) + ":" + 
         floor(liveGameTimer/milSecPerMin) + ":" + 
-        (liveGameTimer/milSecPerSec)%secPerMin, indent, yTextPos);
-  text("SCORE: " + player.getScore(), indent, yTextPos * 2);
-  text("LEVEL: " + level, indent, yTextPos * 3);
-  text("LIVES: " + player.getLives(), indent, yTextPos * 4);
-  text("ENERGY: " + player.energy, indent, yTextPos * 5);
+        (liveGameTimer/milSecPerSec)%secPerMin, indent, yTextPos * i++);
+  text("SCORE: " + player.getScore(), indent, yTextPos * i++);
+  text("LEVEL: " + level, indent, yTextPos * i++);
+  text("LIVES: " + player.getLives(), indent, yTextPos * i++);
+  text("ENERGY: " + player.energy, indent, yTextPos * i++);
   fill(250, 240, 0);
   textAlign(RIGHT);
   text(backB, oppindent, yTextPos * 1);

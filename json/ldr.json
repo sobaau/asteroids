@@ -18,6 +18,12 @@
     "jsonTime": 37732
   },
   {
+    "name": "Test100",
+    "Rank": 10,
+    "jsonScr": 1605000,
+    "jsonTime": 37732
+  },
+  {
     "name": "Test1",
     "Rank": 3,
     "jsonScr": 1600000,
@@ -45,12 +51,6 @@
     "name": "Test5",
     "Rank": 7,
     "jsonScr": 1200000,
-    "jsonTime": 3737732
-  },
-  {
-    "name": "Test6",
-    "Rank": 8,
-    "jsonScr": 1100000,
     "jsonTime": 3737732
   }
 ]
