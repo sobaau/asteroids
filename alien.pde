@@ -51,7 +51,6 @@ class Alien {
     velocity.limit(topSpeed);
     location.add(velocity);
     checkEdges();
-    
     //Recharge ray gun energy when not full.
     if(frameCount % numFrames == 0 && energy < maxEnergy) {
       energy++;

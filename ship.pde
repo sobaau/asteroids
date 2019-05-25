@@ -67,7 +67,7 @@ class Ship {
     push();
     translate(location.x, location.y);
     rotate(heading + offset);
-    //If the ship is thursting draw thursts.
+    //If the ship is thrusting draw thrusters.
     if (isThrusting) {
       fill(255, 0, 0);
       stroke(255, 0, 0);
@@ -75,7 +75,7 @@ class Ship {
       triangle(-r/3, r, r/3, r, 0, 1.5*r);
       triangle(r/3, r, r, r, 2*r/3, 1.5*r);
     }
-    //If the ship is turning draw bigger thursts on left or right.
+    //If the ship is turning draw bigger thrusters on left or right.
     if (isTurning) {
       fill(255, 0, 0);
       stroke(255, 0, 0);
@@ -190,7 +190,7 @@ class Ship {
     Parameters: Alien(a): the alien to check if its been hit.
     Returns: Boolean
   */
-  boolean collide(Alien a) {    
+  boolean collide(Alien a) {
     /*
       Referenced from the following site;
       https://happycoding.io/tutorials/processing/collision-detection

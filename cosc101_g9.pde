@@ -78,7 +78,7 @@ void setup() {
   Description: TODO
   Parameters: None
   Returns: Void
-  */
+*/
 void draw() {
   noCursor();
   background(0);
@@ -101,13 +101,12 @@ void draw() {
         break;
         case 20 :
         helpMenuScreen.draw();
-        break;        
+        break;
       default :
-        break;	
+        break;
     }
   } else {
       gameOver = !player.isAlive;
-
       if (player.isAlive) {
         drawPlayer();
         drawShots();
@@ -165,7 +164,7 @@ void drawAlien() {
                 from their arrays if they go off the screen. 
   Parameters: None
   Returns: Void
-  */
+*/
 void drawShots() { 
   for (Shot s : shots) {
     s.update();
@@ -178,7 +177,7 @@ void drawShots() {
   Description: Updates the location of all asteroids in the asteroids array.
   Parameters: None 
   Returns: Void
-  */
+*/
 void drawAsteroids() {
   for (Asteroid a : asteroids) {
     a.update();
@@ -191,7 +190,7 @@ void drawAsteroids() {
   Description: TODO
   Parameters: None
   Returns: Void
-  */
+*/
 void drawExplosions() {
   for (int i = 0; i < explosions.size(); i++) {
     explosions.get(i).draw();
@@ -208,7 +207,7 @@ void drawExplosions() {
   Description: Draws the score, level and lifes remaining to the screen.
   Parameters: None
   Returns: Void
- */
+*/
 void drawStats() {
   int indent = 15;
   float oppindent = width - 15;
@@ -241,7 +240,7 @@ void drawStats() {
   Description: TODO
   Parameters: None
   Returns: Void
-  */
+*/
 void gameTimer() {
   //Transition to game running
   if (!gameRunningLastScan && runGame) {
@@ -265,7 +264,7 @@ void gameTimer() {
                 certain distance of the player.
   Parameters: int(asteroNums): The number of asteroids to spawn.
   Returns: Void
-  */
+*/
 void spawnAsteroids(int asteroNums) {
   int minDistance = 150; // Change this to spawn them closer to the player.
   for (int i = 0; i < asteroNums; i++) {
@@ -290,21 +289,24 @@ void spawnAsteroids(int asteroNums) {
                 its place.
   Parameters: None
   Returns: Void
-  */
+*/
 void collisionDetection() {
+  int maxAstreSize = 10;
+  int astreScore = 10;
+  int alienScore = 100;
+  int astreToSplit = 2;
   for (int i = shots.size() - 1; i >= 0; i--) {
+    String shooter = shots.get(i).type;
     //If player shot collides with the alien
-    if (alien != null) {
-      if (alienSpawned && shots.get(i).collide(alien) && shots.get(i).type != "alien") {
-        explosions.add(new Explosion(20, alien.location, liveGameTimer));
-        player.addScore(100);
-        alienSpawned = false;
-        shots.remove(i);
-        break;
-      }
+    if (alienSpawned && shots.get(i).collide(alien) && shooter != "alien") {
+      explosions.add(new Explosion(20, alien.location, liveGameTimer));
+      player.addScore(alienScore);
+      alienSpawned = false;
+      shots.remove(i);
+      break;
     }
     //If an alien shot collides with the player
-    if (shots.get(i).collide(player) && shots.get(i).type != "player") {
+    if (shots.get(i).collide(player) && shooter != "player") {
       player.hit();
       shots.remove(i); 
       break;
@@ -320,10 +322,10 @@ void collisionDetection() {
         //Check if a player shot hits the asteroid
         if (shots.get(i).type == "player"){
           explosions.add(new Explosion(6, asteroids.get(j).location, liveGameTimer));
-          player.addScore(10);
+          player.addScore(astreScore);
           //If asteroid is still large split it.
-          if (asteroids.get(j).minSize > 10) {
-            splitAsteroid(asteroids.get(j), 2);
+          if (asteroids.get(j).minSize > maxAstreSize) {
+            splitAsteroid(asteroids.get(j), astreToSplit);
           }
           asteroids.remove(j);
         }
@@ -337,8 +339,8 @@ void collisionDetection() {
     if (player.collide(asteroids.get(i))){
       player.hit();
       explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
-      if (asteroids.get(i).minSize > 10) {
-        splitAsteroid(asteroids.get(i), 2);
+      if (asteroids.get(i).minSize > maxAstSize) {
+        splitAsteroid(asteroids.get(i), astreToSplit);
       }
       asteroids.remove(i);
     }
@@ -349,7 +351,6 @@ void collisionDetection() {
     player.hit();
     alienSpawned = false;
   }
-
 }
 
 /**
@@ -358,7 +359,7 @@ void collisionDetection() {
   Parameters: Asteroid(a): The asteroid to split.
               int(x): The amount of times to split it.
   Returns: Void
-  */
+*/
 void splitAsteroid(Asteroid a, int x) {
   for(int i = 0; i < x; i++) {
     asteroids.add(new Asteroid(a));
@@ -371,26 +372,26 @@ void splitAsteroid(Asteroid a, int x) {
                 game.
   Parameters: None
   Returns: Void
-  */
+*/
 void newGame() {
-    asteroids.clear();
-    shots.clear();
-    explosions.clear();
-    level = 1;
-    totalGameTimer = 0;
-    periodTimerStart = millis();
-    alienSpawned = false;
-    player = new Ship();
-    spawnAsteroids(startingAste);
-    gameInProgress = true;
-    gameOver = false;
+  asteroids.clear();
+  shots.clear();
+  explosions.clear();
+  level = 1;
+  totalGameTimer = 0;
+  periodTimerStart = millis();
+  alienSpawned = false;
+  player = new Ship();
+  spawnAsteroids(startingAste);
+  gameInProgress = true;
+  gameOver = false;
 }
 
 /**
   Function: endGame()
   Description:
   Parameters: None
-  */
+*/
 void endGame() {
   for (int i = asteroids.size() - 1; i >= 0; i--) {
     explosions.add(new Explosion(6, asteroids.get(i).location, liveGameTimer));
@@ -413,7 +414,7 @@ void endGame() {
           increase.
   Parameters: None
   Returns: Void
- */
+*/
 void checkLevelProgress() {
   if (asteroids.size() == 0 && !alienSpawned) {
     shots.clear();
@@ -442,7 +443,7 @@ void checkLevelProgress() {
   Description: Loads the data from the JSON file.
   Parameters: None
   Returns: Void
- */
+*/
 void loadData() {
   //TODO Call class functions
 }
@@ -452,9 +453,8 @@ void loadData() {
   Description: TODO
   Parameters: None
   Returns: Void
-  */
+*/
 void keyPressed(){
-
   //This section is for the Menu related key presses.
   if (!runGame) {
     //New Game
@@ -523,10 +523,10 @@ void keyPressed(){
 
 /**
   Function: keyReleased()
-  Decription: TODO
+  Description: TODO
   Parameters: None
   Returns: Void
-  */
+*/
 void keyReleased() {
   if (runGame) {
     if (key == CODED) {

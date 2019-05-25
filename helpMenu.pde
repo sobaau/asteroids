@@ -9,17 +9,17 @@ class helpMenu {
                             " used to shoot.";
   final String helpPause = "Press ESC during the game to pause it.";
   final String helpAim = "The aim of this game is to ensure all asteroids" +
-                          " and enemies are destroyed. Doing this will" + 
-                          " advance your level & difficulty.";
+                         " and enemies are destroyed. Doing this will" + 
+                         " advance your level & difficulty.";
   final String helpAlien = "Alien spaceships will begin to appear on level" +
-                            " 3. Make sure you destroy them before they" +
-                            " destroy you.";
+                           " 3. Make sure you destroy them before they" +
+                           " destroy you.";
   final String helpHit = "You start with 3 lives. If you are shot, or" +
-                          " collide with an asteroid or enemy, you will" +
-                          " lose a life.";
+                         " collide with an asteroid or enemy, you will" +
+                         " lose a life.";
   final String helpEnergy = "After shooting, the ships canon must recharge." + 
                             " Shoot wisely!";
-  
+
   /**
     Function: helpMenu()
     Description: TODO
@@ -51,7 +51,6 @@ class helpMenu {
     fill(250, 240, 0);
     textSize(35);
     text(helpMn, width/2, height * 0.15);
-    
     //Menu Info
     noFill();
     stroke(255);
@@ -61,7 +60,6 @@ class helpMenu {
     for (int i = 0; i < helpText.size(); i++) {
       text(helpText.get(i), width/4, height/4 + (120 * i), width/2, height/2);
     }
-
     //Back to Menu Option
     fill(250, 240, 0);
     text(backB, width/2, height * 0.95);
