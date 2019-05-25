@@ -4,7 +4,7 @@ class openScn{
   final String gameTitle = "ASTEROIDS";
   final String tip = "Select using the shortcut keys";
   final String devTeam = "Created by Daniel Harraka, David Preston" + 
-                          " & Reece Temple";
+                         " & Reece Temple";
 
   /**
     Function: openScn()

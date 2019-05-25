@@ -17,7 +17,7 @@ class helpPage {
   final String helpHit = "You start with 3 lives. If you are shot, or" +
                          " collide with an asteroid or enemy, you will" +
                          " lose a life.";
-  final String helpEnergy = "After shooting, the ships canon must recharge." + 
+  final String helpEnergy = "After shooting, the ships canon must recharge." +
                             " Shoot wisely!";
 
   /**
