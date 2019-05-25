@@ -38,6 +38,7 @@ int normalTextSize = 28;
 float playerRotationRate = 0.1;
 boolean runGame = false;
 boolean gameOver = true;
+boolean enterScore = false;
 boolean gameRunningLastScan = false;
 boolean gameInProgress = false;
 boolean endGameDone = false;
@@ -145,12 +146,13 @@ void draw() {
 */
 void checkScore(){
   data.readFromFile("json/ldr.json");
-  if(data.isNewHighScore(player.getScore(), hsData)){
+  if(data.isNewHighScore(player.getScore(), hsData)) {
     fill(255);
     textSize(40);
     textAlign(CENTER);
     text(highScore, width/2, height/2);
     text(name, width/2, height/2 + 50);
+    enterScore = true;
   }
   
 }
@@ -415,9 +417,11 @@ void newGame() {
   periodTimerStart = millis();
   alienSpawned = false;
   player = new Ship();
+  name = "";
   spawnAsteroids(startingAste);
   gameInProgress = true;
   gameOver = false;
+  enterScore = false;
 }
 
 /**
@@ -507,18 +511,22 @@ void keyPressed() {
     if ((keyCode == 'e' || keyCode == 'E') && dispScreen == 1) {
       exit();
     }
-  } else if (gameOver && data.isNewHighScore(player.getScore(),hsData)) {
+  } else if (enterScore) {
     //This section is for entering the name for a new high score.
     if (keyCode == BACKSPACE) {
       name = name.substring( 0, name.length() - 1);
-    } else if (key != ENTER && key != RETURN) {
+    } 
+    //https://forum.processing.org/two/discussion/16079/taking-user-input
+    else if ( key >= 'A' && key <= 'Z' || key >= 'a' && key <= 'z' ) {
       name += key;
     } else if (keyCode == ENTER || keyCode == RETURN) {
-      println("Enter Pressed");
       data.updateHighScore(player.getScore(), name, liveGameTimer, hsData);
       data.writeToFile("json/ldr.json", hsData);
+      enterScore = false;
+      dispScreen = 1;
+      runGame = false;
     } else {
-      println("unkown key");
+      println("Unkown key");
     }
   } else {
     //This section is for the Game related key presses.
