@@ -1,56 +1,52 @@
 [
   {
-    "Rank": 1,
+    "name": "Reece",
     "jsonScr": 1800000,
-    "jsonTime": 345343,
-    "Name": "Reece"
+    "jsonTime": 345343
   },
   {
-    "Rank": 2,
+    "name": "Daniel",
     "jsonScr": 1700000,
-    "jsonTime": 5434,
-    "Name": "Daniel"
+    "jsonTime": 5434
   },
   {
     "name": "Test100",
-    "Rank": 10,
     "jsonScr": 1605000,
     "jsonTime": 37732
   },
   {
     "name": "Test100",
-    "Rank": 10,
     "jsonScr": 1605000,
     "jsonTime": 37732
   },
   {
     "name": "Test100",
-    "Rank": 10,
     "jsonScr": 1605000,
     "jsonTime": 37732
   },
   {
     "name": "Test100",
-    "Rank": 10,
     "jsonScr": 1605000,
     "jsonTime": 37732
   },
   {
-    "name": "Test1",
-    "Rank": 3,
-    "jsonScr": 1600000,
-    "jsonTime": 3737732
+    "name": "Test100",
+    "jsonScr": 1605000,
+    "jsonTime": 37732
   },
   {
-    "name": "Test2",
-    "Rank": 4,
-    "jsonScr": 1500000,
-    "jsonTime": 3737732
+    "name": "Test100",
+    "jsonScr": 1605000,
+    "jsonTime": 37732
   },
   {
-    "name": "Test3",
-    "Rank": 5,
-    "jsonScr": 1400000,
-    "jsonTime": 3737732
+    "name": "Test100",
+    "jsonScr": 1605000,
+    "jsonTime": 37732
+  },
+  {
+    "name": "Test100",
+    "jsonScr": 1605000,
+    "jsonTime": 37732
   }
 ]
