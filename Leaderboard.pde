@@ -1,6 +1,5 @@
 class leaderBoard {
   //Define Variables
-  StringList ldrInfo;
   String AstMn = "ASTEROIDS";
   String LdrBd = "Leaderboard";
   String backB = "M for main menu";
@@ -45,9 +44,16 @@ class leaderBoard {
     stroke(5);
     text(LdrBd, width/2, height*.15);
     text(headr, width/2, height*.25);
-    /* for (int i = 0; i < ldrInfo.size()  ||  i > topTen; i++) {
-     text(ldrInfo.get(i), width/2, (height*.30) + (40 * i));
-     }*/
+    for (int i = 0; i < hsData.size()  &&  i < topTen; i++) {
+         String getName = hsData.getJSONObject(i).getString("name");
+         int getTime = hsData.getJSONObject(i).getInt("jsonTime");
+         int getScore = hsData.getJSONObject(i).getInt("jsonScr");
+         int getRank = i +1;
+     text(getName, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
+     text(getTime, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
+     text(getScore, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
+     text(getRank, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
+     }
     //Menu Option
     textSize(25);
     fill(250, 240, 0);
