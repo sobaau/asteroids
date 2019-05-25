@@ -24,6 +24,7 @@ class Asteroid {
     float a = 0;
 
     //Keep adding lines until a complete asteroid is drawn.
+    //Adapted from:http://jeffreythompson.org/collision-detection/poly-poly.php
     while (a < degInCircle) {
       float x = cos(radians(a)) * random(minSize, maxSize);
       float y = sin(radians(a)) * random(minSize, maxSize);
@@ -51,6 +52,7 @@ class Asteroid {
     float a = 0;
 
     //Keep adding lines until a complete asteroid is drawn.
+    //Adapted from:http://jeffreythompson.org/collision-detection/poly-poly.php
     while (a < degInCircle) {
       float x = cos(radians(a)) * random(minSize, maxSize);
       float y = sin(radians(a)) * random(minSize, maxSize);

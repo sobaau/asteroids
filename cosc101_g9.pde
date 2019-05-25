@@ -6,6 +6,7 @@
  * Desc: Asteroids is a space-themed multidirectional shooter with asteroids and
  Aliens.
  * Usage: Make sure to run in the processing environment and press play.
+ * Packages required: minim
  **************************************************************/
 //Import required libraries
 import ddf.minim.*;
@@ -35,7 +36,7 @@ int dispScreen = 1;
 int gameTitleTextSize = 80;
 int pageTitleTextSize = 40;
 int normalTextSize = 28;
-float playerRotationRate = 0.1;
+float playerRotationRate = 0.08;
 boolean runGame = false;
 boolean gameOver = true;
 boolean enterScore = false;
@@ -239,7 +240,7 @@ void drawStats() {
   int i = 1;
   String backB = "ESC or M for main menu";
   textFont(font1);
-  textSize(14);
+  textSize(22);
   fill(255);
   textAlign(LEFT);
   text("TIME: " + convertTime(liveGameTimer), indent, yTextPos * i++);
