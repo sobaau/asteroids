@@ -14,6 +14,7 @@ class Ship {
   int lives = 3;
   int timeOfLastDeath;
   int score;
+  int playerMinEnergy = 50;
   float heading = 0;
   float rotation;
 
@@ -231,6 +232,30 @@ class Ship {
   }
 
   /**
+    Function: isAbleToFire()
+    Description: Checks if the player has enough energy to fire.
+    Parameters: None
+    Returns: boolean
+  */
+  boolean isAbleToFire() {
+    if (energy > playerMinEnergy) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+    Function: subEnergy()
+    Description: Subtracts the input value from the ships energy.
+    Parameters: int(x)
+    Returns: boolean
+  */
+  void subEnergy(int x) {
+    energy -= x;
+  }
+
+  /**
     Function: isAlive()
     Description: Returns the status of the players health.
     Parameters: None
@@ -288,5 +313,15 @@ class Ship {
   */
   int getShipSize() {
     return r;
+  }
+
+  /**
+    Function: getHeading()
+    Description: Returns the heading of the ship.
+    Parameters: None
+    Returns: float
+  */
+  float getHeading() {
+    return heading;
   }
 }

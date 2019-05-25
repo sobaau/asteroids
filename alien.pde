@@ -11,6 +11,7 @@ class Alien {
   final int maxEnergy = 100;
   final int numFrames = 1;
   int energy = 0;
+  int alienMinEnergy = 50;
 
   /**
     Function: Alien()
@@ -126,5 +127,29 @@ class Alien {
   */
   float getHeight() {
     return hitBoxH;
+  }
+
+  /**
+    Function: isAbleToFire()
+    Description: Checks if the alien has enough energy to fire.
+    Parameters: None
+    Returns: boolean
+  */
+  boolean isAbleToFire() {
+    if (energy > alienMinEnergy) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+    
+  /**
+    Function: setEnergy()
+    Description: Sets the aliens energy to the input value.
+    Parameters: int(x)
+    Returns: boolean
+  */
+  void setEnergy(int x) {
+    energy = x;
   }
 }

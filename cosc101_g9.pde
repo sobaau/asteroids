@@ -32,6 +32,7 @@ int periodTimerStart;
 int totalGameTimer;
 int liveGameTimer;
 int dispScreen = 1;
+float playerRotationRate = 0.1;
 boolean runGame = false;
 boolean gameOver = true;
 boolean gameRunningLastScan = false;
@@ -41,7 +42,7 @@ boolean alienSpawned = false;
 Starfield stars;
 openScn openScreen;
 leaderBoard openLdr;
-helpMenu helpMenuScreen;
+helpPage helpPage;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Explosion> explosions = new ArrayList<Explosion>();
@@ -55,16 +56,17 @@ String name = "";
 
 /**
   Function: setup()
-  Description: TODO
+  Description: This function setups the window, some classes and loads the
+                audio files.
   Parameters: None
   Returns: Void
 */
 void setup() {
   fullScreen();
-  loadData();
+  //Declare classes
   stars = new Starfield(starAmount);
   openScreen = new openScn();
-  helpMenuScreen = new helpMenu();
+  helpPage = new helpPage();
   openLdr = new leaderBoard();
   data = new DataLB();
   //Load audio
@@ -72,12 +74,14 @@ void setup() {
   shipShot = minim.loadSample("audio/shotGun.wav", 512);
   alienShot = minim.loadSample("audio/alienShot.wav", 512);
   explosion = minim.loadSample("audio/explosion.wav", 512);
+  //Load fonts
   font1 = loadFont("font/OCRAExtended-48.vlw");
 }
 
 /**
   Function: draw()
-  Description: TODO
+  Description: The main draw loop. This function calls all the other functions
+                required to load the various screens and run the game.
   Parameters: None
   Returns: Void
 */
@@ -86,23 +90,27 @@ void draw() {
   background(0);
   stars.draw();
   gameTimer();
+  //If game not running, load main menu.
   if (!runGame) {
     switch (dispScreen) {
+    //Load main menu
     case 1 :
       openScreen.draw();
       break;
+    //Load Leaderboard page
     case 10 :
       data.update();
       openLdr.draw();
-      if (!temp) {
+      //if (!temp) {
         //data.update();
-        data.updateHighScore(1605000, "Test100", 37732, hsData);
-        data.writeToFile("json/ldr.json", hsData);
-        temp = true;
-      }
+        //data.updateHighScore(1605000, "Test100", 37732, hsData);
+        //data.writeToFile("json/ldr.json", hsData);
+        //temp = true;
+      //}
       break;
+    //Load help page
     case 20 :
-      helpMenuScreen.draw();
+      helpPage.draw();
       break;
     default :
       break;
@@ -115,9 +123,6 @@ void draw() {
       drawAsteroids();
       if (alienSpawned) {
         drawAlien();
-      }
-      if (explosions != null) {
-        drawExplosions();
       }
       collisionDetection();
       checkLevelProgress();
@@ -163,16 +168,17 @@ void drawPlayer() {
 
 /**
   Function: drawAlien()
-  Description: Updates and draws the aliens location.
+  Description: Updates and draws the aliens location. Fires a shot if the 
+                alien has enough energy.
   Parameters: None
   Returns: Void
 */
 void drawAlien() {
   alien.update();
   alien.draw();
-  if (alien.energy > 50) {
-    shots.add(new Shot(alien.location, player.location));
-    alien.energy = 0;
+  if (alien.isAbleToFire()) {
+    shots.add(new Shot(alien.getLoc(), player.getShipLoc()));
+    alien.setEnergy(0);
   }
 }
 
@@ -205,7 +211,8 @@ void drawAsteroids() {
 
 /**
   Function: drawExplosions()
-  Description: TODO
+  Description: Draws all the explosions. Removes them after they have been
+                on the screen long enough.
   Parameters: None
   Returns: Void
 */
@@ -215,8 +222,6 @@ void drawExplosions() {
     if ((liveGameTimer - explosions.get(i).explosionTime) > explosionDuration) {
       explosions.remove(i);
     }
-  }
-  if (explosions.size() == 0) {
   }
 }
 
@@ -230,20 +235,13 @@ void drawStats() {
   int indent = 15;
   float oppindent = width - 15;
   int yTextPos = 20;
-  final int secPerMin = 60;
-  final int minPerHr = 60;
-  final int milSecPerSec = 1000;
-  final int milSecPerMin = secPerMin * milSecPerSec;
-  final int milSecPerHr = minPerHr * secPerMin * milSecPerSec;
   int i = 1;
   String backB = "ESC or M for main menu";
   textFont(font1);
   textSize(14);
   fill(255);
   textAlign(LEFT);
-  text("TIME: " + floor(liveGameTimer/milSecPerHr) + ":" + 
-    floor(liveGameTimer/milSecPerMin) + ":" + 
-    (liveGameTimer/milSecPerSec)%secPerMin, indent, yTextPos * i++);
+  text("TIME: " + convertTime(liveGameTimer), indent, yTextPos * i++);
   text("SCORE: " + player.getScore(), indent, yTextPos * i++);
   text("LEVEL: " + level, indent, yTextPos * i++);
   text("LIVES: " + player.getLives(), indent, yTextPos * i++);
@@ -254,8 +252,26 @@ void drawStats() {
 }
 
 /**
+  Function: convertTime()
+  Description: Converts the format of the time from ms to HH:MM:SS
+  Parameters: int(time)
+  Returns: String
+*/
+String convertTime(int time) {
+  final int secPerMin = 60;
+  final int minPerHr = 60;
+  final int milSecPerSec = 1000;
+  final int milSecPerMin = secPerMin * milSecPerSec;
+  final int milSecPerHr = minPerHr * secPerMin * milSecPerSec;
+
+  return "" + floor(time/milSecPerHr) + ":" + 
+    floor(time/milSecPerMin)%minPerHr + ":" + (time/milSecPerSec)%secPerMin;
+}
+
+/**
   Function: gameTimer()
-  Description: TODO
+  Description: Keeps track of how long the game has been going for. Pauses
+                the timer when the game is paused.
   Parameters: None
   Returns: Void
 */
@@ -287,7 +303,7 @@ void spawnAsteroids(int asteroNums) {
   int minDistance = 150; // Change this to spawn them closer to the player.
   for (int i = 0; i < asteroNums; i++) {
     PVector spawn = new PVector(random(width), random(height));
-    while (spawn.dist(player.location) < minDistance) {
+    while (spawn.dist(player.getShipLoc()) < minDistance) {
       spawn = new PVector(random(width), random(height));
     }
     asteroid = new Asteroid(spawn);
@@ -375,7 +391,7 @@ void collisionDetection() {
   Function: splitAsteroid()
   Description: Splits the asteroids by the provided times.
   Parameters: Asteroid(a): The asteroid to split.
-  int(x): The amount of times to split it.
+              int(x): The amount of times to split it.
   Returns: Void
 */
 void splitAsteroid(Asteroid a, int x) {
@@ -387,7 +403,7 @@ void splitAsteroid(Asteroid a, int x) {
 /**
   Function: newGame()
   Description: Clears old game if one exists and creates objects for new
-  game.
+                game.
   Parameters: None
   Returns: Void
 */
@@ -407,8 +423,10 @@ void newGame() {
 
 /**
   Function: endGame()
-  Description:
+  Description: Triggers any remaining objects on the screen to explode and
+                removes them.
   Parameters: None
+  Returns: Void
 */
 void endGame() {
   for (int i = asteroids.size() - 1; i >= 0; i--) {
@@ -457,18 +475,8 @@ void checkLevelProgress() {
 }
 
 /**
-  Function: loadData()
-  Description: Loads the data from the JSON file.
-  Parameters: None
-  Returns: Void
-*/
-void loadData() {
-  //TODO Call class functions
-}
-
-/**
   Function: keyPressed()
-  Description: TODO
+  Description: Checks for keys pressed and calls the appropriate function.
   Parameters: None
   Returns: Void
 */
@@ -516,17 +524,17 @@ void keyPressed() {
       } 
       if (keyCode == RIGHT) {
         player.turning(true);
-        player.setRotation(0.1);
+        player.setRotation(playerRotationRate);
       }
       if (keyCode == LEFT) {
         player.turning(true);
-        player.setRotation(-0.1);
+        player.setRotation(-playerRotationRate);
       }
     }
     if (keyCode == ' ') {
-      if (player.energy > 25) {
-        shots.add(new Shot(player.location, player.heading));
-        player.energy -= 25;
+      if (player.isAbleToFire()) {
+        shots.add(new Shot(player.getShipLoc(), player.getHeading()));
+        player.subEnergy(25);
       }
     }
   }
@@ -547,11 +555,12 @@ void keyPressed() {
 
 /**
   Function: keyReleased()
-  Description: TODO
+  Description: Checks for keys released and calls the appropriate function.
   Parameters: None
   Returns: Void
 */
 void keyReleased() {
+  //This section is for the Game related key releases.
   if (runGame) {
     if (key == CODED) {
       if (keyCode == UP) {
