@@ -39,7 +39,7 @@ boolean gameInProgress = false;
 boolean endGameDone = false;
 boolean alienSpawned = false;
 Starfield stars;
-OpenScn openScreen;
+openScn openScreen;
 leaderBoard openLdr;
 helpMenu helpMenuScreen;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
@@ -61,7 +61,7 @@ void setup() {
   fullScreen();
   loadData();
   stars = new Starfield(starAmount);
-  openScreen = new OpenScn();
+  openScreen = new openScn();
   helpMenuScreen = new helpMenu();
   openLdr = new leaderBoard();
   data = new DataLB();
@@ -508,13 +508,13 @@ void keyPressed(){
   }
   //Back to Main
   if (keyCode == 'm' || keyCode == 'M') {
-    openScreen = new OpenScn();
+    openScreen = new openScn();
     dispScreen = 1;
     runGame = false;
   }
   //Remove ESC key current and change to Main Menu
   if (keyCode == ESC) {
-    openScreen = new OpenScn();
+    openScreen = new openScn();
     dispScreen = 1;
     runGame = false;
     key = 0;

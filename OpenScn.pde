@@ -1,4 +1,4 @@
-class OpenScn{
+class openScn{
 
   //Define Strings
   StringList menu;
@@ -7,12 +7,12 @@ class OpenScn{
   final String devTeam = "Created by Daniel Harraka, David Preston & Reece Temple";
 
   /**
-    Function: Menu()
-    Description: Constructor for the Menu class.
+    Function: openScn()
+    Description: Constructor for the openScn class.
     Parameters: None.
     Returns: None.
   */
-  OpenScn() {
+  openScn() {
     menu = new StringList();
     menu.append("(N)ew Game");
     if (gameInProgress) {
