@@ -33,7 +33,7 @@ int totalGameTimer;
 int liveGameTimer;
 int dispScreen = 1;
 boolean runGame = false;
-boolean gameOver = false;
+boolean gameOver = true;
 boolean gameRunningLastScan = false;
 boolean gameInProgress = false;
 boolean endGameDone = false;
@@ -51,7 +51,7 @@ String[] jsonTime;
 PFont font1;
 boolean temp = false;
 String highScore = "New high score! Please enter your name";
-String name;
+String name = "";
 
 /**
   Function: setup()
@@ -134,13 +134,20 @@ void draw() {
     drawStats();
   }
 }
+/**
+  Function: checkScore()
+  Description: TODO
+  Parameters: None
+  Returns: Void
+*/
 void checkScore(){
+  data.update();
+  if(data.isNewHighScore(player.getScore(), hsData)){
     fill(255);
     textSize(40);
     text(highScore, width/2, height/2);
-    if (name != null){
-      text(name, width/2, height/2);
-    }
+    text(name, width/2, height/2 - 50);
+  }
   
 }
 /**
@@ -493,9 +500,12 @@ void keyPressed() {
     if ((keyCode == 'e' || keyCode == 'E') && dispScreen == 1) {
       exit();
     }
-  else if (gameOver){
+  } else if (gameOver && data.isNewHighScore(player.getScore(),hsData)){
+    if (key != ENTER || key != RETURN) {
     name +=key;
-  }
+    } else {
+      data.updateHighScore(player.getScore(), name, 37732, hsData);
+    }
   } else {
     //This section is for the Game related key presses.
     if (key == CODED) {

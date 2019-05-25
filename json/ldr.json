@@ -1,47 +1,48 @@
 [
   {
+    "name": "Test100",
+    "Rank": 10,
+    "jsonScr": 10,
+    "jsonTime": 37732
+  },
+  {
     "name": "Reece",
-    "jsonScr": 1800000,
+    "jsonScr": 1,
     "jsonTime": 345343
   },
   {
     "name": "Daniel",
-    "jsonScr": 1700000,
+    "jsonScr": 2,
     "jsonTime": 5434
   },
   {
     "name": "Test100",
-    "jsonScr": 1605000,
+    "jsonScr": 3,
     "jsonTime": 37732
   },
   {
     "name": "Test100",
-    "jsonScr": 1605000,
+    "jsonScr": 4,
     "jsonTime": 37732
   },
   {
     "name": "Test100",
-    "jsonScr": 1605000,
+    "jsonScr": 5,
     "jsonTime": 37732
   },
   {
     "name": "Test100",
-    "jsonScr": 1605000,
+    "jsonScr": 6,
     "jsonTime": 37732
   },
   {
     "name": "Test100",
-    "jsonScr": 1605000,
+    "jsonScr": 7,
     "jsonTime": 37732
   },
   {
     "name": "Test100",
-    "jsonScr": 1605000,
-    "jsonTime": 37732
-  },
-  {
-    "name": "Test100",
-    "jsonScr": 1605000,
+    "jsonScr": 8,
     "jsonTime": 37732
   }
 ]

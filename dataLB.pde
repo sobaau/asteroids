@@ -145,7 +145,6 @@ class DataLB {
     Returns: boolean
   */
   boolean isNewHighScore(int newScore, JSONArray data) {
-  
     for(int i = 0; i < data.size(); i++) {
       JSONObject jsonObj = data.getJSONObject(i);
       int scr = jsonObj.getInt("jsonScr");
