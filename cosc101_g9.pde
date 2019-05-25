@@ -90,9 +90,10 @@ void draw() {
         openScreen.draw();
         break;
       case 10 :
+        data.update();
         openLdr.draw();
         if (!temp) {
-          data.update();
+          //data.update();
           data.updateHighScore(1605000, "Test100", 37732, hsData);
           data.writeToFile("json/ldr.json", hsData);
           temp = true;

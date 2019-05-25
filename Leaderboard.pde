@@ -49,10 +49,10 @@ class leaderBoard {
          int getTime = hsData.getJSONObject(i).getInt("jsonTime");
          int getScore = hsData.getJSONObject(i).getInt("jsonScr");
          int getRank = i +1;
-     text(getName, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
-     text(getTime, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
-     text(getScore, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
-     text(getRank, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
+     //text(getName, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
+     //text(getTime, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
+     //text(getScore, width/2 +(getName.length() + (40*i)), (height*.30) + (40 * i));
+     text(nf(getRank), width/2 +(2 + (40*i)), (height*.30) + (40 * i));
      }
     //Menu Option
     textSize(25);
