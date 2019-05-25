@@ -1,4 +1,4 @@
-class helpMenu {
+class helpPage {
   //Define Strings
   StringList helpText;
   final String astMn = "ASTEROIDS";
@@ -21,11 +21,11 @@ class helpMenu {
                             " Shoot wisely!";
 
   /**
-    Function: helpMenu()
+    Function: helpPage()
     Description: TODO
     Returns: None
   */
-  helpMenu() {
+  helpPage() {
     helpText = new StringList();
     helpText.append(helpAim);
     helpText.append(helpAlien);
