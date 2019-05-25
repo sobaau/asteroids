@@ -8,11 +8,11 @@
  * Usage: Make sure to run in the processing environment and press play.
  * Packages required: minim
  **************************************************************/
- 
+
 //Import required libraries
 import ddf.minim.*;
-Minim minim;
 //Define global variables
+Minim minim;
 JSONArray hsData;
 Ship player;
 Asteroid asteroid;
