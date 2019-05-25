@@ -3,7 +3,7 @@ class helpPage {
   StringList helpText;
   final String gameTitle = "ASTEROIDS";
   final String helpMn = "Help";
-  final String backB = "M for Main Menu";
+  final String backB = "Esc or M for Main Menu";
   final String helpArrows = "Use the directional arrows on your keyboard to" +
                             " move and steer the spacehip. SPACE can be" + 
                             " used to shoot.";
@@ -22,7 +22,8 @@ class helpPage {
 
   /**
     Function: helpPage()
-    Description: TODO
+    Description: Loads the strings into a StringList.
+    Parameters: None
     Returns: None
   */
   helpPage() {
@@ -37,11 +38,13 @@ class helpPage {
 
   /**
     Function: draw()
-    Description:  TODO
+    Description: Draws the help text to the display.
     Parameters: None
     Returns: Void
   */
   void draw() {
+    int textSpacing = 120;
+
     //Headings
     fill(255);
     textFont(font1);
@@ -51,6 +54,7 @@ class helpPage {
     fill(250, 240, 0);
     textSize(pageTitleTextSize);
     text(helpMn, width/2, height * 0.15);
+
     //Menu Info
     noFill();
     stroke(255);
@@ -58,8 +62,10 @@ class helpPage {
     fill(255);
     textAlign(CENTER);
     for (int i = 0; i < helpText.size(); i++) {
-      text(helpText.get(i), width/4, height/4 + (120 * i), width/2, height/2);
+      text(helpText.get(i), width/4, height/4 + (textSpacing * i), 
+          width/2, height/2);
     }
+
     //Back to Menu Option
     textSize(normalTextSize);
     fill(250, 240, 0);

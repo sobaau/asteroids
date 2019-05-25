@@ -65,8 +65,8 @@ String name = "";
   Returns: Void
 */
 void setup() {
-  //fullScreen();
-  size(1366, 768);
+  fullScreen();
+  //size(1366, 768);
   //Declare classes
   stars = new Starfield(starAmount);
   openScreen = new openScn();
@@ -105,12 +105,6 @@ void draw() {
     case 10 :
       data.readFromFile("json/ldr.json");
       openLdr.draw();
-      //if (!temp) {
-        //data.update();
-        //data.updateHighScore(1605000, "Test100", 37732, hsData);
-        //data.writeToFile("json/ldr.json", hsData);
-        //temp = true;
-      //}
       break;
     //Load help page
     case 20 :
