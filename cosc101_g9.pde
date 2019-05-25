@@ -511,11 +511,14 @@ void keyPressed() {
     //This section is for entering the name for a new high score.
     if (keyCode == BACKSPACE) {
       name = name.substring( 0, name.length() - 1);
-    } else if (key != ENTER || key != RETURN) {
+    } else if (key != ENTER && key != RETURN) {
       name += key;
-    } else {
+    } else if (keyCode == ENTER || keyCode == RETURN) {
+      println("Enter Pressed");
       data.updateHighScore(player.getScore(), name, liveGameTimer, hsData);
       data.writeToFile("json/ldr.json", hsData);
+    } else {
+      println("unkown key");
     }
   } else {
     //This section is for the Game related key presses.

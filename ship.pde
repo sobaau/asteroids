@@ -248,7 +248,7 @@ class Ship {
   /**
     Function: subEnergy()
     Description: Subtracts the input value from the ships energy.
-    Parameters: int(x)
+    Parameters: int(x): Energy to subtract from players gun to.
     Returns: boolean
   */
   void subEnergy(int x) {

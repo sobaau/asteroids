@@ -146,7 +146,7 @@ class Alien {
   /**
     Function: setEnergy()
     Description: Sets the aliens energy to the input value.
-    Parameters: int(x)
+    Parameters: int(x): Energy to set aliens gun to.
     Returns: boolean
   */
   void setEnergy(int x) {

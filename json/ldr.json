@@ -1,5 +1,11 @@
 [
   {
+    "name": "￿DAniel",
+    "Rank": 10,
+    "jsonScr": 90,
+    "jsonTime": 15620
+  },
+  {
     "name": "Test100",
     "Rank": 10,
     "jsonScr": 9,
@@ -38,11 +44,6 @@
   {
     "name": "Test100",
     "jsonScr": 2,
-    "jsonTime": 37732
-  },
-  {
-    "name": "Test100",
-    "jsonScr": 1,
     "jsonTime": 37732
   }
 ]

@@ -90,7 +90,7 @@ class leaderBoard {
   /**
     Function: convertTime()
     Description: Converts the format of the time from ms to HH:MM:SS
-    Parameters: int(time)
+    Parameters: int(time): Time to convert
     Returns: String
   */
   String convertTime(int time) {
