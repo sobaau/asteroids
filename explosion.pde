@@ -13,11 +13,11 @@ class Explosion {
                 int(time): Game time explosion started.
     Returns: None
   */
-  Explosion(int size, PVector locaion, int time) {
+  Explosion(int size, PVector location, int time) {
     explosionTime = time;
     playAudio();
     while (shrapnel.size() < size) {
-      shrapnel.add(new Shrapnel(locaion));
+      shrapnel.add(new Shrapnel(location));
     }
   }
 
