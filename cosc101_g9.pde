@@ -50,6 +50,8 @@ String[] jsonTime;
 //Font Change
 PFont font1;
 boolean temp = false;
+String highScore = "New high score! Please enter your name";
+String name;
 
 /**
   Function: setup()
@@ -127,11 +129,20 @@ void draw() {
       if (explosions != null) {
         drawExplosions();
       }
+      checkScore();
     }
     drawStats();
   }
 }
-
+void checkScore(){
+    fill(255);
+    textSize(40);
+    text(highScore, width/2, height/2);
+    if (name != null){
+      text(name, width/2, height/2);
+    }
+  
+}
 /**
   Function: drawPlayer()
   Description: Updates and draws the players location.
@@ -482,6 +493,9 @@ void keyPressed() {
     if ((keyCode == 'e' || keyCode == 'E') && dispScreen == 1) {
       exit();
     }
+  else if (gameOver){
+    name +=key;
+  }
   } else {
     //This section is for the Game related key presses.
     if (key == CODED) {
