@@ -13,7 +13,6 @@ class DataLB {
   DataLB(String file) {
     validData = readFromFile(file);
     fileName = file;
-
   }
 
   /**
@@ -177,14 +176,14 @@ class DataLB {
     //Sort array
     for (int i = hsData.size() - 1 ; i > 0; i--) {
       int scoreOne = hsData.getJSONObject(i).getInt("score");
-      int scoreTwo = hsData.getJSONObject(i-1).getInt("score");
+      int scoreTwo = hsData.getJSONObject(i - 1).getInt("score");
 
       //Check if i > (i - 1)
       if (scoreOne > scoreTwo) {
         //Using a temp object swap the i'th and (i-1)'th objects
-        JSONObject tempObj = hsData.getJSONObject(i-1);
+        JSONObject tempObj = hsData.getJSONObject(i - 1);
         JSONObject dataObj = hsData.getJSONObject(i);
-        hsData.setJSONObject(i-1, dataObj);
+        hsData.setJSONObject(i - 1, dataObj);
         hsData.setJSONObject(i, tempObj);
       }
     }
