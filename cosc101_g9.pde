@@ -13,7 +13,6 @@
 import ddf.minim.*;
 //Define global variables
 Minim minim;
-JSONArray hsData;
 Ship player;
 Asteroid asteroid;
 Shot shot;
@@ -107,7 +106,7 @@ void draw() {
     //Load Leaderboard page
     case 10 :
       if (data.isValid()) {
-        openLdr.draw();
+        openLdr.draw(data.getData());
       }
       break;
     //Load help page
@@ -154,8 +153,8 @@ void draw() {
 */
 void checkScore() {
   //Check if the file can be read.
-  if (data.readFromFile("json/topScores.json")) {
-    if (data.isNewHighScore(player.getScore(), hsData)) {
+  if (data.isValid()) {
+    if (data.isNewHighScore(player.getScore())) {
       fill(255);
       textSize(40);
       textAlign(CENTER);
@@ -539,8 +538,8 @@ void keyPressed() {
               keyCode == ' ') && (name.length() < 10)) {
       name += key;
     } else if (keyCode == ENTER || keyCode == RETURN) {
-      data.updateHighScore(player.getScore(), name, liveGameTimer, hsData);
-      data.writeToFile("json/topScores.json", hsData);
+      data.updateHighScore(player.getScore(), name, liveGameTimer);
+      data.writeToFile();
       enterScore = false;
       dispScreen = 1;
       runGame = false;

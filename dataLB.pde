@@ -2,7 +2,8 @@ class DataLB {
   //Define class variables
   int nameLength = 10;
   boolean validData = false;
-
+  String fileName;
+  JSONArray hsData;
   /**
     Function: loadData()
     Description: Constructor for the dataLB Class
@@ -11,6 +12,8 @@ class DataLB {
   */
   DataLB(String file) {
     validData = readFromFile(file);
+    fileName = file;
+
   }
 
   /**
@@ -21,6 +24,16 @@ class DataLB {
   */
   boolean isValid() {
     return validData;
+  }
+
+  /**
+    Function: getData()
+    Description: Returns the data as a JSONArray.
+    Parameters: None
+    Returns: JSONArray
+  */
+  JSONArray getData(){
+    return hsData;
   }
 
   /**
@@ -108,10 +121,10 @@ class DataLB {
                 JSONArray(data): Array to store in the file.
     Returns: boolean
   */
-  boolean writeToFile(String file, JSONArray data) {
+  boolean writeToFile() {
     //Try to write to the file. Catch the error if it fails.
     try {
-      saveJSONArray(data, file);
+      saveJSONArray(hsData, fileName);
       return true;
     } catch (Exception e) {
       return false;
@@ -127,14 +140,14 @@ class DataLB {
                 JSONArray(data): the array of data to compare the score with
     Returns: boolean
   */
-  boolean isNewHighScore(int newScore, JSONArray data) {
+  boolean isNewHighScore(int newScore) {
     //Check if there are empty slots on the board.
-    if (data.size() < numOfTopScores) {
+    if (hsData.size() < numOfTopScores) {
       return true;
     }
     //Check if the new score beats one of the other scores in the array.
-    for(int i = 0; i < data.size(); i++) {
-      int scr = data.getJSONObject(i).getInt("score");
+    for(int i = 0; i < hsData.size(); i++) {
+      int scr = hsData.getJSONObject(i).getInt("score");
       if(newScore > scr) {
         return true;
       }
@@ -153,31 +166,31 @@ class DataLB {
                 JSONArray(data): Array to store the new score in
     Returns: void
   */
-  void updateHighScore(int newScore, String name, int time, JSONArray data) {
+  void updateHighScore(int newScore, String name, int time) {
     //Create an object for the new score and append to array
     JSONObject newObject = new JSONObject();
     newObject.setInt("score", newScore);
     newObject.setString("name", name);
     newObject.setInt("time", time);
-    data.append(newObject);
+    hsData.append(newObject);
 
     //Sort array
-    for (int i = data.size() - 1 ; i > 0; i--) {
-      int scoreOne = data.getJSONObject(i).getInt("score");
-      int scoreTwo = data.getJSONObject(i-1).getInt("score");
+    for (int i = hsData.size() - 1 ; i > 0; i--) {
+      int scoreOne = hsData.getJSONObject(i).getInt("score");
+      int scoreTwo = hsData.getJSONObject(i-1).getInt("score");
 
       //Check if i > (i - 1)
       if (scoreOne > scoreTwo) {
         //Using a temp object swap the i'th and (i-1)'th objects
-        JSONObject tempObj = data.getJSONObject(i-1);
-        JSONObject dataObj = data.getJSONObject(i);
-        data.setJSONObject(i-1, dataObj);
-        data.setJSONObject(i, tempObj);
+        JSONObject tempObj = hsData.getJSONObject(i-1);
+        JSONObject dataObj = hsData.getJSONObject(i);
+        hsData.setJSONObject(i-1, dataObj);
+        hsData.setJSONObject(i, tempObj);
       }
     }
     //If there are too many scores in the array remove the excessive ones.
-    while (data.size() > numOfTopScores) {
-      data.remove(data.size() - 1);
+    while (hsData.size() > numOfTopScores) {
+      hsData.remove(hsData.size() - 1);
     }
   }
 }

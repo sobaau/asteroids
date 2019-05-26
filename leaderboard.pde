@@ -17,12 +17,12 @@ class LeaderBoard {
     Function: draw()
     Description: Calls the functions required to populate the screen with
                 data.
-    Parameters: None
+    Parameters: JSONArray(topScores): Top Score array. 
     Returns: Void
   */
-  void draw() {
+  void draw(JSONArray topScores) {
     drawStaticText();
-    drawScores(hsData);
+    drawScores(topScores);
   }
 
   /**
