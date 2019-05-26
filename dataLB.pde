@@ -32,7 +32,7 @@ class DataLB {
     Parameters: None
     Returns: JSONArray
   */
-  JSONArray getData(){
+  JSONArray getData() {
     return hsData;
   }
 
