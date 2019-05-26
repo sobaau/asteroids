@@ -38,7 +38,7 @@ int pageTitleTextSize = 40;
 int normalTextSize = 28;
 int weaponEnergyReq = 25;
 int numExplosAstr = 6;
-int numExplosAlien = 15;
+int numExplosAlien = 20;
 int numExplosShip = 50;
 float playerRotationRate = 0.08;
 boolean runGame = false;
@@ -345,7 +345,8 @@ void collisionDetection() {
     String shooter = shots.get(i).type;
     //If player shot collides with the alien
     if (alienSpawned && shots.get(i).collide(alien) && shooter != "alien") {
-      explosions.add(new Explosion(20, alien.location, liveGameTimer));
+      explosions.add(new Explosion(numExplosAlien, 
+          alien.location, liveGameTimer));
       player.addScore(alienScore);
       alienSpawned = false;
       shots.remove(i);
