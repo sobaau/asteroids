@@ -70,6 +70,9 @@ class LeaderBoard {
     Returns: Void
   */
   void drawScores(JSONArray topScores) {
+    float vSpace1 = 0.3;
+    int vSpace2 = 65;
+
     fill(255);
     textSize(normalTextSize);
     
@@ -79,10 +82,11 @@ class LeaderBoard {
       int time = topScores.getJSONObject(i).getInt("time");
       int score = topScores.getJSONObject(i).getInt("score");
       //Display data on screen
-      text(nf(i + 1), width * 0.30, (height * 0.30) + (65 * i));
-      text(name, width * 0.40, (height * 0.30) + (65 * i));
-      text(convertTime(time), width * 0.54, (height * 0.30) + (65 * i));
-      text(nf(score), width * 0.68, (height * 0.30) + (65 * i));
+      text(nf(i + 1), width * 0.30, (height * vSpace1) + (vSpace2 * i));
+      text(name, width * 0.40, (height * vSpace1) + (vSpace2 * i));
+      text(convertTime(time), width * 0.54, 
+          (height * vSpace1) + (vSpace2 * i));
+      text(nf(score), width * 0.68, (height * vSpace1) + (vSpace2 * i));
     }
   }
 
