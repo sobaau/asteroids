@@ -4,6 +4,7 @@ class DataLB {
   boolean validData = false;
   String fileName;
   JSONArray hsData;
+
   /**
     Function: loadData()
     Description: Constructor for the dataLB Class
