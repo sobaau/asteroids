@@ -1,4 +1,4 @@
-class helpPage {
+class HelpPage {
   //Define Strings
   StringList helpText;
   final String gameTitle = "ASTEROIDS";
@@ -26,7 +26,7 @@ class helpPage {
     Parameters: None
     Returns: None
   */
-  helpPage() {
+  HelpPage() {
     helpText = new StringList();
     helpText.append(helpAim);
     helpText.append(helpAlien);

@@ -166,7 +166,7 @@ class Ship {
   */
   void thrust() {
     force = PVector.fromAngle(heading);
-    force.mult(0.1);
+    force.mult(0.05);
     velocity.add(force);
   }
 

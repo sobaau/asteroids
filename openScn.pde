@@ -1,4 +1,4 @@
-class openScn{
+class OpenScn{
   //Define Strings
   StringList menu;
   final String gameTitle = "ASTEROIDS";
@@ -12,7 +12,7 @@ class openScn{
     Parameters: None.
     Returns: None.
   */
-  openScn() {
+  OpenScn() {
     menu = new StringList();
     menu.append("(N)ew Game");
     if (gameInProgress) {

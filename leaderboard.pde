@@ -1,4 +1,4 @@
-class leaderBoard {
+class LeaderBoard {
   //Define Variables
   final String gameTitle = "ASTEROIDS";
   final String ldrBd = "Leaderboard";
@@ -10,7 +10,7 @@ class leaderBoard {
     Parameters: None
     Returns: Void
   */
-  leaderBoard() {
+  LeaderBoard() {
   }
 
   /**

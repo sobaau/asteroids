@@ -1,21 +1,33 @@
 class DataLB {
   //Define class variables
   int nameLength = 10;
+  boolean validData = false;
 
   /**
     Function: loadData()
     Description: Constructor for the dataLB Class
-    Parameters: None
+    Parameters: String(file): the file to be read into the array.
     Returns: None
   */
-  DataLB() {
+  DataLB(String file) {
+    validData = readFromFile(file);
+  }
+
+  /**
+    Function: isValid()
+    Description: Returns the status of the data.
+    Parameters: None
+    Returns: boolean
+  */
+  boolean isValid() {
+    return validData;
   }
 
   /**
     Function: readFromFile()
-    Description: TODO
-    Parameters: TODO
-    Returns: Void
+    Description: Reads the JSON data into an array and checks it's valid.
+    Parameters: String(file): the file to be read into the array.
+    Returns: boolean
   */
   boolean readFromFile(String file) {
     //load JSON file. Catch error if unable to open.
@@ -35,16 +47,16 @@ class DataLB {
     } else {
       while (valid && i < hsData.size()) {
         //Get one object at a time.
-        JSONObject jsonObj = hsData.getJSONObject(i);
+        JSONObject topScoreObj = hsData.getJSONObject(i);
 
         //Check name contains a value
-        if (jsonObj.isNull("name")) {
+        if (topScoreObj.isNull("name")) {
           valid = false;
         } else {
           //Check name is an string and no greater than 10 in length.
           //Catch the error if it isn't a string.
           try {   
-            String name = jsonObj.getString("name");
+            String name = topScoreObj.getString("name");
             if (name.length() > nameLength) {
               valid = false;
             }
@@ -54,12 +66,12 @@ class DataLB {
         }
 
         //Check score contains a value
-        if (jsonObj.isNull("score")) {
+        if (topScoreObj.isNull("score")) {
           valid = false;
         } else {
           //Check score is greater than 0. Throw error if it's not an Int.
           try {
-            int scr = jsonObj.getInt("score");
+            int scr = topScoreObj.getInt("score");
             if (scr < 0) {
               valid = false;
             }
@@ -69,12 +81,12 @@ class DataLB {
         }
 
         //Check time contains a value
-        if (jsonObj.isNull("time")) {
+        if (topScoreObj.isNull("time")) {
           valid = false;
         } else {
           //Check time is an Int. Catch the error if it isn't
           try {   
-            int timer = jsonObj.getInt("time");
+            int timer = topScoreObj.getInt("time");
             if(timer < 1) {
               valid = false;
             }

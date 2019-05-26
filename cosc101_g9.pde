@@ -50,9 +50,9 @@ boolean gameInProgress = false;
 boolean endGameDone = false;
 boolean alienSpawned = false;
 Starfield stars;
-openScn openScreen;
-leaderBoard openLdr;
-helpPage helpPage;
+OpenScn openScreen;
+LeaderBoard openLdr;
+HelpPage helpPage;
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Explosion> explosions = new ArrayList<Explosion>();
@@ -72,10 +72,10 @@ void setup() {
   fullScreen();
   //Declare classes
   stars = new Starfield(starAmount);
-  openScreen = new openScn();
-  helpPage = new helpPage();
-  openLdr = new leaderBoard();
-  data = new DataLB();
+  openScreen = new OpenScn();
+  helpPage = new HelpPage();
+  openLdr = new LeaderBoard();
+  data = new DataLB("json/topScores.json");
   //Load audio
   minim = new Minim(this);
   shipShot = minim.loadSample("audio/shotGun.wav", 512);
@@ -106,7 +106,7 @@ void draw() {
       break;
     //Load Leaderboard page
     case 10 :
-      if (data.readFromFile("json/topScores.json")) {
+      if (data.isValid()) {
         openLdr.draw();
       }
       break;
@@ -572,13 +572,13 @@ void keyPressed() {
   //The following keys need to work all time
   //Back to Main
   if (keyCode == 'm' || keyCode == 'M') {
-    openScreen = new openScn();
+    openScreen = new OpenScn();
     dispScreen = 1;
     runGame = false;
   }
   //Remove ESC key current and change to Main Menu
   if (keyCode == ESC) {
-    openScreen = new openScn();
+    openScreen = new OpenScn();
     dispScreen = 1;
     runGame = false;
     key = 0;
