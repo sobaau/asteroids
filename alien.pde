@@ -1,0 +1,155 @@
+class Alien {
+  PVector location;
+  PVector target;
+  PVector direction;
+  PVector acceleration;
+  PVector velocity = new PVector(0, 0);
+  final float hitBoxW = 50;
+  final float hitBoxH = 30;
+  final float topSpeed = 2;
+  final float minWallGap = 50;
+  final int maxEnergy = 100;
+  final int numFrames = 1;
+  int energy = 0;
+  int alienMinEnergy = 50;
+
+  /**
+    Function: Alien()
+    Description: Constructor for the Alien, The alien spawns at a
+                  random location and flies to another one and repeats.
+    Parameters: None
+    Returns: Void
+  */
+  Alien() {
+    location = new PVector(random(minWallGap, width - minWallGap), 
+                            random(minWallGap, height - minWallGap));
+    target = new PVector(random(minWallGap, width - minWallGap), 
+                            random(minWallGap, height - minWallGap));
+  }
+
+  /**
+    Function: update()
+    Description: Updates the aliens location using Vectors and
+                  also picks a new location to fly to when it reaches
+                  its target.
+    Parameters: None
+    Returns: Void
+  */
+  void update() {
+    float deadzone = 15;
+    float d = dist(location.x, location.y, target.x, target.y);
+
+    if (d < deadzone) {
+      target = new PVector(random(minWallGap, width - minWallGap), 
+                            random(minWallGap, height - minWallGap));
+    }
+
+    direction = PVector.sub(target, location);
+    direction.normalize();
+    direction.mult(0.5);
+    acceleration = direction;
+    velocity.add(acceleration);
+    velocity.limit(topSpeed);
+    location.add(velocity);
+    checkEdges();
+    //Recharge ray gun energy when not full.
+    if(frameCount % numFrames == 0 && energy < maxEnergy) {
+      energy++;
+    }
+  }
+
+  /**
+    Function: draw()
+    Description: Draws the alien at its location using arcs and vertex's.
+    Parameters: None
+    Returns: Void
+  */
+  void draw() {
+    push();
+    noFill();
+    translate(location.x, location.y);
+    stroke(255);
+    arc(0, 0, 40, 40, PI, TWO_PI);
+    beginShape();
+    vertex(-20, -5);
+    vertex(20, -5);
+    vertex(25, 0);
+    vertex(-25, 0);
+    endShape(CLOSE);
+    pop();
+  }
+
+  /**
+    Function: checkEdges()
+    Description: Checks if the ship is off the screen and changes
+                  its location to the other side of the screen if it is.
+    Parameters: None
+    Returns: Void
+  */
+  void checkEdges() {
+    if (location.x > width) {
+      location.x = minScreenEdge;
+    } else if (location.x < minScreenEdge) {
+      location.x = width;
+    }
+    if (location.y > height) {
+      location.y = minScreenEdge;
+    } else if (location.y < minScreenEdge) {
+      location.y = height;
+    }
+  }
+
+  /**
+    Function: getLoc()
+    Description: Returns the location of the alien.
+    Parameters: None
+    Returns: PVector
+  */
+  PVector getLoc() {
+    return location;
+  }
+
+  /**
+    Function: getWidth()
+    Description: Returns the width of the ship.
+    Parameters: None
+    Returns: float
+  */
+  float getWidth() {
+    return hitBoxW;
+  }
+
+  /**
+    Function: getHeight()
+    Description: Returns the Height of the ship.
+    Parameters: None
+    Returns: float
+  */
+  float getHeight() {
+    return hitBoxH;
+  }
+
+  /**
+    Function: isAbleToFire()
+    Description: Checks if the alien has enough energy to fire.
+    Parameters: None
+    Returns: boolean
+  */
+  boolean isAbleToFire() {
+    if (energy > alienMinEnergy) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+    
+  /**
+    Function: setEnergy()
+    Description: Sets the aliens energy to the input value.
+    Parameters: int(x): Energy to set aliens gun to.
+    Returns: boolean
+  */
+  void setEnergy(int x) {
+    energy = x;
+  }
+}
